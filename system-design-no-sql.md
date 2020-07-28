@@ -8,26 +8,33 @@ So let's start with defining basically what a NoSQL database is and why do we ne
 
 As we can see the data is really unstructured and when the size of this table increases we end up wasting a lot of memory which was not really required in the first place. Moreover, applying joins on large relational tables also takes up a lot of time.
 
-NoSQL database allows data to be stored in a key value format (basically JSON) where all the details of a particular data set is present in a single block in a key-value pair format.For instance if we have to store the above student details in a NoSQL format a single dataset would look like:
+NoSQL database allows data to be stored in a key value format (basically JSON) where all the details of a particular data set is present in a single block in a key-value pair format. For instance if we have to store the above student details in a NoSQL format a single dataset would look like:
 
 ![img](https://systemsthatscale.org/articles/article-media/no-sql-data.png)
 
 Here we can see how the above unstructured data can be efficiently stored in a NoSQL format. We don't need to keep those columns in which data does not exist for a particular data set. It is simply discarded in a NoSQL design.
 
-About Amazon DynamoDB
+
+
+## About Amazon DynamoDB
 
 Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB allows us to design and store our data in a NoSql format and the rest is taken care of by the Amazon services. We don't have to take care about scaling or concurrency. When we create our table in DynamoDb we only need to define a Primary Key for our table which should be unique for every data set. After defining the primary key one can create his/her table and start populating it.
 
-Primary Key in Dynamo DB
+
+
+### Primary Key in Dynamo DB
 
 As discussed above, the primary key should be unique for every data set. In DynamoDb we have two types of primary keys:
 
 
 
 - **Partition Key** : Our primary key can comprise one value which can be called as a partition key. Partition Key should be unique for every data set if our primary key consists of only partition keys. DynamoDb uses this partition key to store our data in different partitions and hence when we query our data through a given partition key then dynamo db figures out the partition in which this data set is stored and fetches it from that partition.
+
 - **Composite Primary Key** (Partition Key + Sort Key): The composite primary key comprises a combination of Partition Key and Sort Key. Here Partition Key is used to obtain the physical address of the partition where the data set will be stored and all the data sets in a single partition are sorted by their sort key. Here two data sets can have similar partition keys but the combination of partition and sort key must be unique.
 
-Index in Dynamo DB
+  
+
+## Index in Dynamo DB
 
 Apart from this Amazon DynamoDb has another amazing feature of index for querying data in the NoSQL model in an efficient way. Dynamo Db have two types of index:
 
@@ -40,7 +47,9 @@ Apart from this Amazon DynamoDb has another amazing feature of index for queryin
 
 **Note:** There is a limit of 20 GSI and 5 LSI per table in DynamoDB.
 
-Read Consistency in Dynamo DB
+
+
+## Read Consistency in Dynamo DB
 
 DynamoDb supports two types of read consistency:
 
