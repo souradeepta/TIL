@@ -47,7 +47,7 @@ Recursive mutexes are difficult to work with and are error-prone. You have to ke
 
 ### Reader/Writer Mutexes
 
-As we know from the previous episode, multiple threads can concurrently read from a shared resource without harm as long as they don't modify it. So why bother locking a mutex if some of your threads are operating in "read-only" mode? For example consider a concurrent database that is frequently read by many threads, while another thread seldomly writes updates. You certainly need a mutex to protect the read/write access, but most of the time you would end up locking it just for read operations, preventing other reading threads to do their job.
+As we know from the previous episode, multiple threads can concurrently read from a shared resource without harm as long as they don't modify it. So why bother locking a mutex if some of your threads are operating in "read-only" mode? For example consider a concurrent database that is frequently read by many threads, while another thread seldom writes updates. You certainly need a mutex to protect the read/write access, but most of the time you would end up locking it just for read operations, preventing other reading threads to do their job.
 
 A **reader/writer mutex** allows *concurrent* reads from multiple threads and *exclusive* writes from a single thread to a shared resource. It can be locked in *read* or *write* mode. To modify a resource, a thread must first acquire the exclusive write lock. An exclusive write lock is not permitted until all read locks have been released.
 
