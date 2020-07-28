@@ -1,0 +1,47 @@
+inputs:
+  GITHUB_TOKEN:
+    description: Secret GitHub API token used to make API requests or git authentication.
+    default: ${{ github.token }}
+    required: true
+  API_TOKEN:
+    description: Secret GitHub API token used to make API requests.
+    required: false
+
+  TARGET_PATHS:
+    description: Target file path. (Comma separated, @see https://github.com/thlorenz/doctoc#adding-toc-to-individual-files)
+    default: 'README*.md'
+    required: true
+  TOC_TITLE:
+    description: TOC Title
+    default: '**Table of Contents**'
+    required: false
+  FOLDING:
+    description: Whether to fold.
+    required: false
+  MAX_HEADER_LEVEL:
+    description: Max header level.
+    required: false
+  ENTRY_PREFIX:
+    description: Entry prefix.
+    required: false
+  OPENING_COMMENT:
+    description: Opening comment (for other than DocToc)
+    required: false
+    default: '<!-- toc '
+  CLOSING_COMMENT:
+    description: Closing comment (for other than DocToc)
+    required: false
+    default: '<!-- tocstop '
+
+  COMMIT_MESSAGE:
+    description: Commit message.
+    required: true
+    default: 'docs: update TOC'
+  COMMIT_NAME:
+    description: Git commit name.
+    default: ''
+    required: false
+  COMMIT_EMAIL:
+    description: Git commit email.
+    default: ''
+    required: false
