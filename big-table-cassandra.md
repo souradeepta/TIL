@@ -24,13 +24,17 @@ Both Hbase and Cassandra are based on Google BigTable model, here lets  introduc
 BigTable is built from the ground up on a "highly distributed", "share nothing"  architecture.  Data is supposed to store in large number of unreliable,  commodity server boxes by "partitioning" and "replication".  Data  partitioning means the data are partitioned by its key and stored in  different servers.  Replication means the same data element is  replicated multiple times at different servers.
 
 [![img](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK1uoEOxDRI/AAAAAAAAAeI/NO1o3ciSc44/s400/P3.png)](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK1uoEOxDRI/AAAAAAAAAeI/NO1o3ciSc44/s1600/P3.png)
-**Column Oriented**
+
+## **Column Oriented**
+
 Unlike traditional RDBMS implementation where each "row" is stored contiguous  on disk, BigTable, on the other hand, store each column contiguously on  disk.  The underlying assumption is that in most cases not all columns  are needed for data access, column oriented layout allows more records  sitting in a disk block and hence can reduce the disk I/O.
 
 Column oriented layout is also very effective to store very sparse data (many  cells have NULL value) as well as multi-value cell.  The following  diagram illustrate the difference between a Row-oriented layout and a  Column-oriented layout
 
 [![img](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK1npAatLqI/AAAAAAAAAd4/TscPInSeUoo/s400/p1.png)](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK1npAatLqI/AAAAAAAAAd4/TscPInSeUoo/s1600/p1.png)
-**Variable number of Columns**
+
+## **Variable number of Columns**
+
 In RDBMS, each row must have a fixed set of columns defined by the table  schema, and therefore it is not easy to support columns with multi-value attributes.  The BigTable model introduces the "Column Family" concept  such that a row has a fixed number of "column family" but within the  "column family", a row can have a variable number of columns that can be different in each row.
 
 [![img](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK3rvDfWSFI/AAAAAAAAAeY/kD1z9eBG_iw/s400/P5.png)](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK3rvDfWSFI/AAAAAAAAAeY/kD1z9eBG_iw/s1600/P5.png)
@@ -40,22 +44,26 @@ At the physical level, BigTable store each  column family contiguously on disk (
 [![img](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK3tXVqVcbI/AAAAAAAAAeg/yIckcEOCR1Q/s400/P4.png)](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK3tXVqVcbI/AAAAAAAAAeg/yIckcEOCR1Q/s1600/P4.png)
 **Note:**  Although not shown in this example, rowid of different column families  can be completely different types.  For example, in the above example, I can have another column family "UserIdx" whose rowid is a string  (user's name) and it has columns whose columnKey is the u1, u2 (ie: the  row id of the User Column family) and columnValue is null (ie: not  used).   This is a common technique to build index at the application  level.
 
-**Sequential write**
+## **Sequential write**
+
 BigTable model is highly optimized for write operation (insert/update/delete)  with sequential write (no disk seek is needed).  Basically, write  happens by first appending a transaction entry to a log file (hence the  disk write I/O is sequential with no disk seek), followed by writing the data into an in-memory Memtable  .  In case of the machine crashes and  all in-memory state is lost, the recovery step will bring the Memtable  up to date by replaying the updates in the log file.
 
 All the  latest update therefore will be stored at the Memtable, which will grow  until reaching a size threshold, then it will flushed the Memtable to  the disk as an SSTable (sorted by the String key).  Over a period of  time there will be multiple SSTables on the disk that store the data.
 
- **Merged read**
+##  **Merged read**
+
 Whenever a read request is received, the system will first lookup the Memtable  by its row key to see if it contains the data.  If not, it will look at  the on-disk SSTable to see if the row-key is there.  We call this the  "merged read" as the system need to look at multiple places for the  data.  To speed up the detection, SSTable has a companion Bloom filter  such that it can rapidly detect the absence of the row-key.  In other  words, only when the bloom filter returns positive will the system be  doing a detail lookup within the SSTable.
 
-**Periodic Data Compaction**
+## **Periodic Data Compaction**
+
 As you can imagine, it can be quite inefficient for the read operation  when there are too many SSTables scattering around.  Therefore, the  system periodically merge the SSTable.  Notice that since each of the  SSTable is individually sorted by key, a simple "merge sort" is  sufficient to merge multiple SSTable into one.  The merge mechanism is  based on a logarithm property where two SSTable of the same size will be merge into a single SSTable will doubling the size.  Therefore the  number of SSTable is proportion to O(logN) where N is the number of  rows.
 
 [![img](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK1uBvZAfzI/AAAAAAAAAeA/LRykejZpRaI/s400/P2.png)](https://2.bp.blogspot.com/_j6mB7TMmJJY/TK1uBvZAfzI/AAAAAAAAAeA/LRykejZpRaI/s1600/P2.png)
 
 After looking at the common part, lets look at their difference of Hbase and Cassandra.
 
-**HBase**
+## **HBase**
+
 Based on the BigTable, HBase uses the Hadoop Filesystem (HDFS) as its data  storage engine.  The advantage of this approach is then HBase doesn't  need to worry about data replication, data consistency and resiliency  because HDFS has handled it already.  Of course, the downside is that it is also constrained by the characteristics of HDFS, which is not  optimized for random read access.  In addition, there will be an extra  network latency between the DB server to the File server (which is the  data node of Hadoop).
 
 [![img](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK4AnbAbagI/AAAAAAAAAew/OrK54uwnp5M/s400/P6.png)](https://1.bp.blogspot.com/_j6mB7TMmJJY/TK4AnbAbagI/AAAAAAAAAew/OrK54uwnp5M/s1600/P6.png)
@@ -75,37 +83,46 @@ Also in the HBase architecture, there is a special machine playing the "role of 
 
 For a more detail architecture description, Lars George has a very good explanation in the [log file implementation](http://www.larsgeorge.com/2010/01/hbase-architecture-101-write-ahead-log.html) as well as the [data storage architecture](http://www.larsgeorge.com/2009/10/hbase-architecture-101-storage.html) of Hbase.
 
-**Cassandra**
+## **Cassandra**
+
 Also based on the BigTable model, Cassandra use the DHT (distributed hash  table) model to partition its data, based on the paper described in the [Amazon Dynamo model](http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf).
 
-**Consistent Hashing via O(1) DHT**
+### **Consistent Hashing via O(1) DHT**
+
 Each machine (node) is associated with a particular id that is distributed  in a keyspace (e.g. 128 bit).  All the data element is also associated  with a key (in the same key space).  The server owns all the data whose  key lies between its id and the preceding server's id.
 
 Data is  also replicated across multiple servers.  Cassandra offers multiple  replication schema including storing the replicas in neighbor servers  (whose id succeed the server owning the data), or a rack-aware strategy  by storing the replicas in a physical location.  The simple partition  strategy is as follows ...
 
 [![img](https://3.bp.blogspot.com/_j6mB7TMmJJY/TK4tcDyi7sI/AAAAAAAAAe4/aCd9EC9fX74/s400/P7.png)](https://3.bp.blogspot.com/_j6mB7TMmJJY/TK4tcDyi7sI/AAAAAAAAAe4/aCd9EC9fX74/s1600/P7.png)
-**Tunable Consistency Level**
+
+### **Tunable Consistency Level**
+
 Unlike Hbase, Cassandra allows you to choose the consistency level that is  suitable to your application, so you can gain more scalability if  willing to tradeoff some data consistency.
 
 For example, it allows you to choose how many ACK to receive from different replicas before  considering a WRITE to be successful.  Similarly, you can choose how  many replica's response to be received in the case of READ before return the result to the client.
 
 By choosing the appropriate number for W and R response, you can choose the level of consistency you like.   For example, to achieve Strict Consistency, we just need to pick W, R  such that W + R > N.  This including the possibility of (W = one and R = all), (R = one and W = all), (W = quorum and R = quorum).  Of course, if you don't need strict consistency, you can even choose a smaller  value for W and R and gain a bigger availability.  Regardless of what  consistency level you choose, the data will be eventual consistent by  the "hinted handoff", "read repair" and "anti-entropy sync" mechanism  described below.
 
-**Hinted Handoff**
+### **Hinted Handoff**
+
 The client performs a write by send the request to any Cassandra node which will act as the proxy to the client.  This proxy node will located N  corresponding nodes that holds the data replicas and forward the write  request to all of them.  In case any node is failed, it will pick a  random node as a handoff node and write the request with a hint telling  it to forward the write request back to the failed node after it  recovers.    The handoff node will then periodically check for the  recovery of the failed node and forward the write to it.  Therefore, the original node will eventually receive all the write request.
 
-**Conflict Resolution**
+### **Conflict Resolution**
+
 Since write can reach different replica, the corresponding timestamp of the  data is used to resolve conflict, in other words, the latest timestamp  wins and push the earlier timestamps into an earlier version (they are  not lost)
 
-**Read Repair**
+### **Read Repair**
+
 When the client performs a "read", the proxy node will issue N reads but  only wait for R copies of responses and return the one with the latest  version.  In case some nodes respond with an older version, the proxy  node will send the latest version to them asynchronously, hence these  left-behind node will still eventually catch up with the latest version.
 
-**Anti-Entropy data sync**
+### **Anti-Entropy data sync**
+
 To ensure the data is still in sync even there is no READ and WRITE occurs to the data, replica nodes periodically gossip with each other to  figure out if anyone out of sync.  For each key range of data, each  member in the replica group compute a Merkel tree (a hash encoding tree  where the difference can be located quickly) and send it to other  neighbors.  By comparing the received Merkel tree with its own tree,  each member can quickly determine which data portion is out of sync. If  so, it will send the diff to the left-behind members.
 
 Anti-entropy is the "catch-all" way to guarantee eventual consistency, but is also  pretty expensive and therefore is not done frequently.  By combining the data sync with read repair and hinted handoff, we can keep the replicas pretty up-to-date.
 
-**BigTable trade offs**
+## **BigTable trade offs**
+
 To  retain the scalability features of BigTable, some of the basic  features  of what RDBMS has provided is missing in the BigTable model.   Here we highlight the rough edges of Bigtable.
 
 **1) Primitive transaction support**
