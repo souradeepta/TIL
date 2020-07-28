@@ -9,4 +9,4 @@
 # TIL
 Today I learnt, heard and spoke about. 
 
-![TOC Generator](https://github.com/souradeepta/TIL/workflows/TOC%20Generator/badge.svg)
+![TIL](https://github.com/souradeepta/TIL/workflows/TOC%20Generator/badge.svg)
