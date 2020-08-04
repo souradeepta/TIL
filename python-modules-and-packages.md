@@ -117,3 +117,44 @@ Python docs - [6. Modules](https://docs.python.org/3/tutorial/modules.html)
 Python reference - [7.11. The import statement](https://docs.python.org/3/reference/simple_stmts.html#the-import-statement)
 
 [Python](https://www.internalpointers.com/tag/python)
+
+
+
+## Additional
+
+1) good practice in python 3 is to use *relative import* syntax for packages not installed as site packages and directly available to the execution script:
+
+```python
+from . import audio.player # notice the "." that tells audio is in the root dir
+from .audio import player # equivalent, but shorter name
+```
+
+See pep 328 for details (https://www.python.org/dev/peps/pep-0328/)
+
+
+
+2) use import *from* to shorten the module name, and *as* to use a meaningful alias:
+
+```python
+from .models import monster # no need for alias there
+import .audio.effects as afx # short and usefull alias
+```
+
+See pep 221 for details on *import as* (https://www.python.org/dev/peps/pep-0221/)
+
+
+
+3) If `main.py` is meant as an executable script for the game, the whole project should be a package, and main.py should not use relative import.
+The reason why is that when you finally decide to distribute the fancy game, and install *main.py* as an executable scripts from setup.py, it will no longer be able to perform relative imports from this package.
+
+For this use case, create a `__init__.py` for the *fancy_game* dir, and use:
+
+```python
+from fancy_game import audio.player
+from fancy_game.audio import effects as afx
+from fancy_game.models import monster
+```
+
+Which will not break upon installation.
+
+This is likely a bit beyond this tutorial, but mentioning this could prevent headaches :)
