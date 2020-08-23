@@ -100,4 +100,33 @@ Chapter 13
 
 - ``Smart-pointer` provides safety from dangling pointers, memory leaks and allocation failures using reference counter to the pointer. If reference counter to a pointer is 0 then then free the memory created by the integer and destroy the object. Make sure to override the "=" operator for assignment.
 
-- 
+- `malloc() prototype`
+
+  ```cpp
+  void* malloc(size_t size);
+  ```
+
+  This function is defined in cstdlib header file.
+
+  ```cpp
+  int main()
+  {
+  	int *ptr;
+  	ptr = (int*) malloc(5*sizeof(int));
+  
+  	if(!ptr)
+  	{
+  		cout << "Memory Allocation Failed";
+  		exit(1);
+  	}
+  	cout << "Initializing values..." << endl << endl;
+  
+  	for (int i=0; i<5; i++)
+  	{
+  		ptr[i] = i*2+1;
+  	}	
+      free(ptr);
+  }
+  ```
+
+  
