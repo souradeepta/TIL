@@ -4,7 +4,7 @@
 
 Python added the **enum** module to the standard library in version 3.4. The Python [documentation](https://docs.python.org/3.6/library/enum.html) describes an enum like this:
 
-> An enumeration is a set of symbolic names (members) bound to unique, constant values. Within an enumeration, the members can be  compared by identity, and the enumeration itself can be iterated over.
+> *An enumeration is a set of symbolic names (members) bound to unique, constant values. Within an enumeration, the members can be  compared by identity, and the enumeration itself can be iterated over.*
 
 Let’s look at how you might create an Enum object:
 
