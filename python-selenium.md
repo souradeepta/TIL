@@ -158,7 +158,7 @@ def StartBrowser(browser=1, browser_location='', driver_path=''):
 
 Mostly when we are browsing something on internet we would like to use new tabs, so we'll write a function to open it. Selenium webdriver don't have integrated command to open new tabs on internet, so we'll write our own by using script. Before opening new tab we are checking how many tabs we have currently opened: "len(driver.window_handles)". Then we execute our script to open a new tab, and we are waiting for it, by every 500ms checking our tabs count, when our tabs count increase by one it means that new tab opened and we may switch to it:
 
-```
+```python
 def OpenNewTab(driver, Link):
     window_count = len(driver.window_handles)
     driver.execute_script('''window.open("'''+Link+'''","_blank");''')
@@ -171,7 +171,7 @@ def OpenNewTab(driver, Link):
 
 And lastly, we would usually we would like to know how to close these tabs. It's quite easy, we will write a new function for that, with simple command: "driver.close()". In this function we'll handle our first exception, which occurs when we are trying close not existing window. For example when we close one window and we trying to close it again, we get this exception:
 
-```
+```python
 def DriverClose(driver):
     try:
         driver.close()
@@ -185,7 +185,7 @@ def DriverClose(driver):
 
 Final tutorial code:
 
-```
+```python
 from selenium import webdriver
 import time
 from selenium.common.exceptions import NoSuchWindowException
@@ -229,3 +229,235 @@ OpenNewTab(driver, "https://www.google.com")
 
 
 In above code we are starting a new browser session with "driver = StartBrowser(2, browser_location, driver_path)" line, if you would use it with Firefox browser, change it to "driver = StartBrowser(1)". Then we open google search page and in one second we open same page in a new tab. If you would like to see how we close these tabs, check my YouTube video tutorial.
+
+
+
+##### Finding HTML objects, part #3
+
+Welcome everyone to Selenium with Python third tutorial part. In this tutorial I will show you how to find HTML elements and interact with them in different ways. As an example I'll use gmail log-in page. Here we'll try to find input where you need to write your email and how to click "Next" button.
+
+Before continuing on this tutorial I would like to talk about exceptions. "Exception" is a quite common term when it comes to programming, regardless of which language you use to write codes. Exceptions in Selenium are like enemies for programmers - they are unavoidable. Even if you work with other automation testing tools similar to Selenium.
+
+In every programming language exception is known as an unusual or unprecedented event that occurs during the execution of a software program or application. It is a run time error of an unexpected result or event which influence and disrupt usual program flow. An exception is also considered as a fault.
+
+So firstly in beginning of code I will import several exceptions that occur mostly. These exceptions should handle most of unexpected faults:
+
+```python
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchFrameException
+from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import MoveTargetOutOfBoundsException
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import JavascriptException
+```
+
+
+
+##### CheckExistsById:
+
+Next we'll try to with HTML elements by using id. We know that we are looking for id="identifierId". So we will use Selenium command: "driver.find_element_by_id". So bellow you can see that we created a function which will handle us one "NoSuchWindowException" exception.
+
+
+
+```python
+def CheckExistsById(driver, CheckId):
+    try:
+        DriverId = driver.find_element_by_id(CheckId)
+    except NoSuchWindowException:
+        return False
+    return DriverId
+```
+
+
+
+So when our browser started and we are on gmail login window, try to write following line to Python shell. These Lines should write word "email" to an input.
+
+```python
+Id = CheckExistsById(driver, "identifierId"):
+Id.send_keys("email")
+```
+
+
+
+##### CheckExistsByName:
+
+We can do the same task by trying to find element by name, lets write similar function to find HTML object by name:
+
+```python
+def CheckExistsByName(driver, CheckName):
+    try:
+        DriverName = driver.find_element_by_name(CheckName)
+    except NoSuchWindowException:
+        return False
+    return DriverName
+```
+
+So again, when our browser started and we are on gmail login window, try to write following line to Python shell. We will get same result as in previous example.
+
+```python
+Name = CheckExistsByName(driver, "identifier"):
+Name.send_keys("email")
+```
+
+
+
+##### CheckExistsByXpath:
+
+Now comes my favorite function. Most of the times I am using "driver.find_element_by_xpath", because while using xpath we can do the same task by trying to find element by name, id, input or whatever we want. So here is the function:
+
+```python
+def CheckExistsByXpath(driver, xpath):
+    try:
+        path = driver.find_element_by_xpath(xpath)
+    except NoSuchWindowException:
+        return False
+    except WebDriverException:
+        return False
+    except StaleElementReferenceException:
+        return False
+    return path
+```
+
+
+
+When our browser started and we are on Gmail login window, try to write following line to Python shell. We will get the same result as in previous example. Here is several examples to get same result:
+CheckExistsByXpath(driver, "//input[@type='email']")
+CheckExistsByXpath(driver, "//input[@name='identifier']")
+CheckExistsByXpath(driver, "//input[@id='identifierId']")
+As you can see, we can achieve same results as before with previous functions with simple one command, so why not to use this everywhere?
+
+
+
+Sometimes when we are looking for HTML object on website, we may get few object with same name. For example if we are looking for lists in tables or something like that. In this case we would like to get an array of object, so for this purpose I wrote another very similar function:
+
+```python
+def CheckExistsArrayByXpath(driver, xpath):
+    try:
+        path = driver.find_elements_by_xpath(xpath)
+    except NoSuchWindowException:
+        return False
+    except WebDriverException:
+        return False
+    except StaleElementReferenceException:
+        return False
+    return path
+```
+
+
+
+
+
+##### And here comes the final up to date code:
+
+```python
+from selenium import webdriver
+import time
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchFrameException
+from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import MoveTargetOutOfBoundsException
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import JavascriptException
+
+def CheckExistsById(driver, CheckId):
+    try:
+        DriverId = driver.find_element_by_id(CheckId)
+    except NoSuchWindowException:
+        return False
+    return DriverId
+
+def CheckExistsByName(driver, CheckName):
+    try:
+        DriverName = driver.find_element_by_name(CheckName)
+    except NoSuchWindowException:
+        return False
+    return DriverName
+
+def CheckExistsByXpath(driver, xpath):
+    try:
+        path = driver.find_element_by_xpath(xpath)
+    except NoSuchWindowException:
+        return False
+    except WebDriverException:
+        return False
+    except StaleElementReferenceException:
+        return False
+    return path
+
+def CheckExistsArrayByXpath(driver, xpath):
+    try:
+        path = driver.find_elements_by_xpath(xpath)
+    except NoSuchWindowException:
+        return False
+    except WebDriverException:
+        return False
+    except StaleElementReferenceException:
+        return False
+    return path
+
+def MinimizeWindow(driver):
+    try:
+        driver.minimize_window()
+    except UnexpectedAlertPresentException:
+        return False
+    return True
+
+def DriverClose(driver):
+    try:
+        driver.close()
+    except NoSuchWindowException:
+        print("NoSuchWindowException in driver.close()")
+        return False
+    return True
+
+def SimpleClick(driver, ObjectToClick):
+    try:
+        ObjectToClick.click()
+    except ElementNotInteractableException:
+        return False
+    except ElementClickInterceptedException:
+        return False
+    except TypeError:
+        return False
+    return True
+
+def StartBrowser(browser=1, browser_location='', driver_path=''):
+    if browser == 1:
+        driver = webdriver.Firefox()
+    if browser == 2:
+        options = webdriver.ChromeOptions()
+        options.binary_location = browser_location
+        driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+    #driver.implicitly_wait(30)
+    #driver.set_window_size(1920,1080)
+    #driver.maximize_window()
+    return driver
+
+def OpenNewTab(driver, Link):
+    window_count = len(driver.window_handles)
+    driver.execute_script('''window.open("'''+Link+'''","_blank");''')
+    while len(driver.window_handles) != window_count+1:
+        time.sleep(0.5)
+    driver.switch_to.window(driver.window_handles[-1])
+
+browser_location = "C:/Users/HOME/Desktop/chrome-win/chrome.exe"
+driver_path = "C:/Users/HOME/Desktop/chrome-win/chromedriver.exe"
+driver = StartBrowser(1, browser_location, driver_path)
+time.sleep(1)
+driver.get("https://www.google.com")
+time.sleep(1)
+OpenNewTab(driver, "https://www.google.com/gmail/about/new/")
+```
+
+
+
