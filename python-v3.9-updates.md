@@ -85,4 +85,87 @@ Exposed the Linux-specific [signal.pidfd_send_signal()](https://docs.python.org/
 - Remove `PyMethod_ClearFreeList()` and `PyCFunction_ClearFreeList()` functions: the free lists of bound method objects have been removed. (Contributed by Inada Naoki and Victor Stinner in [bpo-37340](https://bugs.python.org/issue38835).)
 - Remove `PyUnicode_ClearFreeList()` function: the Unicode free list has been removed in Python 3.3. (Contributed by Victor Stinner in [bpo-38896](https://bugs.python.org/issue38896).)
 
-### Deprecated
+
+
+--------------
+
+# New Features
+
+Alongside these behind-the-scenes changes, we also get to see some new Python features!
+
+## Type Hinting
+
+Way back in 2008, Python 3 introduced function annotations — the precursor of type hinting. It wasn’t particularly robust, but it was a start.
+
+![Image for post](https://miro.medium.com/max/60/1*deuUc8tlaYJ31L_C_EuwXw.png?q=20)
+
+![Image for post]()
+
+The current state of type hinting in Python is the cumulative result of many additions and modifications to annotations and typing over time.
+
+Following this, more features were added over time. But now, 3.9 brings all of these different features together with a tidy new syntax to produce the newest development to Python type hinting.
+
+We can easily specify the expected data types of our variables. If we then write something that doesn’t make sense (like we pass a string to an integer) then our editor will flag the issue.
+
+No errors will be raised (unfortunately), but it’s incredibly useful when working with complex code bases. Let’s take a look at the new syntax.
+
+In Python, adding two strings together with `+` is absolutely valid. So, in the case of this `add_int` function receiving two strings, no error would be raised.
+
+![Image for post](https://miro.medium.com/max/60/0*bEajxyjGKNdSlL4T.png?q=20)
+
+![Image for post](https://miro.medium.com/max/875/0*bEajxyjGKNdSlL4T.png)
+
+No type hinting (left), Python 3.9 **with** type hinting (right).
+
+With the new type hinting functionality, we simply add `: int` to our parameter in the function definition and our editor will immediately notice the error.
+
+![Image for post](https://miro.medium.com/max/60/0*2azw6uemqgj3IJ3y.png?q=20)
+
+![Image for post](https://miro.medium.com/max/875/0*2azw6uemqgj3IJ3y.png)
+
+Specifying the expected input and output data types.
+
+We can use the `-> type` syntax to determine the type of the value output by our function too.
+
+![Image for post](https://miro.medium.com/max/60/0*1sDyr33P_loWAzfa.png?q=20)
+
+![Image for post](https://miro.medium.com/max/875/0*1sDyr33P_loWAzfa.png)
+
+We can couple together different types to create more complex annotations.
+
+And we’re not restricted to simple, predefined types either!
+
+## String Methods
+
+Maybe not as flashy as the other changes, but I see it being used a lot. We have two new methods for removing string prefixes and suffixes:
+
+```python
+"foo bar".removeprefix("fo")
+**[Out]**: 'o bar'
+"foo bar".removesuffix("ar")
+**[Out]**: 'foo b'
+```
+
+## Dictionary Unions
+
+We now have two new operators for performing dictionary unions.
+
+The first is the merge operator `|`:
+
+```python
+a = {1: 'a', 2: 'b', 3: 'c'}
+b = {4: 'd', 5: 'e'}
+c = a | b
+print(c)
+[Out]: {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e'}
+```
+
+And the **update** operator, which performs the merge **in-place**:
+
+```python
+a = {1: 'a', 2: 'b', 3: 'c'}
+b = {4: 'd', 5: 'e'}
+a |= b
+print(a)
+[Out]: {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e'}
+```
