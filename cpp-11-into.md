@@ -2,7 +2,7 @@
 
 
 
-rvalue references
+## rvalue references
 
 For **lvalue**, **rvalue** (temporaries or literals which were intended to never be modifiable in C++0x), and **references**, please visit [References for Built-in Types](https://www.bogotobogo.com/cplusplus/references.php#referencesforbuiltintypes).
 
@@ -130,7 +130,7 @@ rvalue: value = 99
 
 
 
-Move semantics
+## Move semantics
 
 Now we have a way (overloading functions - taking **const lvalue** or **rvalue**) to determine if a reference variable refers to a **temporary** object or to a **permanent** object. So, how it can be used?
 
@@ -489,7 +489,7 @@ This allows a single function template to accept both **lvalue** and **rvalue** 
 
 
 
-Lambda Functuions
+## Lambda Functions
 
 C++11 provides the ability to create anonymous functions, called lambda functions. It allows a function to be defined at the point where it's needed in another expression. It is a function that we can write inline in our code in order to pass in to another function.
 
@@ -497,7 +497,7 @@ A lambda expression defines a self-contained function that takes no parameters a
 
 The most simplest form of a lambda function is the one takes no parameter list, though it does nothing:
 
-```
+```c++
 [] {}
 ```
 
@@ -549,7 +549,7 @@ The first lambda expression is rather unusual because it has no parameters insid
 
 
 
-C++ 11 - Pros and Cons
+## C++ 11 - Pros and Cons
 
 The followings are from [C++ style guide](http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#C++11).
 
