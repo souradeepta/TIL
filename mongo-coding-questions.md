@@ -59,16 +59,18 @@ print(rev)
 
 There are many considerations when you are designing a high traffic website.
 
-- What type of server you are using? If you are using server with array of SSD disks that would help you a lot
-- Check if the data you are retrieving from the database can me made static. if yes then do it.
-- If the data you are fetching from database changes infrequently than cache it and fine tune caching mechanism
+- *Use SSD for r/w speed*: What type of server you are using? If you are using server with array of SSD disks that would help you a lot
+- *CDN the static data*: Check if the data you are retrieving from the database can me made static. if yes then do it.
+- *Cache data using Redis*: If the data you are fetching from database changes infrequently than cache it and fine tune caching mechanism
 - For the dynamic data, optimize the queries in the database
 - If you have multiple css, combine into one css so that number of requests reduces
-- If you have multiple javascript, combine them into one to reduce number of requests
+- If you have multiple JavaScript, combine them into one to reduce number of requests
 - If your images are not changing dynamically on the pages, cache them so that there loading is fast.
-- The same applies to javascript and css, you can cache them.
+- The same applies to JavaScript and css, you can cache them.
 - Check that you don’t have info and debug logs enabled on production environment. They are good on development and test environment
 - Selection of type of database means relational or non relational
+
+---------------------
 
 
 
