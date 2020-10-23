@@ -504,20 +504,51 @@ A practical usage difference is how they handle `booleans`:
 
 `True` and `False` are just keywords that mean `1` and `0` in python. Thus,
 
-```py
+```python
 isinstance(True, int)
 ```
 
 and
 
-```py
+```python
 isinstance(False, int)
 ```
 
 both return `True`. Both booleans are an instance of an integer. `type()`, however, is more clever:
 
-```py
+```python
 type(True) == int
 ```
 
 returns `False`.
+
+-----------------
+
+### Python[[edit](https://en.wikipedia.org/w/index.php?title=Reflection_(computer_programming)&action=edit&section=13)]
+
+The following is an example in [Python](https://en.wikipedia.org/wiki/Python_(programming_language)):
+
+```python
+# Without reflection
+obj = Foo()
+obj.hello()
+
+# With reflection
+obj = globals()['Foo']()
+getattr(obj, 'hello')()
+
+# With eval
+eval('Foo().hello()')
+```
+
+-------------
+
+`isinstance`(*object*, *classinfo*)
+
+Return true if the *object* argument is an instance of the *classinfo* argument, or of a (direct, indirect or [virtual](https://docs.python.org/2/glossary.html#term-abstract-base-class)) subclass thereof. Also return true if *classinfo* is a type object (new-style class) and *object* is an object of that type or of a (direct, indirect or [virtual](https://docs.python.org/2/glossary.html#term-abstract-base-class)) subclass thereof. If *object* is not a class instance or an object of the given type, the function always returns false. If *classinfo* is a tuple of class or type objects (or recursively, other such tuples), return true if *object* is an instance of any of the classes or types. If *classinfo* is not a class, type, or tuple of classes, types, and such tuples, a [`TypeError`](https://docs.python.org/2/library/exceptions.html#exceptions.TypeError) exception is raised.
+
+
+
+`issubclass`(*class*, *classinfo*)
+
+Return true if *class* is a subclass (direct, indirect or [virtual](https://docs.python.org/2/glossary.html#term-abstract-base-class)) of *classinfo*. A class is considered a subclass of itself. *classinfo* may be a tuple of class objects, in which case every entry in *classinfo* will be checked. In any other case, a [`TypeError`](https://docs.python.org/2/library/exceptions.html#exceptions.TypeError) exception is raised.
