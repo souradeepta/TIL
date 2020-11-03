@@ -471,7 +471,7 @@ Interfaces appear in many programming languages, and their implementation varies
 
 Unlike Python, [Java](https://realpython.com/oop-in-python-vs-java/) contains an `interface` keyword. Keeping with the file parser example, you declare an interface in Java like so:
 
-```
+```java
 public interface FileParserInterface {
     // Static fields, and abstract methods go here ...
     public void loadDataSource();
