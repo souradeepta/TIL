@@ -554,8 +554,9 @@ The split() method is used to separate a given string in Python.
 
 **Example:**
 
-```
-a``=``"edureka python"``print``(a.split())
+```python
+a="edureka python"
+print(a.split())
 ```
 
 **Output:** [‘edureka’, ‘python’]
@@ -566,8 +567,10 @@ Modules can be imported using the **import** keyword. You can import modules in 
 
 **Example:**
 
-```
-import` `array      ``#importing using the original module name``import` `array as arr  ``# importing using an alias name``from` `array ``import` `*`  `#imports everything present in the array module
+```python
+import array           #importing using the original module name
+import array as arr    # importing using an alias name
+from array import *    #imports everything present in the array module
 ```
 
 ## **OOPS** **Python Interview Questions**
@@ -589,33 +592,17 @@ They are different types of inheritance supported by Python:
 
 **Example:**
 
-```
-class` `Employee:``def __init__(self, name):``self.name = name``E1=Employee(``"abc"``)``print(E1.name)
+```python
+class Employee:
+def __init__(self, name):
+self.name = name
+E1=Employee("abc")
+print(E1.name)
 ```
 
 **Output:** abc
 
-### Data Science Training
 
-[PYTHON CERTIFICATION TRAINING FOR DATA SCIENCEPython Certification Training for Data Science*Reviews* 5(82395)](https://www.edureka.co/data-science-python-certification-course)
-
-[PYTHON PROGRAMMING CERTIFICATION COURSEPython Programming Certification Course*Reviews* 5(20967)](https://www.edureka.co/python-programming-certification-training)
-
-[MACHINE LEARNING CERTIFICATION TRAINING USING PYTHONMachine Learning Certification Training using Python*Reviews* 5(9893)](https://www.edureka.co/machine-learning-certification-training)
-
-[DATA SCIENCE CERTIFICATION COURSE USING RData Science Certification Course using R*Reviews* 5(37388)](https://www.edureka.co/data-science-r-programming-certification-course)
-
-[DATA ANALYTICS WITH R CERTIFICATION TRAININGData Analytics with R Certification Training*Reviews* 5(23768)](https://www.edureka.co/data-analytics-with-r-certification-training)
-
-[SAS TRAINING AND CERTIFICATIONSAS Training and Certification*Reviews* 5(4507)](https://www.edureka.co/sas-training)
-
-[STATISTICS ESSENTIALS FOR ANALYTICSStatistics Essentials for Analytics*Reviews* 5(5610)](https://www.edureka.co/statistics-essentials-for-analytics-self-paced)
-
-[ANALYTICS FOR RETAIL BANKSAnalytics for Retail Banks*Reviews* 5(1202)](https://www.edureka.co/retail-banking)
-
-[DECISION TREE MODELING USING R CERTIFICATION TRAININGDecision Tree Modeling Using R Certification Training*Reviews* 5(1579)](https://www.edureka.co/decision-tree-modelling-using-r-sp)
-
-Next
 
 ### **Q57.** **What is monkey patching in Python?**
 
@@ -623,14 +610,23 @@ Next
 
 Consider the below example:
 
-```
-# m.py``class` `MyClass:``def` `f(``self``):``print` `"f()"
+```python
+# m.py
+class MyClass:
+    def f(self):
+    print "f()"
 ```
 
 We can then run the monkey-patch testing like this:
 
-```
-import` `m``def` `monkey_f(``self``):``print` `"monkey_f()"` `m.MyClass.f ``=` `monkey_f``obj ``=` `m.MyClass()``obj.f()
+```python
+import m
+def monkey_f(self):
+	print "monkey_f()"
+ 
+m.MyClass.f = monkey_f
+obj = m.MyClass()
+obj.f()
 ```
 
 The output will be as below:
@@ -667,8 +663,12 @@ As we can see, we did make some changes in the behavior of *f()* in *MyClass* us
 
 **For example-**
 
-```
-class` `a:`` ``&amp;amp;nbsp; ``pass``obj``=``a()``obj.name``=``"xyz"``print``(``"Name = "``,obj.name)
+```python
+class a:
+  pass
+obj=a()
+obj.name="xyz"
+print("Name = ",obj.name)
 ```
 
 **Output:** 
@@ -679,9 +679,9 @@ Name =  xyz
 
 ### **Q64. What does an object() do?**
 
-
-
 **Ans:** It returns a featureless object that is a base for all classes. Also, it does not take any parameters.
+
+
 
 ## **Basic Python Programs – Python Interview Questions**
 
@@ -689,8 +689,31 @@ Name =  xyz
 
 ### **Q65. Write a program in Python to execute the Bubble sort algorithm.**
 
-```
-def` `bs(a):&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;``# a = name of list`` ``&amp;amp;nbsp; b``=``len``(a)``-``1``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;``# minus 1 because we always compare 2 adjacent values`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;`` ``&amp;amp;nbsp; ``for` `x ``in` `range``(b):`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``for` `y ``in` `range``(b``-``x):`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``if` `a[y]&amp;gt;a[y``+``1``]:`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; a[y],a[y``+``1``]``=``a[y``+``1``],a[y]`` ``&amp;amp;nbsp; ``return` `a``a``=``[``32``,``5``,``3``,``6``,``7``,``54``,``87``]``bs(a)
+```python
+def bubbleSort(arr): 
+    n = len(arr) 
+  
+    # Traverse through all array elements 
+    for i in range(n-1): 
+    # range(n) also work but outer loop will repeat one time more than needed. 
+  
+        # Last i elements are already in place 
+        for j in range(0, n-i-1): 
+  
+            # traverse the array from 0 to n-i-1 
+            # Swap if the element found is greater 
+            # than the next element 
+            if arr[j] > arr[j+1] : 
+                arr[j], arr[j+1] = arr[j+1], arr[j] 
+  
+# Driver code to test above 
+arr = [64, 34, 25, 12, 22, 11, 90] 
+  
+bubbleSort(arr) 
+  
+print ("Sorted array is:") 
+for i in range(len(arr)): 
+    print ("%d" %arr[i]),  
 ```
 
 **Output:** [3, 5, 6, 7, 32, 54, 87]
@@ -699,9 +722,12 @@ def` `bs(a):&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp
 
 ### **Q66. Write a program in Python to produce Star triangle.**
 
-```
+```python
 
-def` `pyfunc(r):``  ``for` `x ``in` `range``(r):``    ``print``(``' '``*``(r``-``x``-``1``)``+``'*'``*``(``2``*``x``+``1``))  ``pyfunc(``9``)
+def pyfunc(r):
+    for x in range(r):
+        print(' '*(r-x-1)+'*'*(2*x+1))    
+pyfunc(9)
 ```
 
 **Output:
@@ -721,8 +747,30 @@ def` `pyfunc(r):``  ``for` `x ``in` `range``(r):``    ``print``(``' '``*``(r``-`
 
 ### **Q67. Write a program to produce Fibonacci series in Python.**
 
-```
-# Enter number of terms needed&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;#0,1,1,2,3,5....``a``=``int``(``input``(``"Enter the terms"``))``f``=``0``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;``#first element of series``s``=``1``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;``#second element of series``if` `a&amp;lt;``=``0``:`` ``&amp;amp;nbsp; ``print``("The requested series ``is``",f)``else``:`` ``&amp;amp;nbsp; ``print``(f,s,end``=``" "``)`` ``&amp;amp;nbsp; ``for` `x ``in` `range``(``2``,a):`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``next``=``f``+``s&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; `` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``print``(``next``,end``=``" "``)`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; f``=``s`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; s``=``next``&amp;lt;``/``pre&amp;gt;
+```python
+ef fibonacci(n):
+    a = 0
+    b = 1
+     
+    # Check is n is less
+    # than 0
+    if n < 0:
+        print("Incorrect input")
+         
+    # Check is n is equal
+    # to 0
+    elif n == 0:
+        return 0
+       
+    # Check if n is equal to 1
+    elif n == 1:
+        return b
+    else:
+        for i in range(1, n):
+            c = a + b
+            a = b
+            b = c
+        return b
 ```
 
  
@@ -731,8 +779,32 @@ def` `pyfunc(r):``  ``for` `x ``in` `range``(r):``    ``print``(``' '``*``(r``-`
 
 ### **Q68. Write a program in Python to check if a number is prime.**
 
-```
-a``=``int``(``input``(``"enter number"``))&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp;``if` `a&amp;gt;``1``:`` ``&amp;amp;nbsp; ``for` `x ``in` `range``(``2``,a):`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``if``(a``%``x)``=``=``0``:`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``print``(``"not prime"``)`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``break`` ``&amp;amp;nbsp; ``else``:`` ``&amp;amp;nbsp; &amp;amp;nbsp; &amp;amp;nbsp; ``print``(``"Prime"``)``else``:`` ``&amp;amp;nbsp; ``print``(``"not prime"``)
+```python
+# A optimized school method based 
+# Python3 program to check 
+# if a number is prime 
+ 
+ 
+def isPrime(n) : 
+ 
+    # Corner cases 
+    if (n <= 1) : 
+        return False
+    if (n <= 3) : 
+        return True
+ 
+    # This is checked so that we can skip 
+    # middle five numbers in below loop 
+    if (n % 2 == 0 or n % 3 == 0) : 
+        return False
+ 
+    i = 5
+    while(i * i <= n) : 
+        if (n % i == 0 or n % (i + 2) == 0) : 
+            return False
+        i = i + 6
+ 
+    return True
 ```
 
 **Output:**
@@ -743,8 +815,13 @@ Prime
 
 ### **Q69. Write a program in Python to check if a sequence is a Palindrome.**
 
-```
-a``=``input``(``"enter sequence"``)``b``=``a[::``-``1``]``if` `a``=``=``b:`` ``&amp;amp;nbsp; ``print``(``"palindrome"``)``else``:`` ``&amp;amp;nbsp; ``print``(``"Not a Palindrome"``)
+```python
+a=input("enter sequence")
+b=a[::-1]
+if a==b:
+  print("palindrome")
+else:
+  print("Not a Palindrome")
 ```
 
 **Output:**
@@ -755,35 +832,50 @@ enter sequence 323 palindrome
 
 **Ans:** Let us first write a multiple line solution and then convert it to one-liner code.
 
-```
-with ``open``(SOME_LARGE_FILE) as fh:``count ``=` `0``text ``=` `fh.read()``for` `character ``in` `text:``  ``if` `character.isupper():``count ``+``=` `1
+```python
+with open(SOME_LARGE_FILE) as fh:
+count = 0
+text = fh.read()
+for character in text:
+    if character.isupper():
+count += 1
 ```
 
 We will now try to transform this into a single line.
 
-```
-count ``sum``(``1` `for` `line ``in` `fh ``for` `character ``in` `line ``if` `character.isupper())
+```python
+count sum(1 for line in fh for character in line if character.isupper())
 ```
 
 ### **Q71. Write a sorting algorithm for a numerical dataset in Python.**
 
 **Ans:** The following code can be used to sort a list in Python:
 
-```
-list` `=` `[``"1"``, ``"4"``, ``"0"``, ``"6"``, ``"9"``]``list` `=` `[``int``(i) ``for` `i ``in` `list``]``list``.sort()``print` `(``list``)
+```python
+list = ["1", "4", "0", "6", "9"]
+list = [int(i) for i in list]
+list.sort()
+print (list)
 ```
 
 ### **Q72. Looking at the below code, write down the final values of A0, A1, …An.**
 
-```
-A0 ``=` `dict``(``zip``((``'a'``,``'b'``,``'c'``,``'d'``,``'e'``),(``1``,``2``,``3``,``4``,``5``)))``A1 ``=` `range``(``10``)A2 ``=` `sorted``([i ``for` `i ``in` `A1 ``if` `i ``in` `A0])``A3 ``=` `sorted``([A0[s] ``for` `s ``in` `A0])``A4 ``=` `[i ``for` `i ``in` `A1 ``if` `i ``in` `A3]``A5 ``=` `{i:i``*``i ``for` `i ``in` `A1}``A6 ``=` `[[i,i``*``i] ``for` `i ``in` `A1]``print``(A0,A1,A2,A3,A4,A5,A6)
+```python
+A0 = dict(zip(('a','b','c','d','e'),(1,2,3,4,5)))
+A1 = range(10)
+A2 = sorted([i for i in A1 if i in A0])
+A3 = sorted([A0[s] for s in A0])
+A4 = [i for i in A1 if i in A3]
+A5 = {i:i*i for i in A1}
+A6 = [[i,i*i] for i in A1]
+print(A0,A1,A2,A3,A4,A5,A6)
 ```
 
 **Ans:** The following will be the final outputs of A0, A1, … A6
 
 
 
-```
+```python
 A0 = {'a': 1, 'c': 3, 'b': 2, 'e': 5, 'd': 4} # the order may vary
 A1 = range(0, 10) 
 A2 = []
@@ -837,16 +929,27 @@ Django uses SQLite as a default database, it stores data as a single file in the
 
 We will add the following lines of code to the *setting.py* file:
 
-```
-DATABASES ``=` `{``   ``'default'``: {``     ``'ENGINE'` `: ``'django.db.backends.sqlite3'``,``     ``'NAME'` `: os.path.join(BASE_DIR, ``'db.sqlite3'``),``   ``}``}
+```python
+DATABASES = {
+     'default': {
+          'ENGINE' : 'django.db.backends.sqlite3',
+          'NAME' : os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
+}
 ```
 
 ### **Q78. Give an example how you can write a VIEW in Django?**
 
 **Ans:** This is how we can use write a view in Django:
 
-```
-from` `django.http ``import` `HttpResponse``import` `datetime` `def` `Current_datetime(request):``   ``now ``=` `datetime.datetime.now()``   ``html ``=` `"&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;It ``is` `now ``%``s&amp;lt;``/``body&amp;gt;&amp;lt;``/``html&amp;gt; ``%` `now``   ``return` `HttpResponse(html)
+```python
+from django.http import HttpResponse
+import datetime
+ 
+def Current_datetime(request):
+     now = datetime.datetime.now()
+     html = "&amp;amp;lt;html&amp;amp;gt;&amp;amp;lt;body&amp;amp;gt;It is now %s&amp;amp;lt;/body&amp;amp;gt;&amp;amp;lt;/html&amp;amp;gt; % now
+     return HttpResponse(html)
 ```
 
 *Returns the current date and time, as an HTML document*
@@ -855,11 +958,15 @@ from` `django.http ``import` `HttpResponse``import` `datetime` `def` `Current_da
 
 **Ans:** The template is a simple text file. It can create any text-based format like XML, CSV, HTML, etc. A template contains variables that get replaced with values when the template is evaluated and tags (% tag %) that control the logic of the template.
 
+![Django Template - Python Interview Questions - Edureka](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2017/06/Django-Template-Python-Interview-Questions-Edureka.png)
+
 ![Django Template - Python Interview Questions - Edureka](data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==)**Figure:** *Python Interview Questions – Django Template*
 
 ### **Q80. Explain the use of session in Django framework?**
 
 **Ans:** Django provides a session that lets you store and retrieve data on a per-site-visitor basis. Django abstracts the process of sending and receiving cookies, by placing a session ID cookie on the client side, and storing all the related data on the server side.
+
+![Django Framework - Python Interview Questions - Edureka](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2017/06/Django-Framework-Python-Interview-Questions-Edureka.png)
 
 ![Django Framework - Python Interview Questions - Edureka](data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==)**Figure:** *Python Interview Questions – Django Framework*
 
@@ -879,8 +986,9 @@ So the data itself is not stored client side. This is nice from a security persp
 
 **Ans:** We will use the following code to save an image locally from an URL address
 
-```
-import` `urllib.request``urllib.request.urlretrieve(``"URL"``, ``"local-filename.jpg"``)
+```python
+import urllib.request
+urllib.request.urlretrieve("URL", "local-filename.jpg")
 ```
 
 ### **Q83. How can you Get the Google cache age of any URL or web page?**
@@ -903,8 +1011,26 @@ http://webcache.googleusercontent.com/search?q=cache:edureka.co
 
 
 
-```
-from` `bs4 ``import` `BeautifulSoup` `import` `requests``import` `sys` `url ``=` `'<a href="http://www.imdb.com/chart/top">http://www.imdb.com/chart/top</a>'``response ``=` `requests.get(url)``soup ``=` `BeautifulSoup(response.text)``tr ``=` `soup.findChildren(``"tr"``)``tr ``=` `iter``(tr)``next``(tr)` `for` `movie ``in` `tr:``title ``=` `movie.find(``'td'``, {``'class'``: ``'titleColumn'``} ).find(``'a'``).contents[``0``]``year ``=` `movie.find(``'td'``, {``'class'``: ``'titleColumn'``} ).find(``'span'``, {``'class'``: ``'secondaryInfo'``}).contents[``0``]``rating ``=` `movie.find(``'td'``, {``'class'``: ``'ratingColumn imdbRating'``} ).find(``'strong'``).contents[``0``]``row ``=` `title ``+` `' - '` `+` `year ``+` `' '` `+` `' '` `+` `rating` `print``(row)
+```python
+from bs4 import BeautifulSoup
+ 
+import requests
+import sys
+ 
+url = '<a href="http://www.imdb.com/chart/top">http://www.imdb.com/chart/top</a>'
+response = requests.get(url)
+soup = BeautifulSoup(response.text)
+tr = soup.findChildren("tr")
+tr = iter(tr)
+next(tr)
+ 
+for movie in tr:
+    title = movie.find('td', {'class': 'titleColumn'} ).find('a').contents[0]
+    year = movie.find('td', {'class': 'titleColumn'} ).find('span', {'class': 'secondaryInfo'}).contents[0]
+    rating = movie.find('td', {'class': 'ratingColumn imdbRating'} ).find('strong').contents[0]
+    row = title + ' - ' + year + ' ' + ' ' + rating
+ 
+print(row)
 ```
 
 The above code will help scrap data from IMDb’s top 250 list
@@ -913,7 +1039,7 @@ The above code will help scrap data from IMDb’s top 250 list
 
 ### **Q85. What is map function in Python?**
 
-**Ans:** *map* function executes the function given as the first argument on all the elements of the iterable given as the second argument. If the function given takes in more than 1 arguments, then many iterables are given. #Follow the link to know more similar functions.
+**Ans:** *map* function executes the function given as the first argument on all the elements of the iterable given as the second argument. If the function given takes in more than 1 arguments, then many iterables are given. 
 
 ### **Q86. Is python numpy better than lists?**
 
@@ -929,8 +1055,10 @@ For more information on these parameters, you can refer to this section – [Num
 
 **Ans:** We can get the indices of N maximum values in a NumPy array using the below code:
 
-```
-import` `numpy as np``arr ``=` `np.array([``1``, ``3``, ``2``, ``4``, ``5``])``print``(arr.argsort()[``-``3``:][::``-``1``])
+```python
+import numpy as np
+arr = np.array([1, 3, 2, 4, 5])
+print(arr.argsort()[-3:][::-1])
 ```
 
 Output
@@ -943,8 +1071,11 @@ Output
 
 **Ans:** We can calculate percentiles with the following code
 
-```
-import` `numpy as np``a ``=` `np.array([``1``,``2``,``3``,``4``,``5``])``p ``=` `np.percentile(a, ``50``) ``#Returns 50th percentile, e.g. median``print``(p)
+```python
+import numpy as np
+a = np.array([1,2,3,4,5])
+p = np.percentile(a, 50) #Returns 50th percentile, e.g. median
+print(p)
 ```
 
 ``Output
@@ -972,21 +1103,33 @@ import` `numpy as np``a ``=` `np.array([``1``,``2``,``3``,``4``,``5``])``p ``=` 
 
 ### **Q91. Which of the following statements create a dictionary? (Multiple Correct Answers Possible)**
 
-### a) d = {} b) d = {“john”:40, “peter”:45} c) d = {40:”john”, 45:”peter”} d) d = (40:”john”, 45:”50”)
+### a) d = {} 
 
-**Answer:** b, c & d. 
+### b) d = {“john”:40, “peter”:45} 
 
-[![Course Curriculum](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/themes/edu-new/img/batch-schedule.png)Python Certification Training for Data ScienceWeekday / Weekend BatchesSee Batch Details](https://www.edureka.co/data-science-python-certification-course)
+### c) d = {40:”john”, 45:”peter”} d) 
+
+### d = (40:”john”, 45:”50”)
+
+**Answer:** a, b, c & d. 
+
+
 
 Dictionaries are created by specifying keys and values.
 
 ### **Q92. Which one of these is floor division?** 
 
-## a) / b) // c) % d) None of the mentioned
+### a) / 
+
+### b) // 
+
+### c) % 
+
+### d) None of the mentioned
 
 **Answer:** b) //
 
-When both of the operands are integer then python chops out the fraction part and gives you the round off value, to get the accurate answer use floor division. For ex, 5/2 = 2.5 but both of the operands are integer so answer of this expression in python is 2. To get the 2.5 as the answer, use floor division using //. So, 5//2 = 2.5
+When both of the operands are integer then python chops out the fraction part and gives you the round off value, to get the accurate answer use floor division. For ex, 5//2 = 2.5 but both of the operands are integer so answer of this expression in python is 2. To get the 2.5 as the answer, use floor division using //. So, 5/2 = 2.5
 
 ### **Q93. What is the maximum possible length of an identifier?** 
 
@@ -998,7 +1141,13 @@ Identifiers can be of any length.
 
 ### **Q94. Why are local variable names beginning with an underscore discouraged?** 
 
-#### a) they are used to indicate a private variables of a class b) they confuse the interpreter c) they are used to indicate global variables d) they slow down execution
+#### a) they are used to indicate a private variables of a class 
+
+#### b) they confuse the interpreter 
+
+#### c) they are used to indicate global variables 
+
+#### d) they slow down execution
 
 **Answer:** a) they are used to indicate a private variable of a class
 
@@ -1006,7 +1155,13 @@ As Python has no concept of private variables, leading underscores are used to i
 
 ### **Q95. Which of the following is an invalid statement?** 
 
-#### a) abc = 1,000,000 b) a b c = 1000 2000 3000 c) a,b,c = 1000, 2000, 3000 d) a_b_c = 1,000,000
+#### a) abc = 1,000,000 
+
+#### b) a b c = 1000 2000 3000 
+
+#### c) a,b,c = 1000, 2000, 3000 
+
+#### d) a_b_c = 1,000,000
 
 **Answer:** b) a b c = 1000 2000 3000
 
@@ -1014,11 +1169,23 @@ Spaces are not allowed in variable names.
 
 ### **Q96. What is the output of the following?**
 
-```
-try``:``  ``if` `'1'` `!``=` `1``:``    ``raise` `"someError"``  ``else``:``    ``print``(``"someError has not occured"``)``except` `"someError"``:``  ``print` `(``"someError has occured"``)
+```python
+try:
+    if '1' != 1:
+        raise "someError"
+    else:
+        print("someError has not occured")
+except "someError":
+    print ("someError has occured")
 ```
 
-### a) someError has occured b) someError has not occured c) invalid code d) none of the above 
+### a) someError has occured 
+
+### b) someError has not occured 
+
+### c) invalid code 
+
+### d) none of the above 
 
 **Answer:** c) invalid code
 
@@ -1040,8 +1207,15 @@ The index -1 corresponds to the last index in the list.
 
 ### **Q99. What is the output of the following?**
 
-```
-f ``=` `None` `for` `i ``in` `range` `(``5``):``  ``with ``open``(``"data.txt"``, ``"w"``) as f:``    ``if` `i &amp;gt; ``2``:``      ``break` `print` `f.closed
+```python
+f = None
+ 
+for i in range (5):
+    with open("data.txt", "w") as f:
+        if i > 2:
+            break
+ 
+print f.closed
 ```
 
 ### a) True b) False c) None d) Error 
@@ -1057,3 +1231,255 @@ The WITH statement when used with open file guarantees that the file object is c
 **Answer:** c) when no exception occurs
 
 The else part is executed when no exception occurs.
+
+-----------------
+
+## Python Basic Interview Questions & Answers for Freshers & Experienced
+
+**1) What is Python? What are the benefits of using Python?**
+
+Python is a programming language with objects, modules, threads, exceptions and automatic memory management. The benefits of pythons are that it is simple and easy, portable, extensible, build-in data structure and it is an open source.
+
+**2) What is PEP 8?**
+
+PEP 8 is a coding convention, a set of recommendation, about how to write your Python code more readable.
+
+**3) What is pickling and unpickling?**
+
+Pickle module accepts any Python object and converts it into a string representation and dumps it into a file by using dump function, this process is called pickling. While the process of retrieving original Python objects from the stored string representation is called unpickling.
+
+**4) How Python is interpreted?**
+
+Python language is an interpreted language. Python program runs directly from the source code. It converts the source code that is written by the programmer into an intermediate language, which is again translated into machine language that has to be executed.
+
+**5) How memory is managed in Python?**
+
+- Python memory is managed by Python private heap space. All Python objects and data structures are located in a private heap. The programmer does not have an access to this private heap and interpreter takes care of this Python private heap.
+- The allocation of Python heap space for Python objects is done by Python memory manager. The core API gives access to some tools for the programmer to code.
+- Python also have an inbuilt garbage collector, which recycle all the unused memory and frees the memory and makes it available to the heap space.
+
+**6) What are the tools that help to find bugs or perform static analysis?**
+
+PyChecker is a static analysis tool that detects the bugs in Python source code and warns about the style and complexity of the bug. Pylint is another tool that verifies whether the module meets the coding standard.
+
+**7) What are Python decorators?**
+
+A Python decorator is a specific change that we make in Python syntax to alter functions easily.
+
+**8) What is the difference between list and tuple?**
+
+The difference between list and tuple is that list is mutable while tuple is not. Tuple can be hashed for e.g as a key for dictionaries.
+
+**9) How are arguments passed by value or by reference?**
+
+Everything in Python is an object and [all variables](https://www.guru99.com/variables-in-python.html) hold references to the objects. The references values are according to the functions; as a result you cannot change the value of the references. However, you can change the objects if it is mutable.
+
+**10) What is Dict and List comprehensions are?**
+
+They are syntax constructions to ease the creation of a Dictionary or List based on existing iterable.
+
+**11) What are the built-in type does python provides?**
+
+There are mutable and Immutable types of Pythons built in types Mutable built-in types
+
+- List
+- Sets
+- Dictionaries
+
+Immutable built-in types
+
+- Strings
+- Tuples
+- Numbers
+
+**12) What is namespace in Python?**
+
+In Python, every name introduced has a place where it lives and can be hooked for. This is known as namespace. It is like a box where a variable name is mapped to the object placed. Whenever the variable is searched out, this box will be searched, to get corresponding object.
+
+**13) What is lambda in Python?**
+
+It is a single expression anonymous function often used as inline function.
+
+**14) Why lambda forms in python does not have statements?**
+
+A lambda form in python does not have statements as it is used to make new function object and then return them at runtime.
+
+**15) What is pass in Python?**
+
+Pass means, no-operation Python statement, or in other words it is a place holder in compound statement, where there should be a blank left and nothing has to be written there.
+
+**16) In Python what are iterators?**
+
+In Python, iterators are used to iterate a group of elements, containers like list.
+
+**17) What is unittest in Python?**
+
+A unit testing framework in Python is known as unittest. It supports sharing of setups, automation testing, shutdown code for tests, aggregation of tests into collections etc.
+
+**18) In Python what is slicing?**
+
+A mechanism to select a range of items from sequence types like list, tuple, strings etc. is known as slicing.
+
+**19) What are generators in Python?**
+
+The way of implementing iterators are known as generators. It is a normal function except that it yields expression in the function.
+
+**20) What is docstring in Python?**
+
+A Python documentation string is known as docstring, it is a way of documenting Python functions, modules and classes.
+
+**21) How can you copy an object in Python?**
+
+To copy an object in Python, you can try copy.copy () or copy.deepcopy() for the general case. You cannot copy all objects but most of them.
+
+**22) What is negative index in Python?**
+
+Python sequences can be index in positive and negative numbers. For positive index, 0 is the first index, 1 is the second index and so forth. For negative index, (-1) is the last index and (-2) is the second last index and so forth.
+
+**23) How you can convert a number to a string?**
+
+In order to convert a number into a string, use the inbuilt function str(). If you want a octal or hexadecimal representation, use the inbuilt function oct() or hex().
+
+**24) What is the difference between Xrange and range?**
+
+Xrange returns the xrange object while range returns the list, and uses the same memory and no matter what the range size is.
+
+**25) What is module and package in Python?**
+
+In Python, module is the way to structure program. Each Python program file is a module, which imports other modules like objects and attributes.
+
+The folder of Python program is a package of modules. A package can have modules or subfolders.
+
+**26) Mention what are the rules for local and global variables in Python?**
+
+**Local variables**: If a variable is assigned a new value anywhere within the function's body, it's assumed to be local.
+
+**Global variables**: Those variables that are only referenced inside a function are implicitly global.
+
+**27) How can you share global variables across modules?**
+
+To share global variables across modules within a single program, create a special module. Import the config module in all modules of your application. The module will be available as a global variable across modules.
+
+**28) Explain how can you make a Python Script executable on Unix?**
+
+To make a Python Script executable on Unix, you need to do two things,
+
+- Script file's mode must be executable and
+- the first line must begin with # ( #!/usr/local/bin/python)
+
+**29) Explain how to delete a file in Python?**
+
+By using a command os.remove (filename) or os.unlink(filename)
+
+**30) Explain how can you generate random numbers in Python?**
+
+To generate random numbers in Python, you need to import command as
+
+import random
+
+random.random()
+
+This returns a random floating point number in the range [0,1)
+
+**31) Explain how can you access a module written in Python from C?**
+
+You can access a module written in Python from C by following method,
+
+Module = =PyImport_ImportModule("<modulename>");
+
+**32) Mention the use of // operator in Python?**
+
+It is a Floor Divisionoperator , which is used for dividing two operands with the result as quotient showing only digits before the decimal point. For instance, 10//5 = 2 and 10.0//5.0 = 2.0.
+
+**33) Mention five benefits of using Python?**
+
+- Python comprises of a huge standard library for most Internet platforms like Email, HTML, etc.
+- Python does not require explicit [memory management](https://www.guru99.com/os-memory-management.html) as the interpreter itself allocates the memory to new variables and free them automatically
+- Provide easy readability due to use of square brackets
+- Easy-to-learn for beginners
+- Having the built-in data types saves programming time and effort from declaring variables
+
+**34) Mention the use of the split function** **in Python**?
+
+The use of the split function in Python is that it breaks a string into shorter strings using the defined separator. It gives a list of all words present in the string.
+
+**35) Explain what is Flask & its benefits**?
+
+Flask is a web micro framework for Python based on "Werkzeug, Jinja 2 and good intentions" BSD licensed. Werkzeug and jingja are two of its dependencies.
+
+Flask is part of the micro-framework. Which means it will have little to no dependencies on external libraries. It makes the framework light while there is little dependency to update and less security bugs.
+
+**36) Mention what is the difference between Django, Pyramid, and Flask?**
+
+Flask is a "microframework" primarily build for a small application with simpler requirements. In flask, you don't have to use external libraries. Flask is ready to use.
+
+Pyramid are build for larger applications. It provides flexibility and lets the developer use the right tools for their project. The developer can choose the database, URL structure, templating style and more. Pyramid is heavy configurable.
+
+Like Pyramid, Django can also used for larger applications. It includes an ORM.
+
+
+
+**37) Mention what is Flask-WTF and what are their features?**
+
+Flask-WTF offers simple integration with WTForms. Features include for Flask WTF are
+
+- Integration with wtforms
+- Secure form with csrf token
+- Global csrf protection
+- Internationalization integration
+- Recaptcha supporting
+- File upload that works with Flask Uploads
+
+**38) Explain what is the common way for the Flask script to work?**
+
+The common way for the flask script to work is
+
+- Either it should be the import path for your application
+- Or the path to a Python file
+
+
+
+**39) Explain how you can access sessions in Flask?**
+
+A session basically allows you to remember information from one request to another. In a flask, it uses a signed cookie so the user can look at the session contents and modify. The user can modify the session if only it has the secret key Flask.secret_key.
+
+**40) Is Flask an MVC model and if yes give an example showing MVC pattern for your application?**
+
+Basically, Flask is a minimalistic framework which behaves same as MVC framework. So MVC is a perfect fit for Flask, and the pattern for MVC we will consider for the following example
+
+| from flask import Flask<br />app = Flask(_name_)<br /><br />@app.route("/")<br />Def hello():<br />return "Hello World"<br /><br />app.run(debug = True) | In this code your,Configuration part will be from flask import Flaskapp = Flask(_name_) View part will be@app.route("/")Def hello():return "Hello World"While you model or main part will be app.run(debug = True) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+|                                                              |                                                              |
+
+**41) Explain database connection in Python Flask?**
+
+Flask supports database powered application (RDBS). Such system requires creating a schema, which requires piping the shema.sql file into a sqlite3 command. So you need to install sqlite3 command in order to create or initiate the database in Flask.
+
+Flask allows to request database in three ways
+
+- before_request() : They are called before a request and pass no arguments
+- after_request() : They are called after a request and pass the response that will be sent to the client
+- teardown_request(): They are called in situation when exception is raised, and response are not guaranteed. They are called after the response been constructed. They are not allowed to modify the request, and their values are ignored.
+
+**42) You are having multiple Memcache servers running Python, in which one of the memcacher server fails, and it has your data, will it ever try to get key data from that one failed server?**
+
+The data in the failed server won't get removed, but there is a provision for auto-failure, which you can configure for multiple nodes. Fail-over can be triggered during any kind of socket or Memcached server level errors and not during normal client errors like adding an existing key, etc.
+
+**43) Explain how you can minimize the Memcached server outages in your Python Development?**
+
+- When one instance fails, several of them goes down, this will put larger load on the database server when lost data is reloaded as client make a request. To avoid this, if your code has been written to minimize cache stampedes then it will leave a minimal impact
+- Another way is to bring up an instance of Memcached on a new machine using the lost machines IP address
+- Code is another option to minimize server outages as it gives you the liberty to change the Memcached server list with minimal work
+- Setting timeout value is another option that some Memcached clients implement for Memcached server outage. When your Memcached server goes down, the client will keep trying to send a request till the time-out limit is reached
+
+**44) Explain what is Dogpile effect? How can you prevent this effect?**
+
+Dogpile effect is referred to the event when cache expires, and websites are hit by the multiple requests made by the client at the same time. This effect can be prevented by using semaphore lock. In this system when value expires, first process acquires the lock and starts generating new value.
+
+**45) Explain how Memcached should not be used in your Python project?**
+
+- Memcached common misuse is to use it as a data store, and not as a cache
+- Never use Memcached as the only source of the information you need to run your application. Data should always be available through another source as well
+- Memcached is just a key or value store and cannot perform query over the data or iterate over the contents to extract information
+- Memcached does not offer any form of security either in encryption or authentication
+
