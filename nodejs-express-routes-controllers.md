@@ -37,7 +37,7 @@ The code below provides a concrete example of how we can create a route module a
 
 First we create routes for a wiki in a module named **wiki.js**. The code first imports the Express application object, uses it to get a `Router` object and then adds a couple of routes to it using the `get()` method. Last of all the module exports the `Router` object.
 
-```
+```js
 // wiki.js - Wiki route module.
 
 var express = require('express');
@@ -60,7 +60,7 @@ module.exports = router;
 
 To use the router module in our main app file we first `require()` the route module (**wiki.js**). We then call `use()` on the *Express* application to add the Router to the middleware handling path, specifying a URL path of 'wiki'.
 
-```
+```js
 var wiki = require('./wiki.js');
 // ...
 app.use('/wiki', wiki);
@@ -72,7 +72,7 @@ The two routes defined in our wiki route module are then accessible from `/wiki/
 
 Our module above defines a couple of typical route functions. The "about" route (reproduced below) is defined using the `Router.get()` method, which responds only to HTTP GET requests. The first argument to this method is the URL path while the second is a callback function that will be invoked if an HTTP GET request with the path is received.
 
-```
+```js
 router.get('/about', function (req, res) {
   res.send('About this wiki');
 })
@@ -94,7 +94,7 @@ The `Router` also provides route methods for all the other HTTP verbs, that are 
 
 For example, the code below behaves just like the previous `/about` route, but only responds to HTTP POST requests.
 
-```
+```js
 router.post('/about', function (req, res) {
   res.send('About this wiki');
 })
@@ -113,7 +113,7 @@ Route paths can also be string patterns. String patterns use a form of regular e
 
 The route paths can also be JavaScript [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). For example, the route path below will match `catfish `and `dogfish`, but not `catflap`, `catfishhead`, and so on. Note that the path for a regular expression uses regular expression syntax (it is not a quoted string as in the previous cases).
 
-```
+```js
 app.get(/.*fish$/, function (req, res) {
   ...
 })
@@ -127,7 +127,7 @@ Route parameters are *named URL segments* used to capture values at specific pos
 
 So for example, consider a URL encoded to contain information about users and books: `http://localhost:3000/users/34/books/8989`. We can extract this information as shown below, with the `userId` and `bookId` path parameters:
 
-```
+```js
 app.get('/users/:userId/books/:bookId', function (req, res) {
   // Access userId via: req.params.userId
   // Access bookId via: req.params.bookId
@@ -166,7 +166,7 @@ Before we define our routes, we'll first create all the dummy/skeleton callback 
 
 Start by creating a folder for our controllers in the project root (**/controllers**) and then create separate controller files/modules for handling each of the models:
 
-```
+```js
 /express-locallibrary-tutorial  //the project root
   /controllers
     authorController.js
@@ -179,7 +179,7 @@ Start by creating a folder for our controllers in the project root (**/controlle
 
 Open the **/controllers/authorController.js** file and type in the following code:
 
-```
+```js
 var Author = require('../models/author');
 
 // Display list of all Authors.
@@ -231,7 +231,7 @@ All the functions have the standard form of an *Express middleware function*, wi
 
 Open the **/controllers/bookinstanceController.js** file and copy in the following code (this follows an identical pattern to the `Author` controller module):
 
-```
+```js
 var BookInstance = require('../models/bookinstance');
 
 // Display list of all BookInstances.
@@ -279,7 +279,7 @@ exports.bookinstance_update_post = function(req, res) {
 
 Open the **/controllers/genreController.js** file and copy in the following text (this follows an identical pattern to the `Author` and `BookInstance` files):
 
-```
+```js
 var Genre = require('../models/genre');
 
 // Display list of all Genre.
@@ -327,7 +327,7 @@ exports.genre_update_post = function(req, res) {
 
 Open the **/controllers/bookController.js** file and copy in the following code. This follows the same pattern as the other controller modules, but additionally has an `index()` function for displaying the site welcome page:
 
-```
+```js
 var Book = require('../models/book');
 
 exports.index = function(req, res) {
@@ -381,7 +381,7 @@ Next we create *routes* for all the URLs [needed by the LocalLibrary website](ht
 
 The skeleton already has a **./routes** folder containing routes for the *index* and *users*. Create another route file — **catalog.js** — inside this folder, as shown.
 
-```
+```js
 /express-locallibrary-tutorial //the project root
   /routes
     index.js
@@ -391,7 +391,7 @@ The skeleton already has a **./routes** folder containing routes for the *index*
 
 Open **/routes/catalog.js** and copy in the code below:
 
-```
+```js
 var express = require('express');
 var router = express.Router();
 
