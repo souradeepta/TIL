@@ -17,12 +17,12 @@
 304 Not Modified
 **307 Temporary Redirect**
 308 Permanent Redirect
-400 Bad Request
-401 Unauthorized
+**400 Bad Request**
+**401 Unauthorized**
 402 Payment Required
 403 Forbidden
 **404 Not Found**
-405 Method Not Allowed
+**405 Method Not Allowed**
 406 Not Acceptable
 407 Proxy Authentication Required
 408 Request Timeout
@@ -40,7 +40,7 @@
 425 Too Early
 426 Upgrade Required
 428 Precondition Required
-429 Too Many Requests
+**429 Too Many Requests**
 431 Request Header Fields Too Large
 451 Unavailable For Legal Reasons
 **500 Internal Server Error**

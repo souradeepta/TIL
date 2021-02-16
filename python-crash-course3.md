@@ -2,760 +2,772 @@
 
 
 
-# G. Lists
+# J. Classes and Objects I
 
-## How to create a list:
+## Python Classes and Methods
 
-To create a list, you separate the elements with a comma and enclose them with a bracket “[]”.
+Python is an “object-oriented programming language.” This means that almost all the code is implemented using a special construct called classes. Programmers use classes to keep related things together. This is done using the keyword “class,” which is a grouping of object-oriented constructs.
 
-For example, you can create a list of company names containing “hackerearth”, “google”, “facebook”. This will preserve the order of the names.
+By the end of this tutorial you will be able to:
+
+1. Define what is a class
+2. Describe how to create a class
+3. Define what is a method
+4. Describe how to do object instantiation
+5. Describe how to create instance attributes in Python
+
+## What is a class?
+
+A class is a code template for creating objects. Objects have member variables and have behaviour associated with them. In python a class is created by the keyword `class`.
+
+An object is created using the constructor of the class. This object will then be called the `instance` of the class. In Python we create instances in the following manner
 
 ```python
->>> companies = ["hackerearth", "google", "facebook"]
->>> # get the first company name
->>> print(companies[0])
-'hackerearth'
->>> # get the second company name
->>> print(companies[1])
-'google'
->>> # get the third company name
->>> print(companies[2])
-'facebook'
->>> # try to get the fourth company name
->>> # but this will return an error as only three names
->>> # have been defined.
->>> print(companies[3])
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-IndexError: list index out of range
+Instance = class(arguments)
 ```
 
-Trying to access elements outside the range will give an error. You can create a two-dimensional list. This is done by nesting a list inside another list. For example, you can group “hackerearth” and “paytm” into one list and “tcs” and “cts” into another and group both the lists into another “master” list.
+## How to create a class
+
+The simplest class can be created using the class keyword. For example, let's create a simple, empty class with no functionalities.
 
 ```python
->>> companies = [["hackerearth", "paytm"], ["tcs", "cts"]]
->>> print(companies)
-[['hackerearth', 'paytm'], ['tcs', 'cts']]
+>>> class Snake:
+...     pass
+... 
+>>> snake = Snake()
+>>> print(snake)
+<__main__.Snake object at 0x7f315c573550>
 ```
 
-## Methods over Python Lists
+## Attributes and Methods in class:
 
-Python lists support common methods that are commonly required while working with lists. The methods change the list in place. (More on methods in the classes and objects tutorial). In case you want to make some changes in the list and keep both the old list and the changed list, take a look at the functions that are described after the methods.
+A class by itself is of no use unless there is some functionality associated with it. Functionalities are defined by setting attributes, which act as containers for data and functions related to those attributes. Those functions are called methods.
 
-### How to add elements to the list:
+### Attributes:
 
-- list.append(elem) - will add another element to the list at the end.
-
-  ```python
-  >>> # create an empty list
-  >>> companies = []
-  
-  >>> # add “hackerearth” to companies
-  >>> companies.append(“hackerearth”)
-  
-  >>> # add "google" to companies
-  >>> companies.append("google")
-  
-  >>> # add "facebook" to companies
-  >>> companies.append("facebook")
-  
-  >>> # print the items stored in companies
-  >>> print(companies)
-  ['hackerearth', 'google', 'facebook']
-  ```
-
-Note the items are printed in the order in which they youre inserted.
-
-- list.insert(index, element) - will add another element to the list at the given index, shifting the elements greater than the index one step to the right. In other words, the elements with the index greater than the provided index will increase by one.
-
-For example, you can create a list of companies `['hackerearth', 'google', 'facebook']` and insert “airbnb” in third position which is held by “facebook”.
+You can define the following class with the name Snake. This class will have an attribute `name`.
 
 ```python
-    >>> # initialise a preliminary list of companies
-    >>> companies = ['hackerearth', 'google', 'facebook']
-
-    >>> # check what is there in position 2
-    >>> print(companies[2])
-    facebook
-
-    >>> # insert “airbnb” at position 2
-    >>> companies.insert(2, "airbnb")
-    >>> # print the new companies list
-    >>> print(companies)
-    ['hackerearth', 'google', 'airbnb', 'facebook']
-    >>> # print the company name at position 2
-    >>> print(companies[2])
-    airbnb
-```
-
-- list.extend(another_list) - will add the elements in list 2 at the end of list.
-
-For example, you can concatenate two lists `["haskell", "clojure", "apl"]` and `["scala", "F#"]` to the same list `langs`.
-
-```python
-    >>> langs = ["haskell", "clojure", "apl"]
-    >>> langs.extend(["scala", "F#"])
-    >>> print(langs)
-    ['haskell', 'clojure', 'apl', 'scala', 'F#']
-```
-
-- list.index(elem) - will give the index number of the element in the list.
-
-For example, if you have a list of languages with elements `['haskell', 'clojure', 'apl', 'scala', 'F#']` and you want the index of `“scala”`, you can use the index method.
-
-```python
-    >>> index_of_scala = langs.index("scala")
-    >>> print(index_of_scala)
-    3
-```
-
-### How to remove elements from the list:
-
-- list.remove(elem) - will search for the first occurrence of the element in the list and will then remove it.
-
-For example, if you have a list of languages with elements `['haskell', 'clojure', 'apl', 'scala', 'F#']` and you want to remove scala, you can use the remove method.
-
-```python
-    >>> langs.remove("scala")
-    >>> print(langs)
-    ['haskell', 'clojure', 'apl', 'F#']
-```
-
-- list.pop() - will remove the last element of the list. If the index is provided, then it will remove the element at the particular index. For example, if you have a list
-
-   Try to pop an element from a random index that exists in the list.
-
-```python
-    >>> # pop the element at index 1
-    >>> some_numbers.pop(1)
-    4
-    >>> # check the present list
-    >>> print(some_numbers)
-    [5, 3]
-```
-
-### Other useful list methods
-
-- list.sort() - will sort the list in-place.
-
-For example, if you have an unsorted list `[4,3,5,1]`, you can sort it using the `sort` method.
-
-```python
-    >>> # initialise an unsorted list some_numbers
-    >>> some_numbers = [4,3,5,1]
-
-    >>> # sort the list
-    >>> some_numbers.sort()
-
-    >>> # print the list to see if it is sorted.
-    >>> some_numbers
-    [1, 3, 4, 5]
-```
-
-- list.reverse() - will reverse the list in place
-
-For example, if you have a list `[1, 3, 4, 5]` and you need to reverse it, you can call the `reverse` method.
-
-```python
-    >>> # initialise a list of numbers that
-    >>> some_numbers = [1, 3, 4, 5]
-
-    >>> # Try to reverse the list now
-    >>> some_numbers.reverse()
-
-    >>> # print the list to check if it is really reversed.
-    >>> print(some_numbers)
-    [5, 4, 3, 1]
-```
-
-## Functions over Python Lists:
-
-- You use the function “len” to get the length of the list.
-
-For example, if you have a list of companies `['hackerearth', 'google', 'facebook']` and you want the list length, you can use the `len` function.
-
-```python
-    >>> # you have a list of companies
-    >>> companies = ['hackerearth', 'google', 'facebook']
-
-    >>> # you want the length of the list
-    >>> print(len(companies))
-    3
-```
-
-- If you use another function “enumerate” over a list, it gives us a nice construct to get both the index and the value of the element in the list.
-
-For example, you have the list of companies `['hackerearth', 'google', 'facebook']` and you want the index, along with the items in the list, you can use the `enumerate` function.
-
-```python
-    >>> # loop over the companies and print both the index as youll as the name.
-    >>> for indx, name in enumerate(companies):
-    ...     print("Index is %s for company: %s" % (indx, name))
-    ...
-    Index is 0 for company: hackerearth
-    Index is 1 for company: google
-    Index is 2 for company: facebook
-```
-
-In this example, you use the for loop. For loops are pretty common in all programming languages that support procedural constructs. You can head over to A complete theoretical reference to loops in C to have a deeper understanding of for loops. Also look at the tutorial on loops in Python in Python Control Structures tutorial.
-
-- sorted function will sort over the list
-
-Similar to the sort method, you can also use the sorted function which also sorts the list. The difference is that it returns the sorted list, while the sort method sorts the list in place. So this function can be used when you want to preserve the original list as well.
-
-```python
-    >>> # initialise a list
-    >>> some_numbers = [4,3,5,1]
-    >>> # get the sorted list
-    >>> print(sorted(some_numbers))
-    [1, 3, 4, 5]
-    >>> # the original list remains unchanged
-    >>> print(some_numbers)
-    [4, 3, 5, 1]
-```
-
-# H. Dictionary
-
-## Creating a Dictionary
-
-Let’s try to build a profile of three people using dictionaries. To do that you separate the key-value pairs by a colon(“:”). The keys would need to be of an immutable type, i.e., data-types for which the keys cannot be changed at runtime such as int, string, tuple, etc. The values can be of any type. Individual pairs will be separated by a comma(“,”) and the whole thing will be enclosed in curly braces(`{...}`).
-
-For example, you can have the fields “city”, “name,” and “food” for keys in a dictionary and assign the key,value pairs to the dictionary variable person1_information.
-
-```python
->>> person_information = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps"}
->>> type(person1_information)
-<class 'dict'>
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam', 'food': 'shrimps'}
-```
-
-## Get the values in a Dictionary
-
-To get the values of a dictionary from the keys, you can directly reference the keys. To do this, you enclose the key in brackets `[...]` after writing the variable name of the dictionary.
-
-So, in the following example, a dictionary is initialized with keys “city”, “name,” and “food” and you can retrieve the value corresponding to the key “city.”
-
-```python
->>> create a dictionary person1_information
->>> person1_information = {'city': 'San Francisco', 'name': 'Sam', "food":         "shrimps"}
->>> print the dictionary
->>> print(person1_information["city"])
-San Francisco
-```
-
-You can also use the get method to retrieve the values in a dict. The only difference is that in the get method, you can set a default value. In direct referencing, if the key is not present, the interpreter throws KeyError.
-
-```python
->>> # create a small dictionary
->>> alphabets = {1: ‘a’}
->>> # get the value with key 1
->>> print(alphabets.get(1))
-'a'
->>> # get the value with key 2. Pass “default” as default. Since key 2 does not exist, you get “default” as the return value.
->>> print(alphabets.get(2, "default"))
-'default'
->>> # get the value with key 2 through direct referencing 
->>> print(alphabets[2])
-Traceback (most recent call last):
-File "<stdin>", line 1, in <module>
-KeyError: 2
-```
-
-## Looping over dictionary
-
-Say, you got a dictionary, and you want to print the keys and values in it. Note that the key-words `for` and `in` are used which are used when you try to loop over something. To learn more about looping please look into tutorial on looping.
-
-```python
->>> person1_information = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps"}
->>> for k, v in person1_information.items():
-...     print("key is: %s" % k)
-...     print("value is: %s" % v)
-...     print("###########################")
+>>> class Snake:
+...     name = "python" # set an attribute `name` of the class
 ...
-key is: food
-value is: shrimps
-###########################
-key is: city
-value is: San Francisco
-###########################
-key is: name
-value is: Sam
-###########################
 ```
 
-## Add elements to a dictionary
-
-You can add elements by updating the dictionary with a new key and then assigning the value to a new key.
+You can assign the class to a variable. This is called object instantiation. You will then be able to access the attributes that are present inside the class using the dot `.` operator. For example, in the Snake example, you can access the attribute `name` of the class `Snake`.
 
 ```python
->>> # initialize an empty dictionary
->>> person1_information = {}
+>>> # instantiate the class Snake and assign it to variable snake
+>>> snake = Snake()
 
->>> # add the key, value information with key “city”
->>> person1_information["city"] = "San Francisco"
->>> # print the present person1_information
->>> print(person1_information)
-{'city': 'San Francisco'}
-
->>> # add another key, value information with key “name”
->>> person1_information["name"] = "Sam"
->>> # print the present dictionary
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam'}
-
->>> # add another key, value information with key “food”
->>> person1_information["food"] = "shrimps"
->>> # print the present dictionary
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam', 'food': 'shrimps'}
+>>> # access the class attribute name inside the class Snake.
+>>> print(snake.name)
+python
 ```
 
-Or you can combine two dictionaries to get a larger dictionary using the update method.
+### Methods
+
+Once there are attributes that “belong” to the class, you can define functions that will access the class attribute. These functions are called methods. When you define methods, you will need to always provide the first argument to the method with a self keyword.
+
+For example, you can define a class `Snake`, which has one attribute `name` and one method `change_name`. The method change name will take in an argument `new_name` along with the keyword `self`.
 
 ```python
->>> # create a small dictionary
->>> person1_information = {'city': 'San Francisco'}
-
->>> # print it and check the present elements in the dictionary
->>> print(person1_information) 
-{'city': 'San Francisco'}
-
->>> # have a different dictionary
->>> remaining_information = {'name': 'Sam', "food": "shrimps"}
-
->>> # add the second dictionary remaining_information to personal1_information using the update method
->>> person1_information.update(remaining_information)
-
->>> # print the current dictionary
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam', 'food': 'shrimps'}
+>>> class Snake:
+...     name = "python"
+...     
+...     def change_name(self, new_name): # note that the first argument is self
+...         self.name = new_name # access the class attribute with the self keyword
+...
 ```
 
-## Delete elements of a dictionary
-
-To delete a key, value pair in a dictionary, you can use the `del` method.
+Now, you can instantiate this class `Snake` with a variable `snake` and then change the name with the method `change_name`.
 
 ```python
->>> # initialise a dictionary with the keys “city”, “name”, “food”
->>> person1_information = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps"}
+>>> # instantiate the class
+>>> snake = Snake()
 
->>> # delete the key, value pair with the key “food”
->>> del person1_information["food"]
+>>> # print the current object name 
+>>> print(snake.name)
+python
 
->>> # print the present personal1_information. Note that the key, value pair “food”: “shrimps” is not there anymore.
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam'}
+>>> # change the name using the change_name method
+>>> snake.change_name("anaconda")
+>>> print(snake.name)
+anaconda
 ```
 
-A disadvantage is that it gives KeyError if you try to delete a nonexistent key.
+### Instance attributes in python and the init method
+
+You can also provide the values for the attributes at runtime. This is done by defining the attributes inside the init method. The following example illustrates this.
 
 ```python
->>> # initialise a dictionary with the keys “city”, “name”, “food”
->>> person1_information = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps"}
+class Snake:
 
->>> # deleting a non existent key gives key error.
->>> del person1_information["non_existent_key"]
+    def __init__(self, name):
+        self.name = name
+
+    def change_name(self, new_name):
+        self.name = new_name
+```
+
+Now you can directly define separate attribute values for separate objects. For example,
+
+```python
+>>> # two variables are instantiated
+>>> python = Snake("python")
+>>> anaconda = Snake("anaconda")
+
+>>> # print the names of the two variables
+>>> print(python.name)
+python
+>>> print(anaconda.name)
+anaconda
+```
+
+# K .Classes and Objects II (Inheritance and Composition)
+
+## Python classes and object object-oriented programming II
+
+Classes are written to organize and structure code into meaningful blocks, which can then be used to implement the business logic. These implementations are used in such a way that more complex parts are abstracted away to provide for simpler interfaces which can then be used to build even simpler blocks. While doing this we will find that there are lots of times when we will need to establish relationships between the classes that we build. These relationships can then be established using either inheritance or composition. At this point it is best you take a look at our [Python Classes tutorial][1] to get in-depth knowledge on how classes are written in Python. Also, in case you are already doing object oriented programming in some other language, you may want to check out our [notes on design patterns](https://www.hackerearth.com/practice/notes/design-patterns-1/).
+
+In this tutorial you will get to know how to build relationships between classes using inheritance and composition and the syntax that is needed.
+
+## Python inheritance
+
+### What is Inheritance
+
+In inheritance an object is based on another object. When inheritance is implemented, the methods and attributes that were defined in the base class will also be present in the inherited class. This is generally done to abstract away similar code in multiple classes. The abstracted code will reside in the base class and the previous classes will now inherit from the base class.
+
+### How to achieve Inheritance in Python
+
+Python allows the classes to inherit commonly used attributes and methods from other classes through inheritance. We can define a base class in the following manner:
+
+```python
+class DerivedClassName(BaseClassName):
+    pass
+```
+
+Let's look at an example of inheritance. In the following example, Rocket is the base class and MarsRover is the inherited class.
+
+```python
+class Rocket:
+    def __init__(self, name, distance):
+        self.name = name
+        self.distance = distance
+
+    def launch(self):
+        return "%s has reached %s" % (self.name, self.distance)
+
+
+class MarsRover(Rocket): # inheriting from the base class
+    def __init__(self, name, distance, maker):
+        Rocket.__init__(self, name, distance)
+        self.maker = maker
+
+    def get_maker(self):
+        return "%s Launched by %s" % (self.name, self.maker)
+
+
+if __name__ == "__main__":
+    x = Rocket("simple rocket", "till stratosphere")
+    y = MarsRover("mars_rover", "till Mars", "ISRO")
+    print(x.launch())
+    print(y.launch())
+    print(y.get_maker())
+```
+
+The output of the code above is shown below:
+
+```python
+➜ Documents python rockets.py
+simple rocket has reached till stratosphere
+mars_rover has reached till Mars
+mars_rover Launched by ISRO
+```
+
+## Python Composition:
+
+### What is composition
+
+In composition, we do not inherit from the base class but establish relationships between classes through the use of instance variables that are references to other objects. Talking in terms of pseudocode you may say that
+
+```python
+class GenericClass:
+    define some attributes and methods
+
+class ASpecificClass:
+    Instance_variable_of_generic_class = GenericClass
+
+# use this instance somewhere in the class
+    some_method(Instance_variable_of_generic_class)
+```
+
+So you will instantiate the base class and then use the instance variable for any business logic.
+
+### How to achieve composition in Python
+
+To achieve composition you can instantiate other objects in the class and then use those instances. For example in the below example we instantiate the Rocket class using `self.rocket` and then using self.rocket in the method `get_maker`.
+
+```python
+class MarsRoverComp():
+    def __init__(self, name, distance, maker):
+        self.rocket = Rocket(name, distance) # instantiating the base
+
+        self.maker = maker
+
+    def get_maker(self):
+        return "%s Launched by %s" % (self.rocket.name, self.maker)
+
+
+if __name__ == "__main__":
+    z = MarsRover("mars_rover2", "till Mars", "ISRO")
+    print(z.launch())
+    print(z.get_maker())
+```
+
+The output of the total code which has both inheritance and composition is shown below:
+
+```python
+➜ Documents python rockets.py
+simple rocket has reached till stratosphere
+mars_rover has reached till Mars
+mars_rover Launched by ISRO
+mars_rover2 has reached till Mars
+mars_rover2 Launched by ISRO
+```
+
+# K. Errors and Exceptions
+
+
+
+## Handling Exceptions with Try/Except/Finally
+
+Errors and Exceptions in Python are handled with the `Try: Except: Finally` construct. You put the unsafe code in the `try:` block. You put the fall-back code in the `Except:` block. The final code is kept in the `Finally:` block.
+
+For example, look at the code below.
+
+```python
+>>> try:
+...     print("in the try block")
+...     print(1/0)
+... except:
+...     print("In the except block")
+... finally:
+...     print("In the finally block")
+...
+in the try block
+In the except block
+In the finally block
+```
+
+## Raising exceptions for a predefined condition
+
+Exceptions can also be raised if you want the code to behave within specific parameters. For example, if you want to limit the user-input to only positive integers, raise an exception.
+
+```python
+# exc.py
+while True:
+    try:
+        user = int(input())
+        if user < 0:
+        raise ValueError("please give positive number")
+        else:
+        print("user input: %s" % user)
+except ValueError as e:
+        print(e)
+```
+
+So the output of the above program is:
+
+```python
+➜  python exc.py
+4
+user input: 4
+3
+user input: 3
+2
+user input: 2
+1
+user input: 1
+-1
+please give positive number
+5
+user input: 5
+2
+user input: 2
+-5
+please give positive number
+^C
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-KeyError: 'non_existent_key'
+File "exc.py", line 3, in <module>
+  user = int(input())
+KeyboardInterrupt
 ```
 
-So, instead of the `del` statement you can use the `pop` method. This method takes in the key as the parameter. As a second argument, you can pass the default value if the key is not present.
+# L. Iterators and Generators
+
+## Python Iterators, generators, and the for loop
+
+Iterators are containers for objects so that you can loop over the objects. In other words, you can run the "for" loop over the object. There are many iterators in the Python standard library. For example, list is an iterator and you can run a for loop over a list.
 
 ```python
->>> # initialise a dictionary with key, value pairs
->>> person1_information = {'city': 'San Francisco', 'name': 'Sam', "food": "shrimps"}
-
->>> # remove a key, value pair with key “food” and default value None
->>> print(person1_information.pop("food", None))
-'Shrimps'
-
->>> # print the updated dictionary. Note that the key “food” is not present anymore
->>> print(person1_information)
-{'city': 'San Francisco', 'name': 'Sam'}
-
->>> # try to delete a nonexistent key. This will return None as None is given as the default value.
->>> print(person1_information.pop("food", None))
-None
+>>> for lib in popular_python_libs:
+...     print(lib)
+...
+requests
+scrapy
+pillow
+SQLAlchemy
+NumPy
 ```
 
-## More facts about the Python dictionary
+In this tutorial you will get to know:
 
-You can test the presence of a key using the `has_key` method.
+1. How to create a custom iterator
+2. How to create a generator
+3. How to run for loops on iterators and generators
+
+## Python Iterators and the Iterator protocol
+
+To create a Python iterator object, you will need to implement two methods in your iterator class.
+
+`__iter__`: This returns the iterator object itself and is used while using the "for" and "in" keywords.
+
+`__next__`: This returns the next value. This would return the StopIteration error once all the objects have been looped through.
+
+Let us create a cool emoticon generator and l iterators.
 
 ```python
->>> alphabets = {1: ‘a’}
->>> alphabets.has_key(1)
-True
->>> alphabets.has_key(2)
-False
+# iterator_example.py
+"""
+This should give an iterator with a emoticon.
+"""
+
+import random
+
+class CoolEmoticonGenerator(object):
+    """docstring for CoolEmoticonGenerator."""
+
+    strings = "!@#$^*_-=+?/,.:;~"
+    grouped_strings = [("(", ")"), ("<", ">"), ("[", "]"), ("{", "}")]
+
+    def create_emoticon(self, grp):
+        """actual method that creates the emoticon"""
+        face_strings_list = [random.choice(self.strings) for _ in range(3)]
+        face_strings = "".join(face_strings_list)
+        emoticon = (grp[0], face_strings, grp[1])
+        emoticon = "".join(emoticon)
+        return emoticon
+
+    def __iter__(self):
+        """returns the self object to be accessed by the for loop"""
+        return self
+
+    def __next__(self):
+        """returns the next emoticon indefinitely"""
+        grp = random.choice(self.grouped_strings)
+        return self.create_emoticon(grp)
 ```
 
-A dictionary in Python doesn't preserve the order. Hence, we get the following:
+Now you can call the above class as an iterator. Which means you can run the next function on it.
 
 ```python
->>> call = {'sachin': 4098, 'guido': 4139}
->>> call["snape"] = 7663
->>> call
-{'snape': 7663, 'sachin': 4098, 'guido': 4139}
+from iterator_example import CoolEmoticonGenerator
+g = CoolEmoticonGenerator()
+print([next(g) for _ in range(5)])
 ```
 
-You see that even though "snape" was given later, it appeared at the top.
-
-# I. Set
-
-## How to create Sets
-
-Sets can be created by calling the built-in set() function with a sequence or another iterable object.
+Running the program above gives us the following output. The exact output may be different from what you get but it will be similar.
 
 ```python
->>> #creating an empty set
->>> setA = set()
->>> print(setA)
-set()
-
->>> # creating a set with a string.
->>> # since a string is an iterable, this will succeed.
->>> setA = set("HackerEarth")
->>> print(setA)
-{'h', 'H', 't', 'k', 'e', 'c', 'E', 'a', 'r'}
-
->>> # creating a set with a list
->>> setA = set(["C", “C++”, “Python”])
->>> print(setA)
-{'C', 'Python', 'C++'}
-
->>> # creating a set with a list of numbers
->>> # there are some duplicates in it.
->>> setA = set([1, 2, 3, 4, 5, 6, 7, 7, 7])
->>> print(setA)
-{1, 2, 3, 4, 5, 6, 7}
-
->>> # creating a set with a string. The string has some repeated characters.
->>> myString = 'foobar'
->>> setA = set(myString)
->>> print(setA)
-{'r', 'a', 'b', 'f', 'o'}
+➜  python3.5 iterator_example.py
+['<,~!>', '<;_~>', '<!;@>', '[~=#]', '{?^-}']
 ```
 
-set(object) iterates over the elements present in object and adds all the unique elements to the set.
+You can use the KeyboardInterrupt to stop the execution.
 
-Next you will learn about different operations available for Python Sets.
+## Python Generators
 
-For all set operations, the set created below which is a set of integers. There are some integers that are repeated here. :
+Python generator gives us an easier way to create python iterators. This is done by defining a function but instead of the return statement returning from the function, use the "yield" keyword. For example, see how you can get a simple vowel generator below.
 
 ```python
->>> setA = set([1, 2, 3, 4, 5, 6, 7, 7, 7])
->>> print(setA)
-{1, 2, 3, 4, 5, 6, 7}
+>>> def vowels():
+...     yield "a"
+...     yield "e"
+...     yield "i"
+...     yield "o"
+...     yield "u"
+...
+>>> for i in vowels():
+...     print(i)
+...
+a
+e
+i
+o
+u
 ```
 
-## Methods to change a set
-
-### How to add elements to a set
-
-- Python set add(element)
-
-This will add element to a set:
-
-For example, you can add the element 8 to the set 8
+Now let's try and create the CoolEmoticonGenerator.
 
 ```python
-    >>> setA.add(8)
-    >>> print(setA)
-    {1, 2, 3, 4, 5, 6, 7, 8}
+def create_emoticon_generator():
+    while True:
+        strings = "!@#$^*_-=+?/,.:;~"
+        grouped_strings = [("(", ")"), ("<", ">"), ("[", "]"), ("{", "}")]
+        grp = random.choice(grouped_strings)
+        face_strings_list = [random.choice(strings) for _ in range(3)]
+        face_strings = "".join(face_strings_list)
+        emoticon = (grp[0], face_strings, grp[1])
+        emoticon = "".join(emoticon)
+        yield emoticon
 ```
 
-Or you can add a tuple (9, 10) to the setA and the new set will consist of the tuple as well.
+Now, if you run the generator using the runner below
 
 ```python
-    >>> setA.add((9, 10))
-    >>> print(setA)
-    {1, 2, 3, 4, 5, 6, 7, 8, (9, 10)}
+from iterator_example import CoolEmoticonGenerator
+g = create_emoticon_generator()
+print([next(g) for _ in range(5)])
 ```
 
-- Python set update(element)
-
-Adds element to list; it is an in-place set union operation.
-
-For example you can pass a list to the update method and this will update the setA with the elements.
+You should get the following output
 
 ```python
-    >>> # pass a list with elements 11 and 12 
-    >>> setA.update([11, 12])
-    >>> # check if setA is updated with the elements.
-    >>> print(setA)
-    {1, 2, 3, 4, 5, 6, 7, 8, 11, 12, (9, 10)}
+➜  python3.5 iterator_example.py
+['(+~?)', '<**_>', '($?/)', '[#=+]', '{*=.}']
 ```
 
-Similarly you can update with a list and a new set as shown below
+# M. Functional Programming
+
+## Python and functional programming:
+
+Functional Programming is a coding style that focuses on defining what to do, instead of performing some action. Functional programming is derived from the mathematical style of thinking where you define the kind of inputs that go into a function and the kind of outputs that we can expect from the function. In functional code, the output of the function depends only on the arguments that are passed. Calling the function f for the same value of x should return the same result f(x) no matter how many times you pass it. Thus, it calls for a radically different style of thinking where you are rarely changing state. Instead of moving through steps, you think of data as undergoing transformations with the desired result as the end state.
+
+Python has many constructs that enable a programmer to dabble in functional programming. If you want to know more on functional programming, take a look at [our notes on the topic](https://www.hackerearth.com/practice/notes/functional-programming-a-new-paradigm/).
+
+In this tutorial you will look at:
+
+1. What are the characteristics of functional programming
+2. How to achieve those characteristics.
+3. What is the meaning of using functions as first class objects.
+4. What is functional purity.
+5. How to refactor procedural code to functional code.
+
+## Characteristics of functional programming
+
+A functionally pure language should support the following constructs:
+
+- Functions as first class objects, which means that you should be able to apply all the constructs of using data, to functions as well.
+- Pure functions; there should not be any side-effects in them
+- Ways and constructs to limit the use of for loops
+- Good support for recursion
+
+### Functions as first class objects in python:
+
+Using functions as first class objects means to use them in the same manner that you use data. So, You can pass them as parameters like passing a function to another function as an argument. For example, in the following example you can pass the int function as a parameter to map function.
 
 ```python
-    >>> setA.update([12, 14], {15, 16})
-    >>> print(setA)
-    {1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, (9, 10), 16}
+>>> list(map(int, ["1", "2", "3"]))
+[1, 2, 3]
 ```
 
-Using add, elements can be added but not another iterable like set, list, or tuple. Update can be used to add iterable or iterables of hashable elements.
-
-### Methods to remove elements from a set
-
-Python set discard(element) and remove(element) Used to remove element from the set
+You can assign them to variables and return them. For example, in the following code, you can assign the function `hello_world`, and then the variable will be executed as a function.
 
 ```python
->>> # removes element 7 from set
->>> setA.discard(7)
->>> print(setA)
-{1, 2, 3, 4, 5, 6, 8, 11, 12, 14, 15, (9, 10), 16}
-
->>> # removes element 8 from set
->>> setA.remove(8)
->>> print(setA)
-{1, 2, 3, 4, 5, 6, 11, 12, 14, 15, (9, 10), 16}
-```
-
-Both discard and remove take a single argument, the element to be deleted from the set. If the value is not present, discard() does not do anything. Whereas, remove will raise a KeyError exception.
-
-```python
->>> # discard doesn’t do anything is value to be discarded is not present
->>> setA.discard(19)
->>> print(setA)
-{1, 2, 3, 4, 5, 6, 11, 12, 14, 15, (9, 10), 16}
-
->>> # this operation fails with an exception being raised
->>> setA.remove(19)
-Traceback (most recent call last):
-   File "python", line 1, in <module>
-KeyError: 19
-```
-
-### Other useful set methods
-
-- Python set copy() Creates a shallow copy of the set with which it is called
-
-  ```python
-  >>> shallow_copy_of_setA = setA.copy()
-  >>> print(shallow_copy_of_setA)
-  {1, 2, 3, 4, 5, 6, 11, 12, 14, 15, (9, 10), 16}
-  ```
-
-Using assignment here instead of copy() will create a pointer to the already existing set.
-
-- Python set clear() Will remove all elements from set
-
-  ```python
-  >>> # clear the set shallow_copy_of_setA created before using copy() operation
-  >>> shallow_copy_of_setA.clear()
-  >>> print(shallow_copy_of_setA)
-  set()
-  ```
-
-- Python set pop() Removes an arbitrary set element
-
-  ```python
-  >>> # popping an element from setA
-  >>> setA.pop()
-  1
-  >>> # pop raises a KeyError exception if the set is empty
-  >>> shallow_copy_of_setA.pop()
-  Traceback (most recent call last):
-    File "python", line 1, in <module>
-  KeyError: 'pop from an empty set'
-  ```
-
-## Set Operations
-
-- Set Intersection using intersection(s) Returns element present in both sets; this can also be achieved using the ampersand operator (&).
-
-  ```python
-  >>> # create a new set setB
-  >>> setB= set()
-  
-  >>> # update setB with values
-  >>> setB.update([1, 2, 3, 4, 5, 10, 15, 22])
-  >>> print(setB)
-  {1, 2, 3, 4, 5, 10, 15, 22}
-  
-  >>> # print a new set with the values present in both setA and setB
-  >>> print(setA & setB)
-  {2, 3, 4, 5, 15}
-  
-  >>> # above operation and using method name intersection shows same results
-  >>> setA.intersection(setB)
-  {2, 3, 4, 5, 15}
-  ```
-
-- Set Difference using difference() Returns the difference of two sets; “-” operator can also be used to find the set difference.
-
-  ```python
-  >>> # print a new set with values present in setA but not in setB
-  >>> setA.difference(setB)
-  {6, 11, 12, 14, (9, 10), 16}
-  
-  >>> # this returns empty set 
-  >>> setB.difference(setA)
-  set()
-  ```
-
-setB is a proper subset of setA to setB - setA is empty set.
-
-### Other Set Operations
-
-- Python set isdisjoint() Returns true if intersection of sets is empty otherwise false
-
-  ```python
-  >>> # returns false as both have common elements
-  >>> setA.isdisjoint(setB)
-  False
-  
-  >>> # create a new empty set setC
-  >>> setC = set()
-  >>> # update setC with values
-  >>> setC.update([100, 99])
-  
-  >>> # returns true as setA and setC has no elements in common
-  >>> setA.disjoint(setC)
-  True
-  ```
-
-- Python set difference_update() setA.difference_update(setB) removes all elements of y from setA; ‘-=’ can be used in place of the difference_update method.
-
-  ```python
-  >>> # update setA by removing elements present in setB from setA
-  >>> setA.difference_update(setB)
-  >>> # check the result set
-  >>> print(setA)
-  {6, 11, 12, 14, (9, 10), 16}
-  ```
-
-Similarly, setA.intersection_update(setB) removes elements from setA which are not present in the intersection set of setA and setB. ‘&=’ can be used in place of the intersection_update method.
-
-- Python set issubset() and issuperset() setA.issubset(setB) returns True if setA is subset of setB, False if not. “<=” operator can be used to test for issubset. To check for proper subset “<” is used.
-
-  ```python
-  >>> # check if setA is a subset of setB
-  >>> setA.issubset(setB)
-  False
-  >>> # check if set B is a subset of setA
-  >>> setB.issubset(setA)
-  False
-  ```
-
-Let’s make setB a subset of setA by removing values 1, 10, and 22.
-
-```python
-    >>> # remove few elements to make setB a subset of setA
-    >>> setB.remove(1)
-    >>> setB.remove(10)
-    >>> setB.remove(22)
-
-    >>> # check the values present in setB now
-    >>> print(setB)
-    {2, 3, 4, 5, 15}
-
-    >>> # issubset now returns true
-    >>> setB.issubset(setA)
-    True
-    >>> setB < setA
-    True
-
-    >>> #setA now becomes a superset of setB
-    >>> setA.issuperset(setB)
-    True
-```
-
-# J. Expressions
-
-## How to create an expressions
-
-Python expressions only contain identifiers, literals, and operators. So, what are these?
-
-**Identifiers**: Any name that is used to define a class, function, variable module, or object is an identifier. **Literals**: These are language-independent terms in Python and should exist independently in any programming language. In Python, there are the string literals, byte literals, integer literals, floating point literals, and imaginary literals. **Operators**: In Python you can implement the following operations using the corresponding tokens.
-
-| Operator                 | Token |
-| ------------------------ | ----- |
-| add                      | +     |
-| subtract                 | -     |
-| multiply                 | *     |
-| power                    | **    |
-| Integer Division         | /     |
-| remainder                | %     |
-| decorator                | @     |
-| Binary left shift        | <<    |
-| Binary right shift       | >>    |
-| and                      | &     |
-| or                       | \     |
-| Binary Xor               | ^     |
-| Binary ones complement   | ~     |
-| Less than                | <     |
-| Greater than             | >     |
-| Less than or equal to    | <=    |
-| Greater than or equal to | >=    |
-| Check equality           | ==    |
-| Check not equal          | !=    |
-
-Following are a few types of python expressions:
-
-### List comprehension
-
-The syntax for list comprehension is shown below:
-
-```python
-[ compute(var) for var in iterable ]
-```
-
-For example, the following code will get all the number within 10 and put them in a list.
-
-```
->>> [x for x in range(10)]
-[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-```
-
-### Dictionary comprehension
-
-This is the same as list comprehension but will use curly braces:
-
-```python
-{ k, v for k in iterable }
-```
-
-For example, the following code will get all the numbers within 5 as the keys and will keep the corresponding squares of those numbers as the values.
-
-```
->>> {x:x**2 for x in range(5)}
-{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
-```
-
-### Generator expression
-
-The syntax for generator expression is shown below:
-
-```python
-( compute(var) for var in iterable )
-```
-
-For example, the following code will initialize a generator object that returns the values within 10 when the object is called.
-
-```python
->>> (x for x in range(10))
-<generator object <genexpr> at 0x7fec47aee870>
->>> list(x for x in range(10))
-[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-```
-
-### Conditional Expressions
-
-You can use the following construct for one-liner conditions:
-
-```python
-true_value if Condition else false_value
-```
-
-Example:
-
-```
->>> x = "1" if True else "2"
+>>> def hello_world(h):
+...     def world(w):
+...         print(h, w)
+...     return world # returning functions
+...
+>>> h = hello_world # assigning
+>>> x = h("hello") # assigning
 >>> x
-'1'
+<function world at 0x7fec47afc668>
+>>> x("world")
+('hello', 'world')
 ```
+
+You can store functions in various data structures. For example, in the following code you can store multiple functions in a list.
+
+```python
+>>> function_list = [h, x]
+>>> function_list
+[<function hello_world at 0x7fec47afc5f0>, <function world at 0x7fec47afc668>]
+```
+
+### Python functional purity:
+
+There are various built-in functions in Python that can help to avoid procedural code in functions. So something like this
+
+```python
+def naive_sum(list):
+    s = 0
+    for l in list:
+        s += l
+    return s
+```
+
+can be replaced with the following construct:
+
+```python
+sum(list)
+```
+
+Similarly, built-in functions such as map, reduce, and the itertools module in Python can be utilized to avoid side-effects in your code.
+
+### Reducing the usage of loops in Python:
+
+Loops come into the picture when you want to loop over a collection of objects and apply some kind of logic or function.
+
+```python
+for x in l:
+    func(x)
+```
+
+The above construct stems from the traditional thinking of visualizing the whole program as a series of steps where you define how things need to be done. Making this more functional will need a change in the thinking pattern. You can replace the above for loop in Python in the following manner.
+
+```python
+map(func, l)
+```
+
+This is read as “map the function to the list,” which conforms to our idea of defining the question “what.”
+
+If you take this idea and apply it to the sequential execution of functions, you get the following construct.
+
+```python
+def func1():
+    pass
+
+def func2():
+    pass
+
+def func3():
+    pass
+
+executing = lambda f: f()
+map(executing, [func1, func2, func3])
+```
+
+Please note that this does not actually run the functions but returns a lazy map object. You need to pass this object to a `list` or any other eager function to have the code executed.
+
+## Python Recursion:
+
+### What is Recursion
+
+Recursion is a method of breaking a problem into subproblems which are essentially of the same type as the original problem. You solve the base problems and then combine the results. Usually this involves the function calling itself.
+
+An example for recursion may be something like:
+
+eat the dumplings: 1. check how many dumplings on the plate 2. if no dumplings left stop eating 3. else eat one dumpling 4. "eat the dumplings"
+
+### How to implement recursion in your code
+
+Python functions support recursion and hence you can utilize the dynamic programming constructs in the code to optimize them. Recursion basically needs to fulfill two conditions. There should be a condition where the recursion should end, and it should call itself for all other conditions. The end condition should be limiting; i.e, the functions should call smaller versions of themselves.
+
+Example: The following code generates Fibonacci numbers through recursion.
+
+```python
+def fib(n):
+    if n == 0: return 0
+    elif n == 1: return 1
+    else: return fib(n-1)+fib(n-2)
+```
+
+A small example showing how to convert procedural code into functional code:
+
+Let us go through a small example where you try to refactor procedural code into functional. In the below example, you have a starting number which gets squared, the result is incremented by 1 and the result of that is raised to the power of 3, the code then takes the decrement. Note that the code works in steps.
+
+```python
+# procedural code
+starting_number = 96
+
+# get the square of the number
+square = starting_number ** 2
+
+# increment the number by 1
+increment = square + 1
+
+# cube of the number
+cube = increment ** 3
+
+# decrease the cube by 1
+decrement = cube - 1
+
+# get the final result
+result = print(decrement) # output 783012621312
+```
+
+The same procedural code can be written functionally. Note that unlike the code above instead of giving explicit instructions on how to do it, you are giving instructions on what to do. The functions below operate at a higher plane of abstraction.
+
+```python
+# define a function `call` where you provide the function and the arguments
+def call(x, f):
+    return f(x)
+
+# define a function that returns the square
+square = lambda x : x*x
+
+# define a function that returns the increment
+increment = lambda x : x+1
+
+# define a function that returns the cube
+cube = lambda x : x*x*x
+
+# define a function that returns the decrement
+decrement = lambda x : x-1
+
+# put all the functions in a list in the order that you want to execute them
+funcs = [square, increment, cube, decrement]
+
+# bring it all together. Below is the non functional part. 
+# in functional programming you separate the functional and the non functional parts.
+from functools import reduce # reduce is in the functools library
+print(reduce(call, funcs, 96)) # output 783012621312
+```
+
+# N. Higher Order Functions and Decorators
+
+## Python Higher-Order Functions and Decorators
+
+In Python, functions are treated as first class objects, allowing you to perform the following operations on functions.
+
+- A function can take one or more functions as arguments
+- A function can be returned as a result of another function
+
+In this tutorial, you will learn:
+
+```
+1. Handling functions as arguments
+2. Returning functions as the return value from other functions
+3. Using closures and decorators
+```
+
+## Functions as arguments
+
+You can pass functions as one of the arguments to another function. This is shown in the following example.
+
+```python
+def summation(nums): # normal function
+    return sum(nums)
+
+def main(f, *args): # function as an argument
+    result = f(*args)
+    print(result)
+
+if __name__ == "__main__":
+    main(summation, [1,2,3]) # output 6
+```
+
+The main function took in the function `summation` as an argument. The `main` function is a normal function which executes the supplied function with the arguments. You can see that the output reflects that. This opens up possibilities where you can pass different functions to a function, and the passed function only will be considered.
+
+## Having a function as a return value
+
+```python
+def add_tw0_nums(x, y): # normal function which returns data
+    return x + y
+
+def add_three_nums(x, y, z): # normal function which returns data
+    return x + y + z
+
+def get_appropriate_function(num_len): # function which returns functions depending on the logic
+    if num_len == 3:
+        return add_three_nums
+    else:
+        return add_tw0_nums
+
+
+if __name__ == "__main__":
+    args = [1, 2, 3]
+    num_len = len(args)
+    res_function = get_appropriate_function(num_len)
+    print(res_function)       # <function add_three_nums at 0x7f8f34173668>
+    print(res_function(*args)) # unpack the args, output 6
+
+    args = [1, 2]
+    num_len = len(args)
+    res_function = get_appropriate_function(num_len)
+    print(res_function)       # <function add_tw0_nums at 0x7f1630955e18>
+    print(res_function(*args)) # unpack the args, output 3
+```
+
+Here, you can see that different functions were returned depending on the argument in the “get_appropriate_function.”
+
+## Python closures
+
+Let’s now look at how closures are created in Python. A closure is a way of keeping alive a variable even when the function has returned. So, in a closure, a function is defined along with the environment. In Python, this is done by nesting a function inside the encapsulating function and then returning the underlying function.
+
+```python
+def add_5():
+    five = 5
+
+    def add(arg): # nesting functions
+        return arg + five
+    return add
+
+if __name__ == '__main__':
+    closure1 = add_5()
+    print(closure1(1)) # output 6
+    print(closure1(2)) # output 7
+```
+
+## Python decorators
+
+Now, using the these ways of writing, Python code can be used to create decorators. Python decorators are convenient ways to make changes to the functionality of code without making changes to the code. A decorator is written as a function closure and implemented by giving the “@” operator on top of the function. The skeleton of a Python decorator is shown below.
+
+```python
+def my_decorator(f):
+    # write your code here or your wrapping function
+    # return the wrapping function
+    pass
+
+@my_decorator
+def my_code(args):
+    # original functionality
+    pass
+
+my_code(args)
+```
+
+Using this skeleton as an example, giving the @ operator on top of the function is the same as writing my_decorator(my_code(args)).
+
+You can look at the following example where you have a function that returns a dictionary.
+
+```python
+def my_code(args):
+    return {lang: args}
+```
+
+Executing this code will give the normal result.
+
+```python
+>>> def my_code(args):
+...     return {"lang": args}
+...
+>>> print(my_code("python"))
+{'lang': 'python'}
+>>>
+```
+
+Say, you want to build the additional functionality of checking if the return value is a dict. In this case, you can use a decorator.
+
+```python
+>>> def check(f):
+...     def wrapper(*args, **kwargs):
+...         res = f(*args, **kwargs)
+...         if isinstance(res, dict):
+...             print("checked that the return value is dict")
+...             return res
+...     return wrapper
+...
+>>>
+>>>
+>>> @check
+... def my_code(args):
+...     return {"lang": args}
+...
+>>> print(my_code("python"))
+checked that the return value is dict
+{'lang': 'python'}
+```
+
+Here, the function “check” is used as a decorator, and it enforces the additional functionality of checking if the return of the function ”my_code” is a decorator or not.
