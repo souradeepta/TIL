@@ -550,7 +550,142 @@ Traceback (most recent call last):
 AttributeError: Unchangable instance has no attribute 'x'
 ```
 
+##### __getattr___[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=29)]
 
+Similar to __setattr__, except this function is called when we try to access a class member, and the default simply returns the value.
+
+```python
+>>> class HiddenMembers:
+...     def __getattr__(self, name):
+...         return "You don't get to see " + name
+...
+>>> h = HiddenMembers()
+>>> h.anything
+"You don't get to see anything"
+```
+
+##### __delattr__[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=30)]
+
+This function is called to delete an attribute.
+
+```python
+>>> class Permanent:
+...     def __delattr__(self, name):
+...         print name, "cannot be deleted"
+...
+>>> p = Permanent()
+>>> p.x = 9
+>>> del p.x
+x cannot be deleted
+>>> p.x
+9
+```
+
+**Attribute Override Functions**
+
+|  Function   |  Indirect form   | Direct Form |
+| :---------: | :--------------: | :---------: |
+| __getattr__ |  getattr(A, B)   |     A.B     |
+| __setattr__ | setattr(A, B, C) |   A.B = C   |
+| __delattr__ |  delattr(A, B)   |   del A.B   |
+
+#### Operator Overloading[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=31)]
+
+Operator overloading allows us to use the built-in Python syntax and operators to call functions which we define.
+
+### 	Binary Operators[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=32)]
+
+If a class has the __add__ function, we can use the '+' operator to add instances of the class. This will call __add__ with the two instances of the class passed as parameters, and the return value will be the result of the addition.
+
+```python
+>>> class FakeNumber:
+...     n = 5
+...     def __add__(A,B):
+...         return A.n + B.n
+...
+>>> c = FakeNumber()
+>>> d = FakeNumber()
+>>> d.n = 7
+>>> c + d
+12
+```
+
+To override the [augmented assignment](https://en.wikibooks.org/wiki/Python_Programming/Operators#Augmented_Assignment) operators, merely add 'i' in front of the normal binary operator, i.e. for '+=' use '__iadd__' instead of '__add__'. The function will be given one argument, which will be the object on the right side of the augmented assignment operator. The returned value of the function will then be assigned to the object on the left of the operator.
+
+```python
+>>> c.__imul__ = lambda B: B.n - 6
+>>> c *= d
+>>> c
+1
+```
+
+It is important to note that the [augmented assignment](https://en.wikibooks.org/wiki/Python_Programming/Operators#Augmented_Assignment) operators will also use the normal operator functions if the augmented operator function hasn't been set directly. This will work as expected, with "__add__" being called for "+=" and so on.
+
+```
+>>> c = FakeNumber()
+>>> c += d
+>>> c
+12
+```
+
+##### Item Operators[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=34)]
+
+It is also possible in Python to override the [indexing and slicing](https://en.wikibooks.org/wiki/Python_Programming/Strings#Indexing_and_Slicing) operators. This allows us to use the class[i] and class[a:b] syntax on our own objects.The simplest form of item operator is __getitem__. This takes as a parameter the instance of the class, then the value of the index.
+
+```python
+>>> class FakeList:
+...     def __getitem__(self,index):
+...         return index * 2
+...
+>>> f = FakeList()
+>>> f['a']
+'aa'
+```
+
+We can also define a function for the syntax associated with assigning a value to an item. The parameters for this function include the value being assigned, in addition to the parameters from __getitem__
+
+```python
+>>> class FakeList:
+...     def __setitem__(self,index,value):
+...         self.string = index + " is now " + value
+...
+>>> f = FakeList()
+>>> f['a'] = 'gone'
+>>> f.string
+'a is now gone'
+```
+
+We can do the same thing with slices. Once again, each syntax has a different parameter list associated with it.
+
+```python
+>>> class FakeList:
+...     def __getslice___(self,start,end):
+...         return str(start) + " to " + str(end)
+...
+>>> f = FakeList()
+>>> f[1:4]
+'1 to 4'
+```
+
+Keep in mind that one or both of the start and end parameters can be blank in slice syntax. Here, Python has default value for both the start and the end, as show below.
+
+```
+>> f[:]
+'0 to 2147483647'
+```
+
+Note that the default value for the end of the slice shown here is simply the largest possible signed integer on a 32-bit system, and may vary depending on your system and C compiler.
+
+- __setslice__ has the parameters (self,start,end,value)
+
+We also have operators for deleting items and slices.
+
+- __delitem__ has the parameters (self,index)
+- __delslice__ has the parameters (self,start,end)
+
+Note that these are the same as __getitem__ and __getslice__
+
+### Programming Practices[[edit](https://en.wikibooks.org/w/index.php?title=Python_Programming/Classes&action=edit&section=36)]
 
 The flexibility of python classes means that classes can adopt a varied set of behaviors. For the sake of understandability, however, it's best to use many of Python's tools sparingly. Try to declare all methods in the class definition, and always use the <class>.<member> syntax instead of __dict__ whenever possible. Look at classes in [C++](https://en.wikibooks.org/wiki/C%2B%2B_Programming/Classes) and [Java](https://en.wikipedia.org/wiki/Class_(computer_science)#Java) to see what most programmers will expect from a class.
 
@@ -562,7 +697,7 @@ Since all python members of a python class are accessible by functions/methods o
 
 When defining a class, it is convention to document the class using a string literal at the start of the class definition. This string will then be placed in the __doc__ attribute of the class definition.
 
-```
+```python
 >>> class Documented:
 ...     """This is a docstring"""
 ...     def explode(self):
@@ -590,7 +725,7 @@ Don't just stop at documenting the class definition, either. Each method in the 
 
 It is fairly easy to add methods to a class at runtime. Lets assume that we have a class called *Spam* and a function cook. We want to be able to use the function cook on all instances of the class Spam:
 
-```
+```python
 class Spam:
   def __init__(self):
     self.myeggs = 5
@@ -613,7 +748,7 @@ cooking 5 eggs
 
 It is a bit more tricky to add methods to an instance of a class that has already been created. Lets assume again that we have a class called *Spam* and we have already created eggs. But then we notice that we wanted to cook those eggs, but we do not want to create a new instance but rather use the already created one:
 
-```
+```python
 class Spam:
   def __init__(self):
     self.myeggs = 5
@@ -640,7 +775,7 @@ cooking 5 eggs
 
 We can also write a function that will make the process of adding methods to an instance of a class easier.
 
-```
+```python
 def attach_method(fxn, instance, myclass):
   f = types.MethodType(fxn, instance, myclass)
   setattr(instance, fxn.__name__, f)
