@@ -1,0 +1,2404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Website with the collection of all the cheat sheets of the project.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://cheatsheetseries.owasp.org/cheatsheets/Microservices_based_Security_Arch_Doc_Cheat_Sheet.html">
+      
+      <link rel="shortcut icon" href="../assets/WebSite_Favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>Microservices based Security Arch Doc - OWASP Cheat Sheet Series</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-4531126-15","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#microservices-based-security-arch-doc-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-header-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            OWASP Cheat Sheet Series
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Microservices based Security Arch Doc
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    OWASP Cheat Sheet Series
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../Glossary.html" class="md-nav__link">
+      Index Alphabetical
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexASVS.html" class="md-nav__link">
+      Index ASVS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexProactiveControls.html" class="md-nav__link">
+      Index Proactive Controls
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Cheatsheets
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Cheatsheets" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Cheatsheets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="AJAX_Security_Cheat_Sheet.html" class="md-nav__link">
+      AJAX Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Abuse_Case_Cheat_Sheet.html" class="md-nav__link">
+      Abuse Case
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Access_Control_Cheat_Sheet.html" class="md-nav__link">
+      Access Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Attack_Surface_Analysis_Cheat_Sheet.html" class="md-nav__link">
+      Attack Surface Analysis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authorization_Testing_Automation_Cheat_Sheet.html" class="md-nav__link">
+      Authorization Testing Automation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Bean_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Bean Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="C-Based_Toolchain_Hardening_Cheat_Sheet.html" class="md-nav__link">
+      C-Based Toolchain Hardening
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Choosing_and_Using_Security_Questions_Cheat_Sheet.html" class="md-nav__link">
+      Choosing and Using Security Questions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Clickjacking_Defense_Cheat_Sheet.html" class="md-nav__link">
+      Clickjacking Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Content_Security_Policy_Cheat_Sheet.html" class="md-nav__link">
+      Content Security Policy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Credential_Stuffing_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Credential Stuffing Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross-Site Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross Site Scripting Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cryptographic_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Cryptographic Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DOM_based_XSS_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      DOM based XSS Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Database_Security_Cheat_Sheet.html" class="md-nav__link">
+      Database Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Denial_of_Service_Cheat_Sheet.html" class="md-nav__link">
+      Denial of Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Deserialization_Cheat_Sheet.html" class="md-nav__link">
+      Deserialization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Docker_Security_Cheat_Sheet.html" class="md-nav__link">
+      Docker Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DotNet_Security_Cheat_Sheet.html" class="md-nav__link">
+      DotNet Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Error_Handling_Cheat_Sheet.html" class="md-nav__link">
+      Error Handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="File_Upload_Cheat_Sheet.html" class="md-nav__link">
+      File Upload
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Forgot_Password_Cheat_Sheet.html" class="md-nav__link">
+      Forgot Password
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="GraphQL_Cheat_Sheet.html" class="md-nav__link">
+      GraphQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTML5_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTML5 Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTTP_Strict_Transport_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTTP Strict Transport Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_in_Java_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention in Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Input_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Input Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Insecure Direct Object Reference Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JAAS_Cheat_Sheet.html" class="md-nav__link">
+      JAAS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JSON_Web_Token_for_Java_Cheat_Sheet.html" class="md-nav__link">
+      JSON Web Token for Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Key_Management_Cheat_Sheet.html" class="md-nav__link">
+      Key Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-nav__link">
+      Kubernetes Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="LDAP_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      LDAP Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Logging_Cheat_Sheet.html" class="md-nav__link">
+      Logging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Mass_Assignment_Cheat_Sheet.html" class="md-nav__link">
+      Mass Assignment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Microservices based Security Arch Doc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="Microservices_based_Security_Arch_Doc_Cheat_Sheet.html" class="md-nav__link md-nav__link--active">
+      Microservices based Security Arch Doc
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    Context
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposition" class="md-nav__link">
+    Proposition
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collect-information-on-the-building-blocks" class="md-nav__link">
+    Collect information on the building blocks
+  </a>
+  
+    <nav class="md-nav" aria-label="Collect information on the building blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-application-functionality-services" class="md-nav__link">
+    Identify and describe application-functionality services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-infrastructure-services" class="md-nav__link">
+    Identify and describe infrastructure services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-data-storages" class="md-nav__link">
+    Identify and describe data storages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-message-queues" class="md-nav__link">
+    Identify and describe message queues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-data-assets" class="md-nav__link">
+    Identify and describe data assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collect-information-on-relations-between-building-blocks" class="md-nav__link">
+    Collect information on relations between building blocks
+  </a>
+  
+    <nav class="md-nav" aria-label="Collect information on relations between building blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-storage-relations" class="md-nav__link">
+    Identify "service-to-storage" relations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-service-synchronous-communications" class="md-nav__link">
+    Identify "service-to-service" synchronous communications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-service-asynchronous-communications" class="md-nav__link">
+    Identify "service-to-service" asynchronous communications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-asset-to-storage-relations" class="md-nav__link">
+    Identify "asset-to-storage" relations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-graphical-presentation-of-application-architecture" class="md-nav__link">
+    Create a graphical presentation of application architecture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-collected-information-in-secure-software-development-practices" class="md-nav__link">
+    Use collected information in secure software development practices
+  </a>
+  
+    <nav class="md-nav" aria-label="Use collected information in secure software development practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attack-surface-analysis" class="md-nav__link">
+    Attack surface analysis
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack surface analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-leakage-analysis" class="md-nav__link">
+    Data leakage analysis
+  </a>
+  
+    <nav class="md-nav" aria-label="Data leakage analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_1" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_1" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-trust-boundaries-components-and-significant-data-flows-justification" class="md-nav__link">
+    Application's trust boundaries, components, and significant data flows justification
+  </a>
+  
+    <nav class="md-nav" aria-label="Application's trust boundaries, components, and significant data flows justification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_2" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_2" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-the-applications-high-level-architecture" class="md-nav__link">
+    Analysis of the application's high-level architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Analysis of the application's high-level architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_3" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_3" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-of-centralized-security-controls-verification" class="md-nav__link">
+    Implementation of centralized security controls verification
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation of centralized security controls verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_4" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_4" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcement-of-the-principle-of-least-privilege" class="md-nav__link">
+    Enforcement of the principle of least privilege
+  </a>
+  
+    <nav class="md-nav" aria-label="Enforcement of the principle of least privilege">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_5" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_5" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensitive-data-identification-and-classification" class="md-nav__link">
+    Sensitive data identification and classification
+  </a>
+  
+    <nav class="md-nav" aria-label="Sensitive data identification and classification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_6" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_6" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-components-businesssecurity-functions-verification" class="md-nav__link">
+    Application components business/security functions verification
+  </a>
+  
+    <nav class="md-nav" aria-label="Application components business/security functions verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_7" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_7" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_security.html" class="md-nav__link">
+      Microservices security.md
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Multifactor_Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Multifactor Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Nodejs_Security_Cheat_Sheet.html" class="md-nav__link">
+      Nodejs Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="OS_Command_Injection_Defense_Cheat_Sheet.html" class="md-nav__link">
+      OS Command Injection Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="PHP_Configuration_Cheat_Sheet.html" class="md-nav__link">
+      PHP Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Password_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Password Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Pinning_Cheat_Sheet.html" class="md-nav__link">
+      Pinning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Query_Parameterization_Cheat_Sheet.html" class="md-nav__link">
+      Query Parameterization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Assessment_Cheat_Sheet.html" class="md-nav__link">
+      REST Assessment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Security_Cheat_Sheet.html" class="md-nav__link">
+      REST Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Ruby_on_Rails_Cheat_Sheet.html" class="md-nav__link">
+      Ruby on Rails
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SAML_Security_Cheat_Sheet.html" class="md-nav__link">
+      SAML Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SQL_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      SQL Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Securing_Cascading_Style_Sheets_Cheat_Sheet.html" class="md-nav__link">
+      Securing Cascading Style Sheets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Server Side Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Session_Management_Cheat_Sheet.html" class="md-nav__link">
+      Session Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="TLS_Cipher_String_Cheat_Sheet.html" class="md-nav__link">
+      TLS Cipher String
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Third_Party_Javascript_Management_Cheat_Sheet.html" class="md-nav__link">
+      Third Party Javascript Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Threat_Modeling_Cheat_Sheet.html" class="md-nav__link">
+      Threat Modeling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transaction_Authorization_Cheat_Sheet.html" class="md-nav__link">
+      Transaction Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transport_Layer_Protection_Cheat_Sheet.html" class="md-nav__link">
+      Transport Layer Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" class="md-nav__link">
+      Unvalidated Redirects and Forwards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="User_Privacy_Protection_Cheat_Sheet.html" class="md-nav__link">
+      User Privacy Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Virtual_Patching_Cheat_Sheet.html" class="md-nav__link">
+      Virtual Patching
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerability_Disclosure_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerability Disclosure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerable_Dependency_Management_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerable Dependency Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Web_Service_Security_Cheat_Sheet.html" class="md-nav__link">
+      Web Service Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_External_Entity_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      XML External Entity Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_Security_Cheat_Sheet.html" class="md-nav__link">
+      XML Security
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    Context
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposition" class="md-nav__link">
+    Proposition
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collect-information-on-the-building-blocks" class="md-nav__link">
+    Collect information on the building blocks
+  </a>
+  
+    <nav class="md-nav" aria-label="Collect information on the building blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-application-functionality-services" class="md-nav__link">
+    Identify and describe application-functionality services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-infrastructure-services" class="md-nav__link">
+    Identify and describe infrastructure services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-data-storages" class="md-nav__link">
+    Identify and describe data storages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-message-queues" class="md-nav__link">
+    Identify and describe message queues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-describe-data-assets" class="md-nav__link">
+    Identify and describe data assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collect-information-on-relations-between-building-blocks" class="md-nav__link">
+    Collect information on relations between building blocks
+  </a>
+  
+    <nav class="md-nav" aria-label="Collect information on relations between building blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-storage-relations" class="md-nav__link">
+    Identify "service-to-storage" relations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-service-synchronous-communications" class="md-nav__link">
+    Identify "service-to-service" synchronous communications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-service-to-service-asynchronous-communications" class="md-nav__link">
+    Identify "service-to-service" asynchronous communications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identify-asset-to-storage-relations" class="md-nav__link">
+    Identify "asset-to-storage" relations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-graphical-presentation-of-application-architecture" class="md-nav__link">
+    Create a graphical presentation of application architecture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-collected-information-in-secure-software-development-practices" class="md-nav__link">
+    Use collected information in secure software development practices
+  </a>
+  
+    <nav class="md-nav" aria-label="Use collected information in secure software development practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attack-surface-analysis" class="md-nav__link">
+    Attack surface analysis
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack surface analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-leakage-analysis" class="md-nav__link">
+    Data leakage analysis
+  </a>
+  
+    <nav class="md-nav" aria-label="Data leakage analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_1" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_1" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applications-trust-boundaries-components-and-significant-data-flows-justification" class="md-nav__link">
+    Application's trust boundaries, components, and significant data flows justification
+  </a>
+  
+    <nav class="md-nav" aria-label="Application's trust boundaries, components, and significant data flows justification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_2" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_2" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-the-applications-high-level-architecture" class="md-nav__link">
+    Analysis of the application's high-level architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Analysis of the application's high-level architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_3" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_3" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-of-centralized-security-controls-verification" class="md-nav__link">
+    Implementation of centralized security controls verification
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation of centralized security controls verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_4" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_4" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcement-of-the-principle-of-least-privilege" class="md-nav__link">
+    Enforcement of the principle of least privilege
+  </a>
+  
+    <nav class="md-nav" aria-label="Enforcement of the principle of least privilege">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_5" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_5" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensitive-data-identification-and-classification" class="md-nav__link">
+    Sensitive data identification and classification
+  </a>
+  
+    <nav class="md-nav" aria-label="Sensitive data identification and classification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_6" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_6" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-components-businesssecurity-functions-verification" class="md-nav__link">
+    Application components business/security functions verification
+  </a>
+  
+    <nav class="md-nav" aria-label="Application components business/security functions verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-tips_7" class="md-nav__link">
+    Implementation tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-to-owasp-projects_7" class="md-nav__link">
+    Mapping to OWASP projects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="microservices-based-security-arch-doc-cheat-sheet">Microservices based Security Arch Doc Cheat Sheet<a class="headerlink" href="#microservices-based-security-arch-doc-cheat-sheet" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The microservice architecture is being increasingly used for designing and implementing application systems in both cloud-based and on-premise infrastructures. There are many security challenges need to be addressed in the application design and implementation phases. In order to address some security challenges it is necessity to collect security-specific information on application architecture.
+The goal of this article is to provide a concrete proposal of approach to collect microservice-based architecture information to securing application.</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>During securing applications based on microservices architecture, security architects/engineers usually face with the following questions (mostly referenced in the <a href="https://github.com/OWASP/ASVS">OWASP Application Security Verification Standard Project</a> under the section <a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">V1 "Architecture, Design and Threat Modeling Requirements"</a>):</p>
+<ol>
+<li>Threat modeling and enforcement of the principle of least privilege:<ul>
+<li>What scopes or API keys does microservice minimally need to access other microservice APIs?</li>
+<li>What grants does microservice minimally need to access database or message queue?</li>
+</ul>
+</li>
+<li>Data leakage analysis:<ul>
+<li>What storages or message queues do contain sensitive data?</li>
+<li>Does microservice read/write date from/to specific database or message queue?</li>
+<li>What microservices are invoked by dedicated microservice? What data is passed between microservices?</li>
+</ul>
+</li>
+<li>Attack surface analysis:<ul>
+<li>What microservices endpoints need to be tested during security testing?</li>
+</ul>
+</li>
+</ol>
+<p>In most cases, existing application architecture documentation is not suitable to answer those questions. Next sections propose what architecture security-specific information can be collected to answer the questions above.</p>
+<h2 id="objective">Objective<a class="headerlink" href="#objective" title="Permanent link">&para;</a></h2>
+<p>The objectives of the cheat sheet are to explain what architecture security-specific information can be collected to answer the questions above and provide concrete proposal of approach to collect microservice-based architecture information to securing application.</p>
+<h2 id="proposition">Proposition<a class="headerlink" href="#proposition" title="Permanent link">&para;</a></h2>
+<h3 id="collect-information-on-the-building-blocks">Collect information on the building blocks<a class="headerlink" href="#collect-information-on-the-building-blocks" title="Permanent link">&para;</a></h3>
+<h4 id="identify-and-describe-application-functionality-services">Identify and describe application-functionality services<a class="headerlink" href="#identify-and-describe-application-functionality-services" title="Permanent link">&para;</a></h4>
+<p>Application-functionality services implement one or several business process or functionality (e.g., storing customer details, storing and displaying product catalog). Collect information on the parameters listed below related to each application-functionality service.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Service name (ID)</td>
+<td align="left">Unique service name or ID</td>
+</tr>
+<tr>
+<td align="left">Short description</td>
+<td align="left">Short description of business process or functionality implemented by the microservice</td>
+</tr>
+<tr>
+<td align="left">Link to source code repository</td>
+<td align="left">Specify a link to service source code repository</td>
+</tr>
+<tr>
+<td align="left">Development Team</td>
+<td align="left">Specify development team which develops the microservice</td>
+</tr>
+<tr>
+<td align="left">API definition</td>
+<td align="left">If microservice exposes external interface specify a link to the interface description (e.g., OpenAPI specification). It is advisable to define used security scheme, e.g. define scopes or API keys needed to invoke dedicated endpoint (e.g., <a href="https://swagger.io/docs/specification/authentication/">see</a>).</td>
+</tr>
+<tr>
+<td align="left">The microservice architecture description</td>
+<td align="left">Specify a link to the microservice architecture diagram, description (if available)</td>
+</tr>
+<tr>
+<td align="left">Link to runbook</td>
+<td align="left">Specify a link to the microservice runbook</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-and-describe-infrastructure-services">Identify and describe infrastructure services<a class="headerlink" href="#identify-and-describe-infrastructure-services" title="Permanent link">&para;</a></h4>
+<p>Infrastructure services including remote services may implement authentication, authorization, service registration and discovery, security monitoring, logging etc. Collect information on the parameters listed below related to each infrastructure service.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Service name (ID)</td>
+<td align="left">Unique service name or ID</td>
+</tr>
+<tr>
+<td align="left">Short description</td>
+<td align="left">Short description of functionality implemented by the service (e.g., authentication, authorization, service registration and discovery, logging, security monitoring, API gateway).</td>
+</tr>
+<tr>
+<td align="left">Link to source code repository</td>
+<td align="left">Specify a link to service source code repository (if applicable)</td>
+</tr>
+<tr>
+<td align="left">Link to the service documentation</td>
+<td align="left">Specify a link to the service documentation that includes service API definition, operational guidance/runbook, etc.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-and-describe-data-storages">Identify and describe data storages<a class="headerlink" href="#identify-and-describe-data-storages" title="Permanent link">&para;</a></h4>
+<p>Collect information on the parameters listed below related to each data storage.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Storage name (ID)</td>
+<td align="left">Unique storage name or ID</td>
+</tr>
+<tr>
+<td align="left">Software type</td>
+<td align="left">Specify software that implements the data storage (e.g., PostgreSQL, Redis, Apache Cassandra).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-and-describe-message-queues">Identify and describe message queues<a class="headerlink" href="#identify-and-describe-message-queues" title="Permanent link">&para;</a></h4>
+<p>Messaging systems (e.g., RabbitMQ or Apache Kafka) are used to implement asynchronous microservices communication mechanism. Collect information on the parameters listed below related to each message queue.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Message queue (ID)</td>
+<td align="left">Unique message queue name or ID</td>
+</tr>
+<tr>
+<td align="left">Software type</td>
+<td align="left">Specify software that implements the message queue (e.g., RabbitMQ, Apache Kafka).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-and-describe-data-assets">Identify and describe data assets<a class="headerlink" href="#identify-and-describe-data-assets" title="Permanent link">&para;</a></h4>
+<p>Identify and describe data assets that processed by system microservices/services. It is advisable firstly to identify assets, which are valuable from a security perspective (e.g., "User information", "Payment"). Collect information on the parameters listed below related to each asset.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Asset name (ID)</td>
+<td align="left">Unique asset name or ID</td>
+</tr>
+<tr>
+<td align="left">Protection level</td>
+<td align="left">Specify asset protection level (e.g., PII, confidential)</td>
+</tr>
+<tr>
+<td align="left">Additional info</td>
+<td align="left">Add clarifying information</td>
+</tr>
+</tbody>
+</table>
+<h3 id="collect-information-on-relations-between-building-blocks">Collect information on relations between building blocks<a class="headerlink" href="#collect-information-on-relations-between-building-blocks" title="Permanent link">&para;</a></h3>
+<h4 id="identify-service-to-storage-relations">Identify "service-to-storage" relations<a class="headerlink" href="#identify-service-to-storage-relations" title="Permanent link">&para;</a></h4>
+<p>Collect information on the parameters listed below related to each "service-to-storage" relation.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Service name (ID)</td>
+<td align="left">Specify service name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Storage name (ID)</td>
+<td align="left">Specify storage name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Access type</td>
+<td align="left">Specify access type, e.g. "Read" or "Read/Write"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-service-to-service-synchronous-communications">Identify "service-to-service" synchronous communications<a class="headerlink" href="#identify-service-to-service-synchronous-communications" title="Permanent link">&para;</a></h4>
+<p>Collect information on the parameters listed below related to each "service-to-service" synchronous communication.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Caller service name (ID)</td>
+<td align="left">Specify caller service name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Called service name (ID)</td>
+<td align="left">Specify called service name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Protocol/framework used</td>
+<td align="left">Specify protocol/framework used for communication, e.g. HTTP (REST, SOAP), Apache Thrift, gRPC</td>
+</tr>
+<tr>
+<td align="left">Short description</td>
+<td align="left">Shortly describe the purpose of communication (requests for query of information or request/commands for a state-changing business function) and data passed between services (if possible, in therms of assets defined above)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-service-to-service-asynchronous-communications">Identify "service-to-service" asynchronous communications<a class="headerlink" href="#identify-service-to-service-asynchronous-communications" title="Permanent link">&para;</a></h4>
+<p>Collect information on the parameters listed below related to each "service-to-service" asynchronous communication.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Publisher service name (ID)</td>
+<td align="left">Specify publisher service name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Subscriber service name (ID)</td>
+<td align="left">Specify subscriber service name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Message queue (ID)</td>
+<td align="left">Specify message queue (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Short description</td>
+<td align="left">Shortly describe the purpose of communication (receiving of information or commands for a state-changing business function) and data passed between services (if possible, in therms of assets defined above)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identify-asset-to-storage-relations">Identify "asset-to-storage" relations<a class="headerlink" href="#identify-asset-to-storage-relations" title="Permanent link">&para;</a></h4>
+<p>Collect information on the parameters listed below related to each "asset-to-storage" relation.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Parameter name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Asset name (ID)</td>
+<td align="left">Asset name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Storage name (ID)</td>
+<td align="left">Specify storage name (ID) defined above</td>
+</tr>
+<tr>
+<td align="left">Storage type</td>
+<td align="left">Specify storage type for the asset, e.g. "golden source" or "cache"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="create-a-graphical-presentation-of-application-architecture">Create a graphical presentation of application architecture<a class="headerlink" href="#create-a-graphical-presentation-of-application-architecture" title="Permanent link">&para;</a></h3>
+<p>It is advisable to create graphical presentation of application architecture (building blocks and relations defined above) in form of services call graph or data flow diagram. In order to do that one can use special software tools (e.g. Enterprise Architect) or <a href="https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29">DOT language</a>. See example of using DOT language <a href="https://gist.github.com/vladgolubev/80c5523336ddec3859c0e90d9a070882">here</a>.</p>
+<h3 id="use-collected-information-in-secure-software-development-practices">Use collected information in secure software development practices<a class="headerlink" href="#use-collected-information-in-secure-software-development-practices" title="Permanent link">&para;</a></h3>
+<p>Collected information may be useful for doing application security practices, e.g. during defining security requirements, threat modeling or security testing. Sections below contains examples of activities related to securing application architecture (as well as its mapping to OWASP projects) and tips for their implementation using information collected above.</p>
+<h4 id="attack-surface-analysis">Attack surface analysis<a class="headerlink" href="#attack-surface-analysis" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips">Implementation tips<a class="headerlink" href="#implementation-tips" title="Permanent link">&para;</a></h5>
+<p>To enumerate microservices endpoints that need to be tested during security testing and analyzed during threat modeling analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe application-functionality services (parameter "API definition")</li>
+<li>Identify and describe infrastructure services (parameter "Link to the service documentation")</li>
+</ul>
+<h5 id="mapping-to-owasp-projects">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.1.2</a></li>
+<li><a href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.md">OWASP Attack Surface Analysis Cheat Sheet</a></li>
+</ul>
+<h4 id="data-leakage-analysis">Data leakage analysis<a class="headerlink" href="#data-leakage-analysis" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_1">Implementation tips<a class="headerlink" href="#implementation-tips_1" title="Permanent link">&para;</a></h5>
+<p>To analyze possible data leakage analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe data assets</li>
+<li>Identify "service-to-storage" relations</li>
+<li>Identify "service-to-service" synchronous communications</li>
+<li>Identify "service-to-service" asynchronous communications</li>
+<li>Identify "asset-to-storage" relations</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_1">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.1.2</a></li>
+<li><a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A3-Sensitive_Data_Exposure">OWASP Top 10-2017 A3-Sensitive Data Exposure</a></li>
+</ul>
+<h4 id="applications-trust-boundaries-components-and-significant-data-flows-justification">Application's trust boundaries, components, and significant data flows justification<a class="headerlink" href="#applications-trust-boundaries-components-and-significant-data-flows-justification" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_2">Implementation tips<a class="headerlink" href="#implementation-tips_2" title="Permanent link">&para;</a></h5>
+<p>To verify documentation and justification of all the application's trust boundaries, components, and significant data flows analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe application-functionality services</li>
+<li>Identify and describe infrastructure services</li>
+<li>Identify and describe data storages</li>
+<li>Identify and describe message queues</li>
+<li>Identify "service-to-storage" relations</li>
+<li>Identify "service-to-service" synchronous communications</li>
+<li>Identify "service-to-service" asynchronous communications</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_2">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.1.4</a></li>
+</ul>
+<h4 id="analysis-of-the-applications-high-level-architecture">Analysis of the application's high-level architecture<a class="headerlink" href="#analysis-of-the-applications-high-level-architecture" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_3">Implementation tips<a class="headerlink" href="#implementation-tips_3" title="Permanent link">&para;</a></h5>
+<p>To verify definition and security analysis of the application's high-level architecture and all connected remote services analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe application-functionality services</li>
+<li>Identify and describe infrastructure services</li>
+<li>Identify and describe data storages</li>
+<li>Identify and describe message queues</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_3">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.1.5</a></li>
+</ul>
+<h4 id="implementation-of-centralized-security-controls-verification">Implementation of centralized security controls verification<a class="headerlink" href="#implementation-of-centralized-security-controls-verification" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_4">Implementation tips<a class="headerlink" href="#implementation-tips_4" title="Permanent link">&para;</a></h5>
+<p>To verify implementation of centralized, simple (economy of design), vetted, secure, and reusable security controls to avoid duplicate, missing, ineffective, or insecure controls analyze data collected under the section "Identify and describe infrastructure services".</p>
+<h5 id="mapping-to-owasp-projects_4">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.1.6</a></li>
+</ul>
+<h4 id="enforcement-of-the-principle-of-least-privilege">Enforcement of the principle of least privilege<a class="headerlink" href="#enforcement-of-the-principle-of-least-privilege" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_5">Implementation tips<a class="headerlink" href="#implementation-tips_5" title="Permanent link">&para;</a></h5>
+<p>To define minimally needed microservice permissions analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe application-functionality services (parameter "API definition")</li>
+<li>Identify "service-to-storage" relations</li>
+<li>Identify "service-to-service" synchronous communications</li>
+<li>Identify "service-to-service" asynchronous communications</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_5">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.4.3</a></li>
+</ul>
+<h4 id="sensitive-data-identification-and-classification">Sensitive data identification and classification<a class="headerlink" href="#sensitive-data-identification-and-classification" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_6">Implementation tips<a class="headerlink" href="#implementation-tips_6" title="Permanent link">&para;</a></h5>
+<p>To verify that all sensitive data is identified and classified into protection levels analyze data collected under the following sections:</p>
+<ul>
+<li>Identify and describe data assets</li>
+<li>Identify "asset-to-storage" relations</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_6">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.8.1</a></li>
+</ul>
+<h4 id="application-components-businesssecurity-functions-verification">Application components business/security functions verification<a class="headerlink" href="#application-components-businesssecurity-functions-verification" title="Permanent link">&para;</a></h4>
+<h5 id="implementation-tips_7">Implementation tips<a class="headerlink" href="#implementation-tips_7" title="Permanent link">&para;</a></h5>
+<p>To verify the definition and documentation of all application components in terms of the business or security functions they provide analyze data collected under the following sections (parameter "Short description"):</p>
+<ul>
+<li>Identify and describe application-functionality services</li>
+<li>Identify and describe infrastructure services</li>
+</ul>
+<h5 id="mapping-to-owasp-projects_7">Mapping to OWASP projects<a class="headerlink" href="#mapping-to-owasp-projects_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://github.com/OWASP/ASVS/blob/master/4.0/en/0x10-V1-Architecture.md#v1-architecture-design-and-threat-modeling-requirements">OWASP ASVS, V1 "Architecture, Design and Threat Modeling Requirements", #1.11.1</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="Mass_Assignment_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Mass Assignment
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="Microservices_security.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Microservices security.md
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright 2020 - CheatSheets Series Team
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

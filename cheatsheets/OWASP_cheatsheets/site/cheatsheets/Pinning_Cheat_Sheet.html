@@ -1,0 +1,1677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Website with the collection of all the cheat sheets of the project.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://cheatsheetseries.owasp.org/cheatsheets/Pinning_Cheat_Sheet.html">
+      
+      <link rel="shortcut icon" href="../assets/WebSite_Favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>Pinning - OWASP Cheat Sheet Series</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-4531126-15","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pinning-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-header-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            OWASP Cheat Sheet Series
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Pinning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    OWASP Cheat Sheet Series
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../Glossary.html" class="md-nav__link">
+      Index Alphabetical
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexASVS.html" class="md-nav__link">
+      Index ASVS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexProactiveControls.html" class="md-nav__link">
+      Index Proactive Controls
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Cheatsheets
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Cheatsheets" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Cheatsheets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="AJAX_Security_Cheat_Sheet.html" class="md-nav__link">
+      AJAX Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Abuse_Case_Cheat_Sheet.html" class="md-nav__link">
+      Abuse Case
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Access_Control_Cheat_Sheet.html" class="md-nav__link">
+      Access Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Attack_Surface_Analysis_Cheat_Sheet.html" class="md-nav__link">
+      Attack Surface Analysis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authorization_Testing_Automation_Cheat_Sheet.html" class="md-nav__link">
+      Authorization Testing Automation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Bean_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Bean Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="C-Based_Toolchain_Hardening_Cheat_Sheet.html" class="md-nav__link">
+      C-Based Toolchain Hardening
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Choosing_and_Using_Security_Questions_Cheat_Sheet.html" class="md-nav__link">
+      Choosing and Using Security Questions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Clickjacking_Defense_Cheat_Sheet.html" class="md-nav__link">
+      Clickjacking Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Content_Security_Policy_Cheat_Sheet.html" class="md-nav__link">
+      Content Security Policy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Credential_Stuffing_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Credential Stuffing Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross-Site Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross Site Scripting Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cryptographic_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Cryptographic Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DOM_based_XSS_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      DOM based XSS Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Database_Security_Cheat_Sheet.html" class="md-nav__link">
+      Database Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Denial_of_Service_Cheat_Sheet.html" class="md-nav__link">
+      Denial of Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Deserialization_Cheat_Sheet.html" class="md-nav__link">
+      Deserialization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Docker_Security_Cheat_Sheet.html" class="md-nav__link">
+      Docker Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DotNet_Security_Cheat_Sheet.html" class="md-nav__link">
+      DotNet Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Error_Handling_Cheat_Sheet.html" class="md-nav__link">
+      Error Handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="File_Upload_Cheat_Sheet.html" class="md-nav__link">
+      File Upload
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Forgot_Password_Cheat_Sheet.html" class="md-nav__link">
+      Forgot Password
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="GraphQL_Cheat_Sheet.html" class="md-nav__link">
+      GraphQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTML5_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTML5 Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTTP_Strict_Transport_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTTP Strict Transport Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_in_Java_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention in Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Input_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Input Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Insecure Direct Object Reference Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JAAS_Cheat_Sheet.html" class="md-nav__link">
+      JAAS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JSON_Web_Token_for_Java_Cheat_Sheet.html" class="md-nav__link">
+      JSON Web Token for Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Key_Management_Cheat_Sheet.html" class="md-nav__link">
+      Key Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-nav__link">
+      Kubernetes Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="LDAP_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      LDAP Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Logging_Cheat_Sheet.html" class="md-nav__link">
+      Logging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Mass_Assignment_Cheat_Sheet.html" class="md-nav__link">
+      Mass Assignment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_based_Security_Arch_Doc_Cheat_Sheet.html" class="md-nav__link">
+      Microservices based Security Arch Doc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_security.html" class="md-nav__link">
+      Microservices security.md
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Multifactor_Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Multifactor Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Nodejs_Security_Cheat_Sheet.html" class="md-nav__link">
+      Nodejs Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="OS_Command_Injection_Defense_Cheat_Sheet.html" class="md-nav__link">
+      OS Command Injection Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="PHP_Configuration_Cheat_Sheet.html" class="md-nav__link">
+      PHP Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Password_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Password Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Pinning
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="Pinning_Cheat_Sheet.html" class="md-nav__link md-nav__link--active">
+      Pinning
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-problem" class="md-nav__link">
+    What's the problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pinning" class="md-nav__link">
+    What Is Pinning
+  </a>
+  
+    <nav class="md-nav" aria-label="What Is Pinning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-do-you-pin" class="md-nav__link">
+    When Do You Pin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-do-you-whitelist" class="md-nav__link">
+    When Do You Whitelist
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-you-pin" class="md-nav__link">
+    How Do You Pin
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-should-be-pinned" class="md-nav__link">
+    What Should Be Pinned
+  </a>
+  
+    <nav class="md-nav" aria-label="What Should Be Pinned">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#certificate" class="md-nav__link">
+    Certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public-key" class="md-nav__link">
+    Public Key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashing" class="md-nav__link">
+    Hashing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-of-pinning" class="md-nav__link">
+    Examples of Pinning
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples of Pinning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#android" class="md-nav__link">
+    Android
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios" class="md-nav__link">
+    iOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net" class="md-nav__link">
+    .Net
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    OpenSSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#electron" class="md-nav__link">
+    Electron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Query_Parameterization_Cheat_Sheet.html" class="md-nav__link">
+      Query Parameterization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Assessment_Cheat_Sheet.html" class="md-nav__link">
+      REST Assessment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Security_Cheat_Sheet.html" class="md-nav__link">
+      REST Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Ruby_on_Rails_Cheat_Sheet.html" class="md-nav__link">
+      Ruby on Rails
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SAML_Security_Cheat_Sheet.html" class="md-nav__link">
+      SAML Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SQL_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      SQL Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Securing_Cascading_Style_Sheets_Cheat_Sheet.html" class="md-nav__link">
+      Securing Cascading Style Sheets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Server Side Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Session_Management_Cheat_Sheet.html" class="md-nav__link">
+      Session Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="TLS_Cipher_String_Cheat_Sheet.html" class="md-nav__link">
+      TLS Cipher String
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Third_Party_Javascript_Management_Cheat_Sheet.html" class="md-nav__link">
+      Third Party Javascript Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Threat_Modeling_Cheat_Sheet.html" class="md-nav__link">
+      Threat Modeling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transaction_Authorization_Cheat_Sheet.html" class="md-nav__link">
+      Transaction Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transport_Layer_Protection_Cheat_Sheet.html" class="md-nav__link">
+      Transport Layer Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" class="md-nav__link">
+      Unvalidated Redirects and Forwards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="User_Privacy_Protection_Cheat_Sheet.html" class="md-nav__link">
+      User Privacy Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Virtual_Patching_Cheat_Sheet.html" class="md-nav__link">
+      Virtual Patching
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerability_Disclosure_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerability Disclosure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerable_Dependency_Management_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerable Dependency Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Web_Service_Security_Cheat_Sheet.html" class="md-nav__link">
+      Web Service Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_External_Entity_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      XML External Entity Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_Security_Cheat_Sheet.html" class="md-nav__link">
+      XML Security
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-problem" class="md-nav__link">
+    What's the problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pinning" class="md-nav__link">
+    What Is Pinning
+  </a>
+  
+    <nav class="md-nav" aria-label="What Is Pinning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-do-you-pin" class="md-nav__link">
+    When Do You Pin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-do-you-whitelist" class="md-nav__link">
+    When Do You Whitelist
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-you-pin" class="md-nav__link">
+    How Do You Pin
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-should-be-pinned" class="md-nav__link">
+    What Should Be Pinned
+  </a>
+  
+    <nav class="md-nav" aria-label="What Should Be Pinned">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#certificate" class="md-nav__link">
+    Certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public-key" class="md-nav__link">
+    Public Key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashing" class="md-nav__link">
+    Hashing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-of-pinning" class="md-nav__link">
+    Examples of Pinning
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples of Pinning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#android" class="md-nav__link">
+    Android
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ios" class="md-nav__link">
+    iOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net" class="md-nav__link">
+    .Net
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    OpenSSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#electron" class="md-nav__link">
+    Electron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="pinning-cheat-sheet">Pinning Cheat Sheet<a class="headerlink" href="#pinning-cheat-sheet" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The Pinning Cheat Sheet is a technical guide to implementing certificate and public key pinning as discussed at the Virginia chapter's presentation <a href="https://wiki.owasp.org/images/8/8f/Securing-Wireless-Channels-in-the-Mobile-Space.ppt">Securing Wireless Channels in the Mobile Space</a>. This guide is focused on providing clear, simple, actionable guidance for securing the channel in a hostile environment where actors could be malicious and the conference of trust a liability.</p>
+<h2 id="whats-the-problem">What's the problem<a class="headerlink" href="#whats-the-problem" title="Permanent link">&para;</a></h2>
+<p>Users, developers, and applications expect end-to-end security on their secure channels, but some secure channels are not meeting the expectation. Specifically, channels built using well known protocols such as VPN, SSL, and TLS can be vulnerable to a number of attacks.</p>
+<h2 id="what-is-pinning">What Is Pinning<a class="headerlink" href="#what-is-pinning" title="Permanent link">&para;</a></h2>
+<p>Pinning is the process of associating a host with their <em>expected</em> X509 certificate or public key. Once a certificate or public key is known or seen for a host, the certificate or public key is associated or 'pinned' to the host. If more than one certificate or public key is acceptable, then the program holds a <em>pinset</em> (taking from <a href="https://developers.google.com/events/io/sessions/gooio2012/107/">Jon Larimer and Kenny Root Google I/O talk</a>). In this case, the advertised identity must match one of the elements in the pinset.</p>
+<p>A host or service's certificate or public key can be added to an application at development time, or it can be added upon first encountering the certificate or public key. The former - adding at development time - is preferred since <em>preloading</em> the certificate or public key <em>out of band</em> usually means the attacker cannot taint the pin.</p>
+<h3 id="when-do-you-pin">When Do You Pin<a class="headerlink" href="#when-do-you-pin" title="Permanent link">&para;</a></h3>
+<p>You should pin anytime you want to be relatively certain of the remote host's identity or when operating in a hostile environment. Since one or both are almost always true, you should probably pin all the time.</p>
+<h3 id="when-do-you-whitelist">When Do You Whitelist<a class="headerlink" href="#when-do-you-whitelist" title="Permanent link">&para;</a></h3>
+<p>If you are working for an organization which practices "egress filtering" as part of a Data Loss Prevention (DLP) strategy, you will likely encounter <em>Interception Proxies</em>. I like to refer to these things as <strong>"good" bad guys</strong> (as opposed to <strong>"bad" bad guys</strong>) since both break end-to-end security and we can't tell them apart. In this case, <strong>do not</strong> offer to whitelist the interception proxy since it defeats your security goals. Add the interception proxy's public key to your pinset after being <strong>instructed</strong> to do so by the folks in Risk Acceptance.</p>
+<h3 id="how-do-you-pin">How Do You Pin<a class="headerlink" href="#how-do-you-pin" title="Permanent link">&para;</a></h3>
+<p>The idea is to re-use the exiting protocols and infrastructure, but use them in a hardened manner. For re-use, a program would keep doing the things it used to do when establishing a secure connection.</p>
+<p>To harden the channel, the program would take advantage of the <code>OnConnect</code> callback offered by a library, framework or platform. In the callback, the program would verify the remote host's identity by validating its certificate or public key.</p>
+<h2 id="what-should-be-pinned">What Should Be Pinned<a class="headerlink" href="#what-should-be-pinned" title="Permanent link">&para;</a></h2>
+<p>The first thing to decide is what should be pinned. For this choice, you have two options:</p>
+<ul>
+<li>Pin the certificate.</li>
+<li>Pin the public key.</li>
+</ul>
+<p>If you choose public keys, you have two additional choices:</p>
+<ul>
+<li>Pin the <code>subjectPublicKeyInfo</code>.</li>
+<li>Pin one of the concrete types such as <code>RSAPublicKey</code> or <code>DSAPublicKey</code>.</li>
+</ul>
+<p><strong>subjectPublicKeyInfo</strong>:</p>
+<p><img alt="RandomOrgDERDump" src="../assets/Pinning_Cheat_Sheet_RandomOrgDERDump.png" /></p>
+<p>The three choices are explained below in more detail. I would encourage you to pin the <code>subjectPublicKeyInfo</code> because it has the public parameters (such as <code>{e,n}</code> for an RSA public key) <strong>and</strong> contextual information such as an algorithm and OID. The context will help you keep your bearings at times, and the figure to the right shows the additional information available.</p>
+<h3 id="certificate">Certificate<a class="headerlink" href="#certificate" title="Permanent link">&para;</a></h3>
+<p><img alt="Certificate" src="../assets/Pinning_Cheat_Sheet_Certificate.png" /></p>
+<p>The certificate is easiest to pin. You can fetch the certificate out of band for the website, have the IT folks email your company certificate to you, use <code>openssl s_client</code> to retrieve the certificate etc. At runtime, you retrieve the website or server's certificate in the callback. Within the callback, you compare the retrieved certificate with the certificate embedded within the program. If the comparison fails, then fail the method or function.</p>
+<p>There is a downside to pinning a certificate. If the site rotates its certificate on a regular basis, then your application would need to be updated regularly. For example, Google rotates its certificates, so you will need to update your application about once a month (if it depended on Google services). Even though Google rotates its certificates, the underlying public keys (within the certificate) remain static.</p>
+<h3 id="public-key">Public Key<a class="headerlink" href="#public-key" title="Permanent link">&para;</a></h3>
+<p><img alt="PublicKey" src="../assets/Pinning_Cheat_Sheet_PublicKey.png" /></p>
+<p>Public key pinning is more flexible but a little trickier due to the extra steps necessary to extract the public key from a certificate. As with a certificate, the program checks the extracted public key with its embedded copy of the public key.</p>
+<p>There are two downsides to public key pinning. First, it's harder to work with keys (versus certificates) since you must extract the key from the certificate. Extraction is a minor inconvenience in Java and .Net, buts it's uncomfortable in Cocoa/CocoaTouch and OpenSSL. Second, the key is static and may violate key rotation policies.</p>
+<h3 id="hashing">Hashing<a class="headerlink" href="#hashing" title="Permanent link">&para;</a></h3>
+<p>While the three choices above used DER encoding, its also acceptable to use a hash of the information. In fact, the original sample programs were written using digested certificates and public keys. The samples were changed to allow a programmer to inspect the objects with tools like <code>dumpasn1</code> and other ASN.1 decoders.</p>
+<p>Hashing also provides three additional benefits. First, hashing allows you to anonymize a certificate or public key. This might be important if you application is concerned about leaking information during decompilation and re-engineering. Second, a digested certificate fingerprint is often available as a native API for many libraries, so its convenient to use.</p>
+<p>Finally, an organization might want to supply a reserve (or back-up) identity in case the primary identity is compromised. Hashing ensures your adversaries do not see the reserved certificate or public key in advance of its use. In fact, Google's IETF draft <em>websec-key-pinning</em> uses the technique.</p>
+<h2 id="examples-of-pinning">Examples of Pinning<a class="headerlink" href="#examples-of-pinning" title="Permanent link">&para;</a></h2>
+<p>This section discusses certificate and public key pinning in Android Java, iOS, .Net, and OpenSSL. Code has been omitted for brevity, but the key points for the platform are highlighted.</p>
+<h3 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h3>
+<p>Since Android N, the preferred way for implementing pinning is by leveraging Android's <a href="https://developer.android.com/training/articles/security-config.html">Network Security Configuration</a> feature, which lets apps customize their network security settings in a safe, declarative configuration file without modifying app code.</p>
+<p>To enable pinning, <a href="https://developer.android.com/training/articles/security-config.html#CertificatePinning">the <code>&lt;pin-set&gt;</code> configuration setting</a> can be used.</p>
+<p>If devices running a version of Android that is earlier than N need to be supported, a backport of the Network Security Configuration pinning functionality is available via the <a href="https://github.com/datatheorem/TrustKit-Android">TrustKit Android library</a>.</p>
+<p>Alternatively you can use methods such as the pinning from OkHTTP in order to set specific pins programmatically, as explained in <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#network-libraries-and-webviews">the MSTG</a> and <a href="https://square.github.io/okhttp/3.x/okhttp/okhttp3/CertificatePinner.html">the OKHttp documentation</a>.</p>
+<p>The Android documentation provides an example of how SSL validation can be customized within the app's code (in order to implement pinning) in the <a href="https://developer.android.com/training/articles/security-ssl.html#UnknownCa">Unknown CA implementation document</a>. However, implementing pinning validation from scratch should be avoided, as implementation mistakes are extremely likely and usually lead to severe vulnerabilities.</p>
+<p>Lastly, if you want to validate whether the pinning is successful, please follow instructions from the Mobile Security Testing Guide's <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x04f-Testing-Network-Communication.md#testing-network-communication">ntroduction into testing network communication</a> and the <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#android-network-apis">Android specific network testing</a>.</p>
+<h3 id="ios">iOS<a class="headerlink" href="#ios" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/datatheorem/TrustKit">TrustKit</a>, an open-source SSL pinning library for iOS and macOS is available. It provides an easy-to-use API for implementing pinning, and has been deployed in many apps.</p>
+<p>Otherwise, more details regarding how SSL validation can be customized on iOS (in order to implement pinning) are available in the <a href="https://developer.apple.com/library/content/technotes/tn2232/_index.html">HTTPS Server Trust Evaluation</a> technical note. However, implementing pinning validation from scratch should be avoided, as implementation mistakes are extremely likely and usually lead to severe vulnerabilities.</p>
+<p>Lastly, if you want to validate whether the pinning is successful, please follow instructions from the Mobile Security Testing Guide's <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x04f-Testing-Network-Communication.md#testing-network-communication">introduction into testing network communication</a> and the <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x06g-Testing-Network-Communication.md">iOS specific network testing</a>.</p>
+<h3 id="net">.Net<a class="headerlink" href="#net" title="Permanent link">&para;</a></h3>
+<p>.Net pinning can be achieved by using <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.servicepointmanager?view=netframework-4.7.2"><code>ServicePointManager</code></a>. An example can be found at the <a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#xamarin-applications">OWASP MSTG</a>.</p>
+<p>Download the <a href="../assets/Pinning_Cheat_Sheet_Certificate_DotNetSample.zip">.Net sample program</a>.</p>
+<h3 id="openssl">OpenSSL<a class="headerlink" href="#openssl" title="Permanent link">&para;</a></h3>
+<p>Pinning can occur at one of two places with OpenSSL. First is the user supplied <code>verify_callback</code>. Second is after the connection is established via <code>SSL_get_peer_certificate</code>. Either method will allow you to access the peer's certificate.</p>
+<p>Though OpenSSL performs the X509 checks, you must fail the connection and tear down the socket on error. By design, a server that does not supply a certificate will result in <code>X509_V_OK</code> with a <strong>NULL</strong> certificate. To check the result of the customary verification:</p>
+<ol>
+<li>You must call <code>SSL_get_verify_result</code> and verify the return code is <code>X509_V_OK</code>;</li>
+<li>You must call <code>SSL_get_peer_certificate</code> and verify the certificate is <strong>non-NULL</strong>.</li>
+</ol>
+<p>Download: <a href="../assets/Pinning_Cheat_Sheet_Certificate_OpenSSLSample.zip">OpenSSL sample program</a>.</p>
+<h3 id="electron">Electron<a class="headerlink" href="#electron" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/dialogs/electron-ssl-pinning">electron-ssl-pinning</a>, an open-source SSL pinning library for <a href="https://electronjs.org">Electron</a> based applications. It provides an easy-to-use API for implementing pinning and also provides tool for fetching configuration based on needed hosts.</p>
+<p>Otherwise, you can validate certificates by yourself using <a href="https://electronjs.org/docs/api/session#sessetcertificateverifyprocproc">ses.setCertificateVerifyProc(proc)</a>.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>OWASP <a href="https://owasp.org/www-community/Injection_Theory">Injection Theory</a></li>
+<li>OWASP <a href="https://wiki.owasp.org/index.php/Data_Validation">Data Validation</a></li>
+<li>OWASP <a href="Transport_Layer_Protection_Cheat_Sheet.html">Transport Layer Protection Cheat Sheet</a></li>
+<li>OWASP <a href="https://github.com/OWASP/owasp-mstg">Mobile Security Testing Guide</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc1421.txt">RFC 1421 (PEM Encoding)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc4648.txt">RFC 4648 (Base16, Base32, and Base64 Encodings)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc5280.txt">RFC 5280 (Internet X.509, PKIX)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc3279.txt">RFC 3279 (PKI, X509 Algorithms and CRL Profiles)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc4055.txt">RFC 4055 (PKI, X509 Additional Algorithms and CRL Profiles)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc2246.txt">RFC 2246 (TLS 1.0)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc4346.txt">RFC 4346 (TLS 1.1)</a></li>
+<li>IETF <a href="http://www.ietf.org/rfc/rfc5246.txt">RFC 5246 (TLS 1.2)</a></li>
+<li>IETF <a href="https://tools.ietf.org/html/rfc8017">PKCS #1: RSA Cryptography Specifications Version 2.2</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="Password_Storage_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Password Storage
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="Query_Parameterization_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Query Parameterization
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright 2020 - CheatSheets Series Team
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

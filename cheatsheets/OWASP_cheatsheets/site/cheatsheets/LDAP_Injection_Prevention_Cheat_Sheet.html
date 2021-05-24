@@ -1,0 +1,1566 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Website with the collection of all the cheat sheets of the project.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://cheatsheetseries.owasp.org/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.html">
+      
+      <link rel="shortcut icon" href="../assets/WebSite_Favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>LDAP Injection Prevention - OWASP Cheat Sheet Series</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-4531126-15","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ldap-injection-prevention-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-header-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            OWASP Cheat Sheet Series
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              LDAP Injection Prevention
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    OWASP Cheat Sheet Series
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../Glossary.html" class="md-nav__link">
+      Index Alphabetical
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexASVS.html" class="md-nav__link">
+      Index ASVS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexProactiveControls.html" class="md-nav__link">
+      Index Proactive Controls
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Cheatsheets
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Cheatsheets" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Cheatsheets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="AJAX_Security_Cheat_Sheet.html" class="md-nav__link">
+      AJAX Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Abuse_Case_Cheat_Sheet.html" class="md-nav__link">
+      Abuse Case
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Access_Control_Cheat_Sheet.html" class="md-nav__link">
+      Access Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Attack_Surface_Analysis_Cheat_Sheet.html" class="md-nav__link">
+      Attack Surface Analysis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authorization_Testing_Automation_Cheat_Sheet.html" class="md-nav__link">
+      Authorization Testing Automation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Bean_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Bean Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="C-Based_Toolchain_Hardening_Cheat_Sheet.html" class="md-nav__link">
+      C-Based Toolchain Hardening
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Choosing_and_Using_Security_Questions_Cheat_Sheet.html" class="md-nav__link">
+      Choosing and Using Security Questions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Clickjacking_Defense_Cheat_Sheet.html" class="md-nav__link">
+      Clickjacking Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Content_Security_Policy_Cheat_Sheet.html" class="md-nav__link">
+      Content Security Policy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Credential_Stuffing_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Credential Stuffing Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross-Site Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross Site Scripting Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cryptographic_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Cryptographic Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DOM_based_XSS_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      DOM based XSS Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Database_Security_Cheat_Sheet.html" class="md-nav__link">
+      Database Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Denial_of_Service_Cheat_Sheet.html" class="md-nav__link">
+      Denial of Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Deserialization_Cheat_Sheet.html" class="md-nav__link">
+      Deserialization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Docker_Security_Cheat_Sheet.html" class="md-nav__link">
+      Docker Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DotNet_Security_Cheat_Sheet.html" class="md-nav__link">
+      DotNet Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Error_Handling_Cheat_Sheet.html" class="md-nav__link">
+      Error Handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="File_Upload_Cheat_Sheet.html" class="md-nav__link">
+      File Upload
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Forgot_Password_Cheat_Sheet.html" class="md-nav__link">
+      Forgot Password
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="GraphQL_Cheat_Sheet.html" class="md-nav__link">
+      GraphQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTML5_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTML5 Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTTP_Strict_Transport_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTTP Strict Transport Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_in_Java_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention in Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Input_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Input Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Insecure Direct Object Reference Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JAAS_Cheat_Sheet.html" class="md-nav__link">
+      JAAS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JSON_Web_Token_for_Java_Cheat_Sheet.html" class="md-nav__link">
+      JSON Web Token for Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Key_Management_Cheat_Sheet.html" class="md-nav__link">
+      Key Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-nav__link">
+      Kubernetes Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        LDAP Injection Prevention
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="LDAP_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link md-nav__link--active">
+      LDAP Injection Prevention
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-defenses" class="md-nav__link">
+    Primary Defenses
+  </a>
+  
+    <nav class="md-nav" aria-label="Primary Defenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-1-escape-all-variables-using-the-right-ldap-encoding-function" class="md-nav__link">
+    Defense Option 1: Escape all variables using the right LDAP encoding function
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense Option 1: Escape all variables using the right LDAP encoding function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safe-java-escaping-example" class="md-nav__link">
+    Safe Java Escaping Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safe-c-sharp-net-tba-example" class="md-nav__link">
+    Safe C Sharp .NET TBA Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-2-use-frameworks-that-automatically-protect-from-ldap-injection" class="md-nav__link">
+    Defense Option 2: Use Frameworks that Automatically Protect from LDAP Injection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-3-additional-defenses" class="md-nav__link">
+    Defense Option 3: Additional Defenses
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense Option 3: Additional Defenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#least-privilege" class="md-nav__link">
+    Least Privilege
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white-list-input-validation" class="md-nav__link">
+    White List Input Validation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-articles" class="md-nav__link">
+    Related Articles
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Logging_Cheat_Sheet.html" class="md-nav__link">
+      Logging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Mass_Assignment_Cheat_Sheet.html" class="md-nav__link">
+      Mass Assignment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_based_Security_Arch_Doc_Cheat_Sheet.html" class="md-nav__link">
+      Microservices based Security Arch Doc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_security.html" class="md-nav__link">
+      Microservices security.md
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Multifactor_Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Multifactor Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Nodejs_Security_Cheat_Sheet.html" class="md-nav__link">
+      Nodejs Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="OS_Command_Injection_Defense_Cheat_Sheet.html" class="md-nav__link">
+      OS Command Injection Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="PHP_Configuration_Cheat_Sheet.html" class="md-nav__link">
+      PHP Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Password_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Password Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Pinning_Cheat_Sheet.html" class="md-nav__link">
+      Pinning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Query_Parameterization_Cheat_Sheet.html" class="md-nav__link">
+      Query Parameterization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Assessment_Cheat_Sheet.html" class="md-nav__link">
+      REST Assessment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Security_Cheat_Sheet.html" class="md-nav__link">
+      REST Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Ruby_on_Rails_Cheat_Sheet.html" class="md-nav__link">
+      Ruby on Rails
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SAML_Security_Cheat_Sheet.html" class="md-nav__link">
+      SAML Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SQL_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      SQL Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Securing_Cascading_Style_Sheets_Cheat_Sheet.html" class="md-nav__link">
+      Securing Cascading Style Sheets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Server Side Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Session_Management_Cheat_Sheet.html" class="md-nav__link">
+      Session Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="TLS_Cipher_String_Cheat_Sheet.html" class="md-nav__link">
+      TLS Cipher String
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Third_Party_Javascript_Management_Cheat_Sheet.html" class="md-nav__link">
+      Third Party Javascript Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Threat_Modeling_Cheat_Sheet.html" class="md-nav__link">
+      Threat Modeling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transaction_Authorization_Cheat_Sheet.html" class="md-nav__link">
+      Transaction Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transport_Layer_Protection_Cheat_Sheet.html" class="md-nav__link">
+      Transport Layer Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" class="md-nav__link">
+      Unvalidated Redirects and Forwards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="User_Privacy_Protection_Cheat_Sheet.html" class="md-nav__link">
+      User Privacy Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Virtual_Patching_Cheat_Sheet.html" class="md-nav__link">
+      Virtual Patching
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerability_Disclosure_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerability Disclosure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerable_Dependency_Management_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerable Dependency Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Web_Service_Security_Cheat_Sheet.html" class="md-nav__link">
+      Web Service Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_External_Entity_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      XML External Entity Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_Security_Cheat_Sheet.html" class="md-nav__link">
+      XML Security
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-defenses" class="md-nav__link">
+    Primary Defenses
+  </a>
+  
+    <nav class="md-nav" aria-label="Primary Defenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-1-escape-all-variables-using-the-right-ldap-encoding-function" class="md-nav__link">
+    Defense Option 1: Escape all variables using the right LDAP encoding function
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense Option 1: Escape all variables using the right LDAP encoding function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safe-java-escaping-example" class="md-nav__link">
+    Safe Java Escaping Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safe-c-sharp-net-tba-example" class="md-nav__link">
+    Safe C Sharp .NET TBA Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-2-use-frameworks-that-automatically-protect-from-ldap-injection" class="md-nav__link">
+    Defense Option 2: Use Frameworks that Automatically Protect from LDAP Injection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-option-3-additional-defenses" class="md-nav__link">
+    Defense Option 3: Additional Defenses
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense Option 3: Additional Defenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#least-privilege" class="md-nav__link">
+    Least Privilege
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white-list-input-validation" class="md-nav__link">
+    White List Input Validation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-articles" class="md-nav__link">
+    Related Articles
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="ldap-injection-prevention-cheat-sheet">LDAP Injection Prevention Cheat Sheet<a class="headerlink" href="#ldap-injection-prevention-cheat-sheet" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This cheatsheet is focused on providing clear, simple, actionable guidance for preventing LDAP Injection flaws in your applications.</p>
+<p>LDAP Injection is an attack used to exploit web based applications that construct LDAP statements based on user input. When an application fails to properly sanitize user input, it's possible to modify LDAP statements through techniques similar to <a href="https://owasp.org/www-community/attacks/SQL_Injection">SQL Injection</a>.</p>
+<p>LDAP injection attacks could result in the granting of permissions to unauthorized queries, and content modification inside the LDAP tree.</p>
+<p>For more information on LDAP Injection attacks, visit <a href="https://owasp.org/www-community/attacks/LDAP_Injection">LDAP injection</a>.</p>
+<p><a href="https://owasp.org/www-community/attacks/LDAP_Injection">LDAP injection</a> attacks are common due to two factors:</p>
+<ol>
+<li>The lack of safer, parameterized LDAP query interfaces</li>
+<li>The widespread use of LDAP to authenticate users to systems.</li>
+</ol>
+<p>Primary Defenses:</p>
+<ul>
+<li>Escape all variables using the right LDAP encoding function</li>
+</ul>
+<p>Additional Defenses:</p>
+<ul>
+<li>Use a framework (like <a href="https://archive.codeplex.com/?p=linqtoad">LINQtoAD</a>) that escapes automatically.</li>
+</ul>
+<h2 id="primary-defenses">Primary Defenses<a class="headerlink" href="#primary-defenses" title="Permanent link">&para;</a></h2>
+<h3 id="defense-option-1-escape-all-variables-using-the-right-ldap-encoding-function">Defense Option 1: Escape all variables using the right LDAP encoding function<a class="headerlink" href="#defense-option-1-escape-all-variables-using-the-right-ldap-encoding-function" title="Permanent link">&para;</a></h3>
+<p>The main way LDAP stores names is based on DN (distinguished name). You can think of this like a unique identifier. These are sometimes used to access resources, like a username.</p>
+<p>A DN might look like this</p>
+<p><code>cn=Richard Feynman, ou=Physics Department, dc=Caltech, dc=edu</code></p>
+<p>or</p>
+<p><code>uid=inewton, ou=Mathematics Department, dc=Cambridge, dc=com</code></p>
+<p>There are certain characters that are considered special characters in a DN.</p>
+<p>The <a href="https://ldapwiki.com/wiki/DN%20Escape%20Values">exhaustive list</a> is the following: <code>\ # + &lt; &gt; , ; " =</code> and leading or trailing spaces.</p>
+<p>Some "special" characters that are allowed in Distinguished Names and do not need to be escaped include:</p>
+<div class="codehilite"><pre><span></span><code>* ( ) . &amp; - _ [ ] ` ~ | @ $ % ^ ? : { } ! &#39;
+</code></pre></div>
+
+<p>Each DN points to exactly 1 entry, which can be thought of sort of like a row in a RDBMS. For each entry, there will be 1 or more attributes which are analogous to RDBMS columns. If you are interested in searching through LDAP for users will certain attributes, you may do so with search filters.</p>
+<p>In a search filter, you can use standard boolean logic to get a list of users matching an arbitrary constraint. Search filters are written in Polish notation AKA prefix notation.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code>(&amp;(ou=Physics)(|
+(manager=cn=Freeman Dyson,ou=Physics,dc=Caltech,dc=edu)
+(manager=cn=Albert Einstein,ou=Physics,dc=Princeton,dc=edu)
+))
+</code></pre></div>
+
+<p>When building LDAP queries in application code, you MUST escape any untrusted data that is added to any LDAP query. There are two forms of LDAP escaping. Encoding for LDAP Search and Encoding for LDAP DN (distinguished name). The proper escaping depends on whether you are sanitizing input for a search filter, or you are using a DN as a username-like credential for accessing some resource.</p>
+<h4 id="safe-java-escaping-example">Safe Java Escaping Example<a class="headerlink" href="#safe-java-escaping-example" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://wiki.sei.cmu.edu/confluence/spaces/flyingpdf/pdfpageexport.action?pageId=88487534">Prevent LDAP injection</a>.</li>
+<li><a href="https://github.com/ESAPI/esapi-java-legacy/blob/develop/src/main/java/org/owasp/esapi/reference/DefaultEncoder.java">Legacy OWASP ESAPI for Java DefaultEncoder which includes encodeForLDAP(String) and encodeForDN(String)</a>.</li>
+</ul>
+<h4 id="safe-c-sharp-net-tba-example">Safe C Sharp .NET TBA Example<a class="headerlink" href="#safe-c-sharp-net-tba-example" title="Permanent link">&para;</a></h4>
+<p><a href="https://blogs.msdn.microsoft.com/securitytools/2010/09/30/antixss-4-0-released/">.NET AntiXSS</a> (now the Encoder class) has LDAP encoding functions including <code>Encoder.LdapFilterEncode(string)</code>, <code>Encoder.LdapDistinguishedNameEncode(string)</code> and <code>Encoder.LdapDistinguishedNameEncode(string, bool, bool)</code>.</p>
+<p><code>Encoder.LdapFilterEncode</code> encodes input according to <a href="https://tools.ietf.org/search/rfc4515">RFC4515</a> where unsafe values are converted to <code>\XX</code> where <code>XX</code> is the representation of the unsafe character.</p>
+<p><code>Encoder.LdapDistinguishedNameEncode</code> encodes input according to <a href="https://tools.ietf.org/html/rfc2253">RFC2253</a> where unsafe characters are converted to <code>#XX</code> where <code>XX</code> is the representation of the unsafe character and the comma, plus, quote, slash, less than and great than signs are escaped using slash notation (<code>\X</code>). In addition to this a space or octothorpe (<code>#</code>) at the beginning of the input string is <code>\</code> escaped as is a space at the end of a string.</p>
+<p><code>LdapDistinguishedNameEncode(string, bool, bool)</code> is also provided so you may turn off the initial or final character escaping rules, for example if you are concatenating the escaped distinguished name fragment into the midst of a complete distinguished name.</p>
+<h3 id="defense-option-2-use-frameworks-that-automatically-protect-from-ldap-injection">Defense Option 2: Use Frameworks that Automatically Protect from LDAP Injection<a class="headerlink" href="#defense-option-2-use-frameworks-that-automatically-protect-from-ldap-injection" title="Permanent link">&para;</a></h3>
+<p>Safe NET Example</p>
+<p><a href="https://linqtoad.codeplex.com">LINQ to Active Directory</a> provides automatic LDAP encoding when building LDAP queries.</p>
+<h3 id="defense-option-3-additional-defenses">Defense Option 3: Additional Defenses<a class="headerlink" href="#defense-option-3-additional-defenses" title="Permanent link">&para;</a></h3>
+<p>Beyond adopting one of the two primary defenses, we also recommend adopting all of these additional defenses in order to provide defense in depth. These additional defenses are:</p>
+<ul>
+<li><strong>Least Privilege</strong></li>
+<li><strong>White List Input Validation</strong></li>
+</ul>
+<h4 id="least-privilege">Least Privilege<a class="headerlink" href="#least-privilege" title="Permanent link">&para;</a></h4>
+<p>To minimize the potential damage of a successful LDAP injection attack, you should minimize the privileges assigned to the LDAP binding account in your environment.</p>
+<h4 id="white-list-input-validation">White List Input Validation<a class="headerlink" href="#white-list-input-validation" title="Permanent link">&para;</a></h4>
+<p>Input validation can be used to detect unauthorized input before it is passed to the LDAP query. For more information please see the <a href="Input_Validation_Cheat_Sheet.html">Input Validation Cheat Sheet</a>.</p>
+<h2 id="related-articles">Related Articles<a class="headerlink" href="#related-articles" title="Permanent link">&para;</a></h2>
+<ul>
+<li>OWASP article on <a href="https://owasp.org/www-community/attacks/LDAP_Injection">LDAP Injection</a> Vulnerabilities.</li>
+<li>OWASP article on <a href="https://cheatsheetseries.owasp.org/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.html">Preventing LDAP Injection Prevention</a>.</li>
+<li><a href="https://owasp.org/www-project-web-security-testing-guide/">OWASP Testing Guide</a> article on how to <a href="https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/07-Input_Validation_Testing/06-Testing_for_LDAP_Injection.html">Test for LDAP Injection</a> Vulnerabilities.</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Kubernetes Security
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="Logging_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Logging
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright 2020 - CheatSheets Series Team
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1809 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Website with the collection of all the cheat sheets of the project.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html">
+      
+      <link rel="shortcut icon" href="../assets/WebSite_Favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>Query Parameterization - OWASP Cheat Sheet Series</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-4531126-15","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#query-parameterization-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-header-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            OWASP Cheat Sheet Series
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Query Parameterization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    OWASP Cheat Sheet Series
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../Glossary.html" class="md-nav__link">
+      Index Alphabetical
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexASVS.html" class="md-nav__link">
+      Index ASVS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexProactiveControls.html" class="md-nav__link">
+      Index Proactive Controls
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Cheatsheets
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Cheatsheets" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Cheatsheets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="AJAX_Security_Cheat_Sheet.html" class="md-nav__link">
+      AJAX Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Abuse_Case_Cheat_Sheet.html" class="md-nav__link">
+      Abuse Case
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Access_Control_Cheat_Sheet.html" class="md-nav__link">
+      Access Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Attack_Surface_Analysis_Cheat_Sheet.html" class="md-nav__link">
+      Attack Surface Analysis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authorization_Testing_Automation_Cheat_Sheet.html" class="md-nav__link">
+      Authorization Testing Automation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Bean_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Bean Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="C-Based_Toolchain_Hardening_Cheat_Sheet.html" class="md-nav__link">
+      C-Based Toolchain Hardening
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Choosing_and_Using_Security_Questions_Cheat_Sheet.html" class="md-nav__link">
+      Choosing and Using Security Questions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Clickjacking_Defense_Cheat_Sheet.html" class="md-nav__link">
+      Clickjacking Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Content_Security_Policy_Cheat_Sheet.html" class="md-nav__link">
+      Content Security Policy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Credential_Stuffing_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Credential Stuffing Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross-Site Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross Site Scripting Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cryptographic_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Cryptographic Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DOM_based_XSS_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      DOM based XSS Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Database_Security_Cheat_Sheet.html" class="md-nav__link">
+      Database Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Denial_of_Service_Cheat_Sheet.html" class="md-nav__link">
+      Denial of Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Deserialization_Cheat_Sheet.html" class="md-nav__link">
+      Deserialization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Docker_Security_Cheat_Sheet.html" class="md-nav__link">
+      Docker Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DotNet_Security_Cheat_Sheet.html" class="md-nav__link">
+      DotNet Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Error_Handling_Cheat_Sheet.html" class="md-nav__link">
+      Error Handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="File_Upload_Cheat_Sheet.html" class="md-nav__link">
+      File Upload
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Forgot_Password_Cheat_Sheet.html" class="md-nav__link">
+      Forgot Password
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="GraphQL_Cheat_Sheet.html" class="md-nav__link">
+      GraphQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTML5_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTML5 Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTTP_Strict_Transport_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTTP Strict Transport Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_in_Java_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention in Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Input_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Input Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Insecure Direct Object Reference Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JAAS_Cheat_Sheet.html" class="md-nav__link">
+      JAAS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JSON_Web_Token_for_Java_Cheat_Sheet.html" class="md-nav__link">
+      JSON Web Token for Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Key_Management_Cheat_Sheet.html" class="md-nav__link">
+      Key Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-nav__link">
+      Kubernetes Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="LDAP_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      LDAP Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Logging_Cheat_Sheet.html" class="md-nav__link">
+      Logging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Mass_Assignment_Cheat_Sheet.html" class="md-nav__link">
+      Mass Assignment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_based_Security_Arch_Doc_Cheat_Sheet.html" class="md-nav__link">
+      Microservices based Security Arch Doc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_security.html" class="md-nav__link">
+      Microservices security.md
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Multifactor_Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Multifactor Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Nodejs_Security_Cheat_Sheet.html" class="md-nav__link">
+      Nodejs Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="OS_Command_Injection_Defense_Cheat_Sheet.html" class="md-nav__link">
+      OS Command Injection Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="PHP_Configuration_Cheat_Sheet.html" class="md-nav__link">
+      PHP Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Password_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Password Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Pinning_Cheat_Sheet.html" class="md-nav__link">
+      Pinning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Query Parameterization
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="Query_Parameterization_Cheat_Sheet.html" class="md-nav__link md-nav__link--active">
+      Query Parameterization
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameterized-query-examples" class="md-nav__link">
+    Parameterized Query Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameterized Query Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepared-statement-examples" class="md-nav__link">
+    Prepared Statement Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepared Statement Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-java-built-in-feature" class="md-nav__link">
+    Using Java built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-java-with-hibernate" class="md-nav__link">
+    Using Java with Hibernate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-net-built-in-feature" class="md-nav__link">
+    Using .NET built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-asp-net-built-in-feature" class="md-nav__link">
+    Using ASP .NET built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-ruby-with-activerecord" class="md-nav__link">
+    Using Ruby with ActiveRecord
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-ruby-built-in-feature" class="md-nav__link">
+    Using Ruby built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-php-with-php-data-objects" class="md-nav__link">
+    Using PHP with PHP Data Objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-cold-fusion-built-in-feature" class="md-nav__link">
+    Using Cold Fusion built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-perl-with-database-independent-interface" class="md-nav__link">
+    Using PERL with Database Independent Interface
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-examples" class="md-nav__link">
+    Stored Procedure Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Stored Procedure Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oracle-using-plsql" class="md-nav__link">
+    Oracle using PL/SQL
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle using PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-stored-procedure" class="md-nav__link">
+    Normal Stored Procedure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-using-bind-variables-in-sql-run-with-execute" class="md-nav__link">
+    Stored Procedure Using Bind Variables in SQL Run with EXECUTE
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-server-using-transact-sql" class="md-nav__link">
+    SQL Server using Transact-SQL
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Server using Transact-SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-stored-procedure_1" class="md-nav__link">
+    Normal Stored Procedure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-using-bind-variables-in-sql-run-with-exec" class="md-nav__link">
+    Stored Procedure Using Bind Variables in SQL Run with EXEC
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Assessment_Cheat_Sheet.html" class="md-nav__link">
+      REST Assessment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Security_Cheat_Sheet.html" class="md-nav__link">
+      REST Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Ruby_on_Rails_Cheat_Sheet.html" class="md-nav__link">
+      Ruby on Rails
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SAML_Security_Cheat_Sheet.html" class="md-nav__link">
+      SAML Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SQL_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      SQL Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Securing_Cascading_Style_Sheets_Cheat_Sheet.html" class="md-nav__link">
+      Securing Cascading Style Sheets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Server Side Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Session_Management_Cheat_Sheet.html" class="md-nav__link">
+      Session Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="TLS_Cipher_String_Cheat_Sheet.html" class="md-nav__link">
+      TLS Cipher String
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Third_Party_Javascript_Management_Cheat_Sheet.html" class="md-nav__link">
+      Third Party Javascript Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Threat_Modeling_Cheat_Sheet.html" class="md-nav__link">
+      Threat Modeling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transaction_Authorization_Cheat_Sheet.html" class="md-nav__link">
+      Transaction Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transport_Layer_Protection_Cheat_Sheet.html" class="md-nav__link">
+      Transport Layer Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" class="md-nav__link">
+      Unvalidated Redirects and Forwards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="User_Privacy_Protection_Cheat_Sheet.html" class="md-nav__link">
+      User Privacy Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Virtual_Patching_Cheat_Sheet.html" class="md-nav__link">
+      Virtual Patching
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerability_Disclosure_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerability Disclosure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerable_Dependency_Management_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerable Dependency Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Web_Service_Security_Cheat_Sheet.html" class="md-nav__link">
+      Web Service Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_External_Entity_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      XML External Entity Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_Security_Cheat_Sheet.html" class="md-nav__link">
+      XML Security
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameterized-query-examples" class="md-nav__link">
+    Parameterized Query Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameterized Query Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepared-statement-examples" class="md-nav__link">
+    Prepared Statement Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepared Statement Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-java-built-in-feature" class="md-nav__link">
+    Using Java built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-java-with-hibernate" class="md-nav__link">
+    Using Java with Hibernate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-net-built-in-feature" class="md-nav__link">
+    Using .NET built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-asp-net-built-in-feature" class="md-nav__link">
+    Using ASP .NET built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-ruby-with-activerecord" class="md-nav__link">
+    Using Ruby with ActiveRecord
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-ruby-built-in-feature" class="md-nav__link">
+    Using Ruby built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-php-with-php-data-objects" class="md-nav__link">
+    Using PHP with PHP Data Objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-cold-fusion-built-in-feature" class="md-nav__link">
+    Using Cold Fusion built-in feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-perl-with-database-independent-interface" class="md-nav__link">
+    Using PERL with Database Independent Interface
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-examples" class="md-nav__link">
+    Stored Procedure Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Stored Procedure Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oracle-using-plsql" class="md-nav__link">
+    Oracle using PL/SQL
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle using PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-stored-procedure" class="md-nav__link">
+    Normal Stored Procedure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-using-bind-variables-in-sql-run-with-execute" class="md-nav__link">
+    Stored Procedure Using Bind Variables in SQL Run with EXECUTE
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-server-using-transact-sql" class="md-nav__link">
+    SQL Server using Transact-SQL
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Server using Transact-SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-stored-procedure_1" class="md-nav__link">
+    Normal Stored Procedure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stored-procedure-using-bind-variables-in-sql-run-with-exec" class="md-nav__link">
+    Stored Procedure Using Bind Variables in SQL Run with EXEC
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="query-parameterization-cheat-sheet">Query Parameterization Cheat Sheet<a class="headerlink" href="#query-parameterization-cheat-sheet" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p><a href="https://owasp.org/www-community/attacks/SQL_Injection">SQL Injection</a> is one of the most dangerous web vulnerabilities. So much so that it's the <a href="https://wiki.owasp.org/index.php/Top_10_2013-A1-Injection">#1 item in the OWASP Top 10</a>.</p>
+<p>It represents a serious threat because SQL Injection allows evil attacker code to change the structure of a web application's SQL statement in a way that can steal data, modify data, or potentially facilitate command injection to the underlying OS.</p>
+<p>This cheat sheet is a derivative work of the <a href="SQL_Injection_Prevention_Cheat_Sheet.html">SQL Injection Prevention Cheat Sheet</a>.</p>
+<h2 id="parameterized-query-examples">Parameterized Query Examples<a class="headerlink" href="#parameterized-query-examples" title="Permanent link">&para;</a></h2>
+<p>SQL Injection is best prevented through the use of <a href="SQL_Injection_Prevention_Cheat_Sheet.html"><em>parameterized queries</em></a>. The following chart demonstrates, with real-world code samples, how to build parameterized queries in most of the common web languages. The purpose of these code samples is to demonstrate to the web developer how to avoid SQL Injection when building database queries within a web application.</p>
+<h3 id="prepared-statement-examples">Prepared Statement Examples<a class="headerlink" href="#prepared-statement-examples" title="Permanent link">&para;</a></h3>
+<h4 id="using-java-built-in-feature">Using Java built-in feature<a class="headerlink" href="#using-java-built-in-feature" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="n">String</span> <span class="n">custname</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="s">&quot;customerName&quot;</span><span class="p">);</span>
+<span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">&quot;SELECT account_balance FROM user_data WHERE user_name = ? &quot;</span><span class="p">;</span>  
+<span class="n">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span> <span class="n">query</span> <span class="p">);</span>
+<span class="n">pstmt</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="n">custname</span><span class="p">);</span>
+<span class="n">ResultSet</span> <span class="n">results</span> <span class="o">=</span> <span class="n">pstmt</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">(</span> <span class="p">);</span>
+</code></pre></div>
+
+<h4 id="using-java-with-hibernate">Using Java with Hibernate<a class="headerlink" href="#using-java-with-hibernate" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1">//HQL</span>
+<span class="nd">@Entity</span> <span class="c1">// declare as entity;</span>
+<span class="nd">@NamedQuery</span><span class="p">(</span>
+ <span class="n">name</span><span class="o">=</span><span class="s">&quot;findByDescription&quot;</span><span class="p">,</span>
+ <span class="n">query</span><span class="o">=</span><span class="s">&quot;FROM Inventory i WHERE i.productDescription = :productDescription&quot;</span>
+<span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Inventory</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="p">{</span>
+ <span class="nd">@Id</span>
+ <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="p">;</span>
+ <span class="kd">private</span> <span class="n">String</span> <span class="n">productDescription</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// use case</span>
+<span class="c1">// This should REALLY be validated too</span>
+<span class="n">String</span> <span class="n">userSuppliedParameter</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="s">&quot;Product-Description&quot;</span><span class="p">);</span>
+<span class="c1">// perform input validation to detect attacks</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Inventory</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span>
+ <span class="n">session</span><span class="p">.</span><span class="na">getNamedQuery</span><span class="p">(</span><span class="s">&quot;findByDescription&quot;</span><span class="p">)</span>
+ <span class="p">.</span><span class="na">setParameter</span><span class="p">(</span><span class="s">&quot;productDescription&quot;</span><span class="p">,</span> <span class="n">userSuppliedParameter</span><span class="p">).</span><span class="na">list</span><span class="p">();</span>
+
+<span class="c1">//Criteria API</span>
+<span class="c1">// This should REALLY be validated too</span>
+<span class="n">String</span> <span class="n">userSuppliedParameter</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="s">&quot;Product-Description&quot;</span><span class="p">);</span>
+<span class="c1">// perform input validation to detect attacks</span>
+<span class="n">Inventory</span> <span class="n">inv</span> <span class="o">=</span> <span class="p">(</span><span class="n">Inventory</span><span class="p">)</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Inventory</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">add</span>
+<span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;productDescription&quot;</span><span class="p">,</span> <span class="n">userSuppliedParameter</span><span class="p">)).</span><span class="na">uniqueResult</span><span class="p">();</span>
+</code></pre></div>
+
+<h4 id="using-net-built-in-feature">Using .NET built-in feature<a class="headerlink" href="#using-net-built-in-feature" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="n">String</span> <span class="n">query</span> <span class="p">=</span> <span class="s">&quot;SELECT account_balance FROM user_data WHERE user_name = ?&quot;</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="n">OleDbCommand</span> <span class="n">command</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OleDbCommand</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">connection</span><span class="p">);</span>
+   <span class="n">command</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">OleDbParameter</span><span class="p">(</span><span class="s">&quot;customerName&quot;</span><span class="p">,</span> <span class="n">CustomerName</span> <span class="n">Name</span><span class="p">.</span><span class="n">Text</span><span class="p">));</span>
+   <span class="n">OleDbDataReader</span> <span class="n">reader</span> <span class="p">=</span> <span class="n">command</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">();</span>
+   <span class="c1">// …</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">OleDbException</span> <span class="n">se</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// error handling</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="using-asp-net-built-in-feature">Using ASP .NET built-in feature<a class="headerlink" href="#using-asp-net-built-in-feature" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="kt">string</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">&quot;SELECT * FROM Customers WHERE CustomerId = @CustomerId&quot;</span><span class="p">;</span>
+<span class="n">SqlCommand</span> <span class="n">command</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SqlCommand</span><span class="p">(</span><span class="n">sql</span><span class="p">);</span>
+<span class="n">command</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">SqlParameter</span><span class="p">(</span><span class="s">&quot;@CustomerId&quot;</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">SqlDbType</span><span class="p">.</span><span class="n">Int</span><span class="p">));</span>
+<span class="n">command</span><span class="p">.</span><span class="n">Parameters</span><span class="p">[</span><span class="s">&quot;@CustomerId&quot;</span><span class="p">].</span><span class="n">Value</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</code></pre></div>
+
+<h4 id="using-ruby-with-activerecord">Using Ruby with ActiveRecord<a class="headerlink" href="#using-ruby-with-activerecord" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1">## Create</span>
+<span class="no">Project</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;owasp&#39;</span><span class="p">)</span>
+<span class="c1">## Read</span>
+<span class="no">Project</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">&quot;name = ?&quot;</span><span class="p">,</span> <span class="nb">name</span><span class="p">)</span>
+<span class="no">Project</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="nb">name</span> <span class="p">})</span>
+<span class="no">Project</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;name = :name&quot;</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="nb">name</span><span class="p">)</span>
+<span class="c1">## Update</span>
+<span class="n">project</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;owasp&#39;</span><span class="p">)</span>
+<span class="c1">## Delete</span>
+<span class="no">Project</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="using-ruby-built-in-feature">Using Ruby built-in feature<a class="headerlink" href="#using-ruby-built-in-feature" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="n">insert_new_user</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">prepare</span> <span class="s2">&quot;INSERT INTO users (name, age, gender) VALUES (?, ? ,?)&quot;</span>
+<span class="n">insert_new_user</span><span class="o">.</span><span class="n">execute</span> <span class="s1">&#39;aizatto&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span>
+</code></pre></div>
+
+<h4 id="using-php-with-php-data-objects">Using PHP with PHP Data Objects<a class="headerlink" href="#using-php-with-php-data-objects" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="x">$stmt = $dbh-&gt;prepare(&quot;INSERT INTO REGISTRY (name, value) VALUES (:name, :value)&quot;);</span>
+<span class="x">$stmt-&gt;bindParam(&#39;:name&#39;, $name);</span>
+<span class="x">$stmt-&gt;bindParam(&#39;:value&#39;, $value);</span>
+</code></pre></div>
+
+<h4 id="using-cold-fusion-built-in-feature">Using Cold Fusion built-in feature<a class="headerlink" href="#using-cold-fusion-built-in-feature" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;cfquery</span> <span class="na">name =</span> <span class="s">&quot;getFirst&quot;</span> <span class="na">dataSource =</span> <span class="s">&quot;cfsnippets&quot;</span><span class="nt">&gt;</span>
+    SELECT * FROM #strDatabasePrefix#_courses WHERE intCourseID =
+    <span class="nt">&lt;cfqueryparam</span> <span class="na">value =</span> <span class="s">#intCourseID#</span> <span class="na">CFSQLType =</span> <span class="s">&quot;CF_SQL_INTEGER&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/cfquery&gt;</span>
+</code></pre></div>
+
+<h4 id="using-perl-with-database-independent-interface">Using PERL with Database Independent Interface<a class="headerlink" href="#using-perl-with-database-independent-interface" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="k">my</span> <span class="nv">$sql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO foo (bar, baz) VALUES ( ?, ? )&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$sth</span> <span class="o">=</span> <span class="nv">$dbh</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span> <span class="nv">$sql</span> <span class="p">);</span>
+<span class="nv">$sth</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">(</span> <span class="nv">$bar</span><span class="p">,</span> <span class="nv">$baz</span> <span class="p">);</span>
+</code></pre></div>
+
+<h3 id="stored-procedure-examples">Stored Procedure Examples<a class="headerlink" href="#stored-procedure-examples" title="Permanent link">&para;</a></h3>
+<p>The SQL you write in your web application isn't the only place that SQL injection vulnerabilities can be introduced. If you are using Stored Procedures, and you are dynamically constructing SQL inside them, you can also introduce SQL injection vulnerabilities.</p>
+<p>To ensure this dynamic SQL is secure, you can parameterize this dynamic SQL too using bind variables.</p>
+<p>Here are some examples of using bind variables in stored procedures in different databases.</p>
+<h4 id="oracle-using-plsql">Oracle using PL/SQL<a class="headerlink" href="#oracle-using-plsql" title="Permanent link">&para;</a></h4>
+<h5 id="normal-stored-procedure">Normal Stored Procedure<a class="headerlink" href="#normal-stored-procedure" title="Permanent link">&para;</a></h5>
+<p>No dynamic SQL being created. Parameters passed in to stored procedures are naturally bound to their location within the query without anything special being required:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">PROCEDURE</span> <span class="n">SafeGetBalanceQuery</span><span class="p">(</span><span class="n">UserID</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">Dept</span> <span class="nb">varchar</span><span class="p">)</span> <span class="k">AS</span> <span class="k">BEGIN</span>
+   <span class="k">SELECT</span> <span class="n">balance</span> <span class="k">FROM</span> <span class="n">accounts_table</span> <span class="k">WHERE</span> <span class="n">user_ID</span> <span class="o">=</span> <span class="n">UserID</span> <span class="k">AND</span> <span class="n">department</span> <span class="o">=</span> <span class="n">Dept</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+</code></pre></div>
+
+<h5 id="stored-procedure-using-bind-variables-in-sql-run-with-execute">Stored Procedure Using Bind Variables in SQL Run with EXECUTE<a class="headerlink" href="#stored-procedure-using-bind-variables-in-sql-run-with-execute" title="Permanent link">&para;</a></h5>
+<p>Bind variables are used to tell the database that the inputs to this dynamic SQL are 'data' and not possibly code:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">PROCEDURE</span> <span class="n">AnotherSafeGetBalanceQuery</span><span class="p">(</span><span class="n">UserID</span> <span class="nb">varchar</span><span class="p">,</span> <span class="n">Dept</span> <span class="nb">varchar</span><span class="p">)</span>
+          <span class="k">AS</span> <span class="n">stmt</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">400</span><span class="p">);</span> <span class="k">result</span> <span class="nb">NUMBER</span><span class="p">;</span>
+<span class="k">BEGIN</span>
+   <span class="n">stmt</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;SELECT balance FROM accounts_table WHERE user_ID = :1</span>
+<span class="s1">            AND department = :2&#39;</span><span class="p">;</span>
+   <span class="k">EXECUTE</span> <span class="k">IMMEDIATE</span> <span class="n">stmt</span> <span class="k">INTO</span> <span class="k">result</span> <span class="k">USING</span> <span class="n">UserID</span><span class="p">,</span> <span class="n">Dept</span><span class="p">;</span>
+   <span class="k">RETURN</span> <span class="k">result</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+</code></pre></div>
+
+<h4 id="sql-server-using-transact-sql">SQL Server using Transact-SQL<a class="headerlink" href="#sql-server-using-transact-sql" title="Permanent link">&para;</a></h4>
+<h5 id="normal-stored-procedure_1">Normal Stored Procedure<a class="headerlink" href="#normal-stored-procedure_1" title="Permanent link">&para;</a></h5>
+<p>No dynamic SQL being created. Parameters passed in to stored procedures are naturally bound to their location within the query without anything special being required:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">PROCEDURE</span> <span class="n">SafeGetBalanceQuery</span><span class="p">(</span><span class="o">@</span><span class="n">UserID</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="o">@</span><span class="n">Dept</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="k">AS</span> <span class="k">BEGIN</span>
+   <span class="k">SELECT</span> <span class="n">balance</span> <span class="k">FROM</span> <span class="n">accounts_table</span> <span class="k">WHERE</span> <span class="n">user_ID</span> <span class="o">=</span> <span class="o">@</span><span class="n">UserID</span> <span class="k">AND</span> <span class="n">department</span> <span class="o">=</span> <span class="o">@</span><span class="n">Dept</span>
+<span class="k">END</span>
+</code></pre></div>
+
+<h5 id="stored-procedure-using-bind-variables-in-sql-run-with-exec">Stored Procedure Using Bind Variables in SQL Run with EXEC<a class="headerlink" href="#stored-procedure-using-bind-variables-in-sql-run-with-exec" title="Permanent link">&para;</a></h5>
+<p>Bind variables are used to tell the database that the inputs to this dynamic SQL are 'data' and not possibly code:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">PROCEDURE</span> <span class="n">SafeGetBalanceQuery</span><span class="p">(</span><span class="o">@</span><span class="n">UserID</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="o">@</span><span class="n">Dept</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="k">AS</span> <span class="k">BEGIN</span>
+   <span class="k">DECLARE</span> <span class="o">@</span><span class="k">sql</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+   <span class="k">SELECT</span> <span class="o">@</span><span class="k">sql</span> <span class="o">=</span> <span class="s1">&#39;SELECT balance FROM accounts_table WHERE &#39;</span>
+                 <span class="o">+</span> <span class="s1">&#39;user_ID = @UID AND department = @DPT&#39;</span>
+   <span class="k">EXEC</span> <span class="n">sp_executesql</span> <span class="o">@</span><span class="k">sql</span><span class="p">,</span>
+                      <span class="s1">&#39;@UID VARCHAR(20), @DPT VARCHAR(10)&#39;</span><span class="p">,</span>
+                      <span class="o">@</span><span class="n">UID</span><span class="o">=@</span><span class="n">UserID</span><span class="p">,</span> <span class="o">@</span><span class="n">DPT</span><span class="o">=@</span><span class="n">Dept</span>
+<span class="k">END</span>
+</code></pre></div>
+
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="http://bobby-tables.com/">The Bobby Tables site (inspired by the XKCD webcomic) has numerous examples in different languages of parameterized Prepared Statements and Stored Procedures</a></li>
+<li>OWASP <a href="SQL_Injection_Prevention_Cheat_Sheet.html">SQL Injection Prevention Cheat Sheet</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="Pinning_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Pinning
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="REST_Assessment_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                REST Assessment
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright 2020 - CheatSheets Series Team
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

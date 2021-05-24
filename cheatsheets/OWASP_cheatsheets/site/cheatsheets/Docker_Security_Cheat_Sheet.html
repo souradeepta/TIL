@@ -1,0 +1,1757 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Website with the collection of all the cheat sheets of the project.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html">
+      
+      <link rel="shortcut icon" href="../assets/WebSite_Favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
+    
+    
+      
+        <title>Docker Security - OWASP Cheat Sheet Series</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.15aa0b43.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.75751829.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-4531126-15","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker-security-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-header-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            OWASP Cheat Sheet Series
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Docker Security
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://cheatsheetseries.owasp.org/" title="OWASP Cheat Sheet Series" class="md-nav__button md-logo" aria-label="OWASP Cheat Sheet Series">
+      
+  <img src="../assets/OWASP_Logo_Transp.png" alt="logo">
+
+    </a>
+    OWASP Cheat Sheet Series
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/OWASP/CheatSheetSeries" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OWASP/CheatSheetSeries
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../Glossary.html" class="md-nav__link">
+      Index Alphabetical
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexASVS.html" class="md-nav__link">
+      Index ASVS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../IndexProactiveControls.html" class="md-nav__link">
+      Index Proactive Controls
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Cheatsheets
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Cheatsheets" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Cheatsheets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="AJAX_Security_Cheat_Sheet.html" class="md-nav__link">
+      AJAX Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Abuse_Case_Cheat_Sheet.html" class="md-nav__link">
+      Abuse Case
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Access_Control_Cheat_Sheet.html" class="md-nav__link">
+      Access Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Attack_Surface_Analysis_Cheat_Sheet.html" class="md-nav__link">
+      Attack Surface Analysis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Authorization_Testing_Automation_Cheat_Sheet.html" class="md-nav__link">
+      Authorization Testing Automation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Bean_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Bean Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="C-Based_Toolchain_Hardening_Cheat_Sheet.html" class="md-nav__link">
+      C-Based Toolchain Hardening
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Choosing_and_Using_Security_Questions_Cheat_Sheet.html" class="md-nav__link">
+      Choosing and Using Security Questions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Clickjacking_Defense_Cheat_Sheet.html" class="md-nav__link">
+      Clickjacking Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Content_Security_Policy_Cheat_Sheet.html" class="md-nav__link">
+      Content Security Policy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Credential_Stuffing_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Credential Stuffing Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross-Site Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Cross Site Scripting Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Cryptographic_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Cryptographic Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DOM_based_XSS_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      DOM based XSS Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Database_Security_Cheat_Sheet.html" class="md-nav__link">
+      Database Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Denial_of_Service_Cheat_Sheet.html" class="md-nav__link">
+      Denial of Service
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Deserialization_Cheat_Sheet.html" class="md-nav__link">
+      Deserialization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Docker Security
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="Docker_Security_Cheat_Sheet.html" class="md-nav__link md-nav__link--active">
+      Docker Security
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-0-keep-host-and-docker-up-to-date" class="md-nav__link">
+    RULE #0 - Keep Host and Docker up to date
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-1-do-not-expose-the-docker-daemon-socket-even-to-the-containers" class="md-nav__link">
+    RULE #1 - Do not expose the Docker daemon socket (even to the containers)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2-set-a-user" class="md-nav__link">
+    RULE #2 - Set a user
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-3-limit-capabilities-grant-only-specific-capabilities-needed-by-a-container" class="md-nav__link">
+    RULE #3 - Limit capabilities (Grant only specific capabilities, needed by a container)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-4-add-no-new-privileges-flag" class="md-nav__link">
+    RULE #4 - Add –no-new-privileges flag
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-5-disable-inter-container-communication-iccfalse" class="md-nav__link">
+    RULE #5 - Disable inter-container communication (--icc=false)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-6-use-linux-security-module-seccomp-apparmor-or-selinux" class="md-nav__link">
+    RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-7-limit-resources-memory-cpu-file-descriptors-processes-restarts" class="md-nav__link">
+    RULE #7 - Limit resources (memory, CPU, file descriptors, processes, restarts)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-8-set-filesystem-and-volumes-to-read-only" class="md-nav__link">
+    RULE #8 - Set filesystem and volumes to read-only
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-9-use-static-analysis-tools" class="md-nav__link">
+    RULE #9 - Use static analysis tools
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-10-set-the-logging-level-to-at-least-info" class="md-nav__link">
+    RULE #10 - Set the logging level to at least INFO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-11-lint-the-dockerfile-at-build-time" class="md-nav__link">
+    Rule #11 - Lint the Dockerfile at build time
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-projects" class="md-nav__link">
+    Related Projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="DotNet_Security_Cheat_Sheet.html" class="md-nav__link">
+      DotNet Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Error_Handling_Cheat_Sheet.html" class="md-nav__link">
+      Error Handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="File_Upload_Cheat_Sheet.html" class="md-nav__link">
+      File Upload
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Forgot_Password_Cheat_Sheet.html" class="md-nav__link">
+      Forgot Password
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="GraphQL_Cheat_Sheet.html" class="md-nav__link">
+      GraphQL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTML5_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTML5 Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="HTTP_Strict_Transport_Security_Cheat_Sheet.html" class="md-nav__link">
+      HTTP Strict Transport Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Injection_Prevention_in_Java_Cheat_Sheet.html" class="md-nav__link">
+      Injection Prevention in Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Input_Validation_Cheat_Sheet.html" class="md-nav__link">
+      Input Validation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Insecure Direct Object Reference Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JAAS_Cheat_Sheet.html" class="md-nav__link">
+      JAAS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="JSON_Web_Token_for_Java_Cheat_Sheet.html" class="md-nav__link">
+      JSON Web Token for Java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Key_Management_Cheat_Sheet.html" class="md-nav__link">
+      Key Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Kubernetes_Security_Cheat_Sheet.html" class="md-nav__link">
+      Kubernetes Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="LDAP_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      LDAP Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Logging_Cheat_Sheet.html" class="md-nav__link">
+      Logging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Mass_Assignment_Cheat_Sheet.html" class="md-nav__link">
+      Mass Assignment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_based_Security_Arch_Doc_Cheat_Sheet.html" class="md-nav__link">
+      Microservices based Security Arch Doc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Microservices_security.html" class="md-nav__link">
+      Microservices security.md
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Multifactor_Authentication_Cheat_Sheet.html" class="md-nav__link">
+      Multifactor Authentication
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Nodejs_Security_Cheat_Sheet.html" class="md-nav__link">
+      Nodejs Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="OS_Command_Injection_Defense_Cheat_Sheet.html" class="md-nav__link">
+      OS Command Injection Defense
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="PHP_Configuration_Cheat_Sheet.html" class="md-nav__link">
+      PHP Configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Password_Storage_Cheat_Sheet.html" class="md-nav__link">
+      Password Storage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Pinning_Cheat_Sheet.html" class="md-nav__link">
+      Pinning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Query_Parameterization_Cheat_Sheet.html" class="md-nav__link">
+      Query Parameterization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Assessment_Cheat_Sheet.html" class="md-nav__link">
+      REST Assessment
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="REST_Security_Cheat_Sheet.html" class="md-nav__link">
+      REST Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Ruby_on_Rails_Cheat_Sheet.html" class="md-nav__link">
+      Ruby on Rails
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SAML_Security_Cheat_Sheet.html" class="md-nav__link">
+      SAML Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="SQL_Injection_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      SQL Injection Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Securing_Cascading_Style_Sheets_Cheat_Sheet.html" class="md-nav__link">
+      Securing Cascading Style Sheets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      Server Side Request Forgery Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Session_Management_Cheat_Sheet.html" class="md-nav__link">
+      Session Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="TLS_Cipher_String_Cheat_Sheet.html" class="md-nav__link">
+      TLS Cipher String
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Third_Party_Javascript_Management_Cheat_Sheet.html" class="md-nav__link">
+      Third Party Javascript Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Threat_Modeling_Cheat_Sheet.html" class="md-nav__link">
+      Threat Modeling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transaction_Authorization_Cheat_Sheet.html" class="md-nav__link">
+      Transaction Authorization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Transport_Layer_Protection_Cheat_Sheet.html" class="md-nav__link">
+      Transport Layer Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html" class="md-nav__link">
+      Unvalidated Redirects and Forwards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="User_Privacy_Protection_Cheat_Sheet.html" class="md-nav__link">
+      User Privacy Protection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Virtual_Patching_Cheat_Sheet.html" class="md-nav__link">
+      Virtual Patching
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerability_Disclosure_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerability Disclosure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Vulnerable_Dependency_Management_Cheat_Sheet.html" class="md-nav__link">
+      Vulnerable Dependency Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="Web_Service_Security_Cheat_Sheet.html" class="md-nav__link">
+      Web Service Security
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_External_Entity_Prevention_Cheat_Sheet.html" class="md-nav__link">
+      XML External Entity Prevention
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="XML_Security_Cheat_Sheet.html" class="md-nav__link">
+      XML Security
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-0-keep-host-and-docker-up-to-date" class="md-nav__link">
+    RULE #0 - Keep Host and Docker up to date
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-1-do-not-expose-the-docker-daemon-socket-even-to-the-containers" class="md-nav__link">
+    RULE #1 - Do not expose the Docker daemon socket (even to the containers)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2-set-a-user" class="md-nav__link">
+    RULE #2 - Set a user
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-3-limit-capabilities-grant-only-specific-capabilities-needed-by-a-container" class="md-nav__link">
+    RULE #3 - Limit capabilities (Grant only specific capabilities, needed by a container)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-4-add-no-new-privileges-flag" class="md-nav__link">
+    RULE #4 - Add –no-new-privileges flag
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-5-disable-inter-container-communication-iccfalse" class="md-nav__link">
+    RULE #5 - Disable inter-container communication (--icc=false)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-6-use-linux-security-module-seccomp-apparmor-or-selinux" class="md-nav__link">
+    RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-7-limit-resources-memory-cpu-file-descriptors-processes-restarts" class="md-nav__link">
+    RULE #7 - Limit resources (memory, CPU, file descriptors, processes, restarts)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-8-set-filesystem-and-volumes-to-read-only" class="md-nav__link">
+    RULE #8 - Set filesystem and volumes to read-only
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-9-use-static-analysis-tools" class="md-nav__link">
+    RULE #9 - Use static analysis tools
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-10-set-the-logging-level-to-at-least-info" class="md-nav__link">
+    RULE #10 - Set the logging level to at least INFO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-11-lint-the-dockerfile-at-build-time" class="md-nav__link">
+    Rule #11 - Lint the Dockerfile at build time
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-projects" class="md-nav__link">
+    Related Projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="docker-security-cheat-sheet">Docker Security Cheat Sheet<a class="headerlink" href="#docker-security-cheat-sheet" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Docker is the most popular containerization technology. Upon proper use, it can increase the level of security (in comparison to running applications directly on the host). On the other hand, some misconfigurations can lead to downgrade the level of security or even introduce new vulnerabilities.</p>
+<p>The aim of this cheat sheet is to provide an easy to use list of common security mistakes and good practices that will help you secure your Docker containers.</p>
+<h2 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">&para;</a></h2>
+<h3 id="rule-0-keep-host-and-docker-up-to-date">RULE #0 - Keep Host and Docker up to date<a class="headerlink" href="#rule-0-keep-host-and-docker-up-to-date" title="Permanent link">&para;</a></h3>
+<p>To prevent from known, container escapes vulnerabilities, which typically end in escalating to root/administrator privileges, patching Docker Engine and Docker Machine is crucial.</p>
+<p>In addition, containers (unlike in virtual machines) share the kernel with the host, therefore kernel exploits executed inside the container will directly hit host kernel. For example, kernel privilege escalation exploit (<a href="https://github.com/scumjr/dirtycow-vdso">like Dirty COW</a>) executed inside a well-insulated container will result in root access in a host.</p>
+<h3 id="rule-1-do-not-expose-the-docker-daemon-socket-even-to-the-containers">RULE #1 - Do not expose the Docker daemon socket (even to the containers)<a class="headerlink" href="#rule-1-do-not-expose-the-docker-daemon-socket-even-to-the-containers" title="Permanent link">&para;</a></h3>
+<p>Docker socket <em>/var/run/docker.sock</em> is the UNIX socket that Docker is listening to. This is the primary entry point for the Docker API. The owner of this socket is root. Giving someone access to it is equivalent to giving unrestricted root access to your host.</p>
+<p><strong>Do not enable <em>tcp</em> Docker daemon socket.</strong> If you are running docker daemon with <code>-H tcp://0.0.0.0:XXX</code> or similar you are exposing un-encrypted and un-authenticated direct access to the Docker daemon.
+If you really, <strong>really</strong> have to do this, you should secure it. Check how to do this <a href="https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option">following Docker official documentation</a>.</p>
+<p><strong>Do not expose <em>/var/run/docker.sock</em> to other containers</strong>. If you are running your docker image with <code>-v /var/run/docker.sock://var/run/docker.sock</code> or similar, you should change it. Remember that mounting the socket read-only is not a solution but only makes it harder to exploit. Equivalent in the docker-compose file is something like this:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">volumes</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="s">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span>
+</code></pre></div>
+
+<h3 id="rule-2-set-a-user">RULE #2 - Set a user<a class="headerlink" href="#rule-2-set-a-user" title="Permanent link">&para;</a></h3>
+<p>Configuring the container to use an unprivileged user is the best way to prevent privilege escalation attacks. This can be accomplished in three different ways as follows:</p>
+<ol>
+<li>During runtime using <code>-u</code> option of <code>docker run</code> command e.g.:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>docker run -u <span class="m">4000</span> alpine
+</code></pre></div>
+
+<ol>
+<li>During build time. Simple add user in Dockerfile and use it. For example:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">alpine</span>
+<span class="k">RUN</span> groupadd -r myuser <span class="o">&amp;&amp;</span> useradd -r -g myuser myuser
+&lt;HERE DO WHAT YOU HAVE TO DO AS A ROOT USER LIKE INSTALLING PACKAGES ETC.&gt;
+<span class="k">USER</span><span class="s"> myuser</span>
+</code></pre></div>
+
+<ol>
+<li>Enable user namespace support (<code>--userns-remap=default</code>) in <a href="https://docs.docker.com/engine/security/userns-remap/#enable-userns-remap-on-the-daemon">Docker daemon</a></li>
+</ol>
+<p>More information about this topic can be found at <a href="https://docs.docker.com/engine/security/userns-remap/">Docker official documentation</a></p>
+<p>In kubernetes, this can be configured in <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Security Context</a> using <code>runAsNonRoot</code> field e.g.:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+  <span class="l l-Scalar l-Scalar-Plain">containers</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+    <span class="nt">securityContext</span><span class="p">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+          <span class="l l-Scalar l-Scalar-Plain">runAsNonRoot</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+
+<p>As a Kubernetes cluster administrator, you can configure it using <a href="https://kubernetes.io/docs/concepts/policy/pod-security-policy/">Pod Security Policies</a>.</p>
+<h3 id="rule-3-limit-capabilities-grant-only-specific-capabilities-needed-by-a-container">RULE #3 - Limit capabilities (Grant only specific capabilities, needed by a container)<a class="headerlink" href="#rule-3-limit-capabilities-grant-only-specific-capabilities-needed-by-a-container" title="Permanent link">&para;</a></h3>
+<p><a href="http://man7.org/linux/man-pages/man7/capabilities.7.html">Linux kernel capabilities</a> are a set of privileges that can be used by privileged. Docker, by default, runs with only a  subset of capabilities.
+You can change it and drop some capabilities (using <code>--cap-drop</code>) to harden your docker containers, or add some capabilities (using <code>--cap-add</code>) if needed.
+Remember not to run containers with the <code>--privileged</code> flag - this will add ALL Linux kernel capabilities to the container.</p>
+<p>The most secure setup is to drop all capabilities <code>--cap-drop all</code> and then add only required ones. For example:</p>
+<div class="codehilite"><pre><span></span><code>docker run --cap-drop all --cap-add CHOWN alpine
+</code></pre></div>
+
+<p><strong>And remember: Do not run containers with the <em>--privileged</em> flag!!!</strong></p>
+<p>In kubernetes this can be configured in <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Security Context</a> using <code>capabilities</code> field e.g.:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+  <span class="l l-Scalar l-Scalar-Plain">containers</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+    <span class="nt">securityContext</span><span class="p">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+          <span class="l l-Scalar l-Scalar-Plain">capabilities</span><span class="p p-Indicator">:</span>
+            <span class="nt">drop</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">all</span>
+            <span class="nt">add</span><span class="p">:</span>
+              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CHOWN</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+
+<p>As a Kubernetes cluster administrator, you can configure it using <a href="https://kubernetes.io/docs/concepts/policy/pod-security-policy/">Pod Security Policies</a>.</p>
+<h3 id="rule-4-add-no-new-privileges-flag">RULE #4 - Add –no-new-privileges flag<a class="headerlink" href="#rule-4-add-no-new-privileges-flag" title="Permanent link">&para;</a></h3>
+<p>Always run your docker images with <code>--security-opt=no-new-privileges</code> in order to prevent escalate privileges using <code>setuid</code> or <code>setgid</code> binaries.</p>
+<p>In kubernetes, this can be configured in <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Security Context</a> using <code>allowPrivilegeEscalation</code> field e.g.:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+  <span class="l l-Scalar l-Scalar-Plain">containers</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+    <span class="nt">securityContext</span><span class="p">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+          <span class="l l-Scalar l-Scalar-Plain">allowPrivilegeEscalation</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+
+<p>As a Kubernetes cluster administrator, you can refer to Kubernetes documentation to configure it using <a href="https://kubernetes.io/docs/concepts/policy/pod-security-policy/">Pod Security Policies</a>.</p>
+<h3 id="rule-5-disable-inter-container-communication-iccfalse">RULE #5 - Disable inter-container communication (--icc=false)<a class="headerlink" href="#rule-5-disable-inter-container-communication-iccfalse" title="Permanent link">&para;</a></h3>
+<p>By default inter-container communication (icc) is enabled - it means that all containers can talk with each other (using <a href="https://docs.docker.com/v17.09/engine/userguide/networking/default_network/container-communication/#communication-between-containers"><code>docker0</code> bridged network</a>).
+This can be disabled by running docker daemon with <code>--icc=false</code> flag.
+If icc is disabled (icc=false) it is required to tell which containers can communicate using --link=CONTAINER_NAME_or_ID:ALIAS option.
+See more in <a href="https://docs.docker.com/v17.09/engine/userguide/networking/default_network/container-communication/#communication-between-containers">Docker documentation - container communication</a></p>
+<p>In Kubernetes <a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">Network Policies</a> can be used for it.</p>
+<h3 id="rule-6-use-linux-security-module-seccomp-apparmor-or-selinux">RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)<a class="headerlink" href="#rule-6-use-linux-security-module-seccomp-apparmor-or-selinux" title="Permanent link">&para;</a></h3>
+<p><strong>First of all, do not disable default security profile!</strong></p>
+<p>Consider using security profile like <a href="https://docs.docker.com/engine/security/seccomp/">seccomp</a> or <a href="https://docs.docker.com/engine/security/apparmor/">AppArmor</a>.</p>
+<p>Instructions how to do this inside Kubernetes can be found at <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Security Context documentation</a> and in <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#securitycontext-v1-core">Kubernetes API documentation</a></p>
+<h3 id="rule-7-limit-resources-memory-cpu-file-descriptors-processes-restarts">RULE #7 - Limit resources (memory, CPU, file descriptors, processes, restarts)<a class="headerlink" href="#rule-7-limit-resources-memory-cpu-file-descriptors-processes-restarts" title="Permanent link">&para;</a></h3>
+<p>The best way to avoid DoS attacks is by limiting resources. You can limit <a href="https://docs.docker.com/config/containers/resource_constraints/#memory">memory</a>, <a href="https://docs.docker.com/config/containers/resource_constraints/#cpu">CPU</a>, maximum number of restarts (<code>--restart=on-failure:&lt;number_of_restarts&gt;</code>), maximum number of file descriptors (<code>--ulimit nofile=&lt;number&gt;</code>) and maximum number of processes (<code>--ulimit nproc=&lt;number&gt;</code>).</p>
+<p><a href="https://docs.docker.com/engine/reference/commandline/run/#set-ulimits-in-container---ulimit">Check documentation for more details about ulimits</a></p>
+<p>You can also do this inside Kubernetes: <a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/">Assign Memory Resources to Containers and Pods</a>, <a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/">Assign CPU Resources to Containers and Pods</a> and <a href="https://kubernetes.io/docs/tasks/configure-pod-container/extended-resource/">Assign Extended Resources to a Container
+</a></p>
+<h3 id="rule-8-set-filesystem-and-volumes-to-read-only">RULE #8 - Set filesystem and volumes to read-only<a class="headerlink" href="#rule-8-set-filesystem-and-volumes-to-read-only" title="Permanent link">&para;</a></h3>
+<p><strong>Run containers with a read-only filesystem</strong> using <code>--read-only</code> flag. For example:</p>
+<div class="codehilite"><pre><span></span><code>docker run --read-only alpine sh -c <span class="s1">&#39;echo &quot;whatever&quot; &gt; /tmp&#39;</span>
+</code></pre></div>
+
+<p>If an application inside a container has to save something temporarily, combine <code>--read-only</code> flag with <code>--tmpfs</code> like this:</p>
+<div class="codehilite"><pre><span></span><code>docker run --read-only --tmpfs /tmp alpine sh -c <span class="s1">&#39;echo &quot;whatever&quot; &gt; /tmp/file&#39;</span>
+</code></pre></div>
+
+<p>Equivalent in the docker-compose file will be:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;3&quot;</span>
+<span class="nt">services</span><span class="p">:</span>
+  <span class="nt">alpine</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">alpine</span>
+    <span class="nt">read_only</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p>Equivalent in kubernetes in <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Security Context</a> will be:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+  <span class="l l-Scalar l-Scalar-Plain">containers</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+    <span class="nt">securityContext</span><span class="p">:</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+          <span class="l l-Scalar l-Scalar-Plain">readOnlyRootFilesystem</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+          <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+
+<p>In addition, if the volume is mounted only for reading <strong>mount them as a read-only</strong>
+It can be done by appending <code>:ro</code> to the <code>-v</code> like this:</p>
+<div class="codehilite"><pre><span></span><code>docker run -v volume-name:/path/in/container:ro alpine
+</code></pre></div>
+
+<p>Or by using <code>--mount</code> option:</p>
+<div class="codehilite"><pre><span></span><code>docker run --mount <span class="nv">source</span><span class="o">=</span>volume-name,destination<span class="o">=</span>/path/in/container,readonly alpine
+</code></pre></div>
+
+<h3 id="rule-9-use-static-analysis-tools">RULE #9 - Use static analysis tools<a class="headerlink" href="#rule-9-use-static-analysis-tools" title="Permanent link">&para;</a></h3>
+<p>To detect containers with known vulnerabilities - scan images using static analysis tools.</p>
+<ul>
+<li>Free<ul>
+<li><a href="https://github.com/coreos/clair">Clair</a></li>
+<li><a href="https://github.com/knqyf263/trivy">Trivy</a></li>
+</ul>
+</li>
+<li>Commercial<ul>
+<li><a href="https://snyk.io/">Snyk</a> <strong>(open source and free option available)</strong></li>
+<li><a href="https://anchore.com/opensource/">anchore</a> <strong>(open source and free option available)</strong></li>
+<li><a href="https://github.com/aquasecurity/microscanner">Aqua Security's MicroScanner</a> <strong>(free option available for rate-limited number of scans)</strong></li>
+<li><a href="https://jfrog.com/xray/">JFrog XRay</a></li>
+<li><a href="https://www.qualys.com/apps/container-security/">Qualys</a></li>
+</ul>
+</li>
+</ul>
+<p>To detect misconfigurations in Kubernetes:</p>
+<ul>
+<li><a href="https://github.com/Shopify/kubeaudit">kubeaudit</a></li>
+<li><a href="https://kubesec.io/">kubesec.io</a></li>
+<li><a href="https://github.com/aquasecurity/kube-bench">kube-bench</a></li>
+</ul>
+<p>To detect misconfigurations in Docker:</p>
+<ul>
+<li><a href="https://www.inspec.io/docs/reference/resources/docker/">inspec.io</a></li>
+<li><a href="https://dev-sec.io/baselines/docker/">dev-sec.io</a></li>
+</ul>
+<h3 id="rule-10-set-the-logging-level-to-at-least-info">RULE #10 - Set the logging level to at least INFO<a class="headerlink" href="#rule-10-set-the-logging-level-to-at-least-info" title="Permanent link">&para;</a></h3>
+<p>By default, the Docker daemon is configured to have a base logging level of 'info', and if this is not the case: set the Docker daemon log level to 'info'. Rationale: Setting up an appropriate log level, configures the Docker daemon to log events that you would want to review later. A base log level of 'info' and above would capture all logs except the debug logs. Until and unless required, you should not run docker daemon at the 'debug' log level.</p>
+<p>To configure the log level in docker-compose:</p>
+<div class="codehilite"><pre><span></span><code>docker-compose --log-level info up
+</code></pre></div>
+
+<h3 id="rule-11-lint-the-dockerfile-at-build-time">Rule #11 - Lint the Dockerfile at build time<a class="headerlink" href="#rule-11-lint-the-dockerfile-at-build-time" title="Permanent link">&para;</a></h3>
+<p>Many issues can be prevented by following some best practices when writing the Dockerfile. Adding a security linter as a step in the the build pipeline can go a long way in avoiding further headaches. Some issues that are worth checking are:</p>
+<ul>
+<li>Ensure a <code>USER</code> directive is specified</li>
+<li>Ensure the base image version is pinned</li>
+<li>Ensure the OS packages versions are pinned</li>
+<li>Avoid the use of <code>ADD</code> in favor of <code>COPY</code></li>
+<li>Avoid the use of <code>apt/apk upgrade</code></li>
+<li>Avoid curl bashing in <code>RUN</code> directives</li>
+</ul>
+<p>References:</p>
+<ul>
+<li><a href="https://dev-sec.io/baselines/docker/">Docker Baselines on DevSec</a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/cli/">Use the Docker command line</a></li>
+<li><a href="https://docs.docker.com/compose/reference/overview/">Overview of docker-compose CLI</a></li>
+<li><a href="https://docs.docker.com/config/containers/logging/configure/">Configuring Logging Drivers</a></li>
+<li><a href="https://docs.docker.com/config/containers/logging/">View logs for a container or service</a></li>
+<li><a href="https://cloudberry.engineering/article/dockerfile-security-best-practices/">Dockerfile Security Best Practices</a></li>
+</ul>
+<h2 id="related-projects">Related Projects<a class="headerlink" href="#related-projects" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/OWASP/Docker-Security">OWASP Docker Top 10</a></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="Deserialization_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Deserialization
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="DotNet_Security_Cheat_Sheet.html" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                DotNet Security
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            ©Copyright 2020 - CheatSheets Series Team
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
